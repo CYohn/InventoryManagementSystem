@@ -108,7 +108,7 @@ public class MainFormCont implements Initializable {
         /** The following code casts the event to let the application know that the event was triggered by a button on a stage
          */
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load((getClass().getResource("/view/ModifyPartForm.fxml")));
+        scene = FXMLLoader.load((getClass().getResource("/view/AddPartForm.fxml")));
         stage.setScene(new Scene(scene));
         stage.show();
     }

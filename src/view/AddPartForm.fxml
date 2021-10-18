@@ -19,12 +19,12 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <RadioButton layoutX="157.0" layoutY="44.0" mnemonicParsing="false" selected="true" text="In-House">
+      <RadioButton fx:id="selectedInHouse" layoutX="157.0" layoutY="44.0" mnemonicParsing="false" onAction="#isPartInHouse" selected="true" text="In-House">
          <toggleGroup>
             <ToggleGroup fx:id="addPartToggle" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton layoutX="281.0" layoutY="44.0" mnemonicParsing="false" text="Outsourced" toggleGroup="$addPartToggle" />
+      <RadioButton fx:id="selectedOutsourced" layoutX="281.0" layoutY="44.0" mnemonicParsing="false" text="Outsourced" toggleGroup="$addPartToggle" />
       <GridPane hgap="10.0" layoutX="84.0" layoutY="110.0" prefHeight="225.0" prefWidth="420.0" vgap="10.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -47,13 +47,13 @@
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="97.0" text="Inv" GridPane.rowIndex="2" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="98.0" text="Price / Cost" GridPane.rowIndex="3" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="97.0" text="Max" GridPane.rowIndex="4" />
-            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="97.0" text="Machine ID" GridPane.rowIndex="5" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Label fx:id="labelPartCategory" alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="97.0" text="Machine ID" GridPane.rowIndex="5" />
+            <TextField fx:id="partNameTxt" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="partInventoryTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="partCostTxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="partMaxTxt" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="partMachineIdTxt" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="partMinTxt" GridPane.columnIndex="3" GridPane.rowIndex="4" />
             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="64.0" text="Min" GridPane.columnIndex="2" GridPane.rowIndex="4" />
          </children>
          <padding>
