@@ -37,6 +37,13 @@ public class AddPartFormCont implements Initializable {
 
     boolean inHouse;
 
+    /**Label variables for Machine Id or Company name*/
+    @FXML
+    private Label labelPartCategory;
+
+    @FXML
+    private Label outsourced;
+
     /**Text field variables*/
     @FXML
     private TextField partCostTxt;
@@ -56,21 +63,27 @@ public class AddPartFormCont implements Initializable {
     @FXML
     private TextField partNameTxt;
 
-    /**Label variables for Machine Id or Company name*/
-    @FXML
-    private Label labelPartCategory;
-    @FXML
-    private Label outsourced;
 
-    /**Checks the radio buttons and assigns a boolean value*/
+    /**Checks the radio buttons, assigns a boolean value*/
     @FXML
-    boolean isPartInHouse(ActionEvent event) {
+    void isPartInHouse(ActionEvent event) {
         if (selectedInHouse.isSelected())
-        {inHouse = true;}
+        {labelPartCategory.setText("Machine ID");}
         else
-        {inHouse = false;}
-        return inHouse;
+        {labelPartCategory.setText("Company Name");}
+        return;
         }
+/**changes the label on Machine ID*/
+    /*public Label changeLabel()
+    }
+        if (!inHouse){
+            {labelPartCategory.setText("Company Name");}
+        else {labelPartCategory.setText("Machine ID");}
+        return labelPartCategory;
+        }
+*/
+
+
         /**
          * Displays the main menu when the user presses the cancel button
          */
@@ -100,10 +113,10 @@ public class AddPartFormCont implements Initializable {
             String name = partNameTxt.getText();
             int id = 0;
 
+
             /** Checks if the part is in house and adds the new part to either
              * In-sourced to outsourced parts
              */
-
             if (inHouse == true) {
                 Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
 
