@@ -64,7 +64,7 @@ public class AddPartFormCont implements Initializable {
     private TextField partNameTxt;
 
 
-    /**Checks the radio buttons, assigns a boolean value*/
+    /**Checks the radio buttons, and changes the label on Machine ID*/
     @FXML
     void isPartInHouse(ActionEvent event) {
         if (selectedInHouse.isSelected())
@@ -73,15 +73,6 @@ public class AddPartFormCont implements Initializable {
         {labelPartCategory.setText("Company Name");}
         return;
         }
-/**changes the label on Machine ID*/
-    /*public Label changeLabel()
-    }
-        if (!inHouse){
-            {labelPartCategory.setText("Company Name");}
-        else {labelPartCategory.setText("Machine ID");}
-        return labelPartCategory;
-        }
-*/
 
 
         /**
