@@ -7,7 +7,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.Part;
 
 import java.io.IOException;
 import java.net.URL;
@@ -16,6 +20,44 @@ import java.util.ResourceBundle;
 public class AddProductFormCont implements Initializable {
     Stage stage;
     Parent scene;
+
+
+    /** TextField variables*/
+    @FXML
+    private TextField prodInvTxt;
+
+    @FXML
+    private TextField prodMaxTxt;
+
+    @FXML
+    private TextField prodMinTxt;
+
+    @FXML
+    private TextField prodNameTxt;
+
+    @FXML
+    private TextField prodPricetxt;
+
+    @FXML
+    private TextField searchBoxTxt;
+
+
+    /**Table column variables for Parts table*/
+    @FXML
+    private TableView<Part> partTable;
+
+    @FXML
+    private TableColumn<Part, Double> partPriceCol;
+
+    @FXML
+    private TableColumn<Part, Integer> partInventoryCol;
+
+    @FXML
+    private TableColumn<Part, Integer> partIdCol;
+
+    @FXML
+    private TableColumn<Part, String> partNameCol;
+
 
 
     /**Saves the product to the Product Observable list*/
@@ -47,11 +89,6 @@ public class AddProductFormCont implements Initializable {
 
     }
 
-    /**Searches the observable list "Products" using the user supplied name or Id*/
-    @FXML
-    void OnActionSearchProducts(ActionEvent event) {
-
-    }
 
     /**Saves the product to the Observable list "Products"*/
     @FXML

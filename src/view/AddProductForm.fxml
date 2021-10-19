@@ -44,22 +44,22 @@
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="52.0" text="Max" GridPane.rowIndex="4" />
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="26.0" text="Min" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                   <TextField disable="true" promptText="Auto Gen - Disabled" GridPane.columnIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <TextField GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                  <TextField fx:id="prodNameTxt" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="prodInvTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="prodPricetxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="prodMaxTxt" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="prodMinTxt" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </GridPane>
-            <TableView layoutX="430.0" layoutY="64.0" prefHeight="200.0" prefWidth="447.0">
+            <TableView fx:id="partTable" layoutX="430.0" layoutY="64.0" prefHeight="200.0" prefWidth="447.0">
               <columns>
-                <TableColumn prefWidth="111.75" text="Part ID" />
-                <TableColumn prefWidth="111.75" text="Part Name" />
-                  <TableColumn prefWidth="99.5" text="Inventory level" />
-                  <TableColumn prefWidth="124.0" text="Price / Cost Per Unit" />
+                <TableColumn fx:id="partIdCol" prefWidth="111.75" text="Part ID" />
+                <TableColumn fx:id="partNameCol" prefWidth="111.75" text="Part Name" />
+                  <TableColumn fx:id="partInventoryCol" prefWidth="99.5" text="Inventory level" />
+                  <TableColumn fx:id="partPriceCol" prefWidth="124.0" text="Price / Cost Per Unit" />
               </columns>
             </TableView>
             <Button layoutX="825.0" layoutY="270.0" mnemonicParsing="false" onAction="#OnActionAddProduct" prefWidth="51.05" text="Add" />
@@ -74,7 +74,7 @@
             <Button layoutX="722.0" layoutY="521.0" mnemonicParsing="false" onAction="#OnActionRemoveAssociatedPart" prefHeight="25.0" prefWidth="155.0" text="Remove Associated Part" />
             <Button layoutX="825.0" layoutY="569.0" mnemonicParsing="false" onAction="#OnActionDisplayMainMenu" text="Cancel" />
             <Button layoutX="722.0" layoutY="569.0" mnemonicParsing="false" onAction="#OnActionSaveProduct" prefWidth="51.05" text="Save" />
-            <TextField layoutX="716.0" layoutY="33.0" onAction="#OnActionSearchProducts" prefHeight="25.0" prefWidth="161.0" promptText="Search by Part ID or Name" />
+            <TextField fx:id="searchBoxTxt" layoutX="716.0" layoutY="33.0" onAction="#OnActionSearchProducts" prefHeight="25.0" prefWidth="161.0" promptText="Search by Part ID or Name" />
          </children>
       </Pane>
    </children>
