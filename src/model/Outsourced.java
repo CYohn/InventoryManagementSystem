@@ -29,7 +29,7 @@ public class Outsourced extends Part{
     }
 
     /**Setter: sets the company name
-     * @param company name is the company name to set*/
+     * @param companyName is the company name to set*/
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }

@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Inventory;
@@ -24,6 +27,9 @@ import java.util.ResourceBundle;
 public class MainFormCont implements Initializable {
     Stage stage;
     Parent scene;
+
+    @FXML
+    private TextField prodSearchBoxTxt;
 
     /** The following are TableView columns, which will populate data from the "Parts" observable list*/
 
@@ -57,6 +63,35 @@ public class MainFormCont implements Initializable {
 
     @FXML
     private TableColumn<Product, Integer> ProductInventoryCol;
+
+
+    /**Search  Feature: Searches the observable Products list using the user supplies Part Id or Name */
+    private ObservableList<Product>searchByProductName(String partialName){
+        ObservableList<Product>results = FXCollections.observableArrayList();
+
+        ObservableList<Product>loadAllProducts = Inventory.getAllProducts();
+        for(Product tempProd : loadAllProducts){
+            if (tempProd.getName().contains(partialName)){
+                results.add(tempProd);
+            }
+        }
+        return results;
+    }
+
+
+    /**Searches the observable list "Products" using the user supplied name or Id*/
+    @FXML
+    void OnActionSearchProducts(ActionEvent event) {
+        String prodNameInput = prodSearchBoxTxt.getText();
+        ObservableList<Product> products = searchByProductName(prodNameInput);
+        productsTable.setItems(products);
+    }
+
+
+
+
+
+
 
     /**Event handlers for the buttons*/
 
@@ -129,17 +164,15 @@ public class MainFormCont implements Initializable {
         System.out.println("Search Parts Clicked");
     }
 
-    /**Searches the observable Products list using the user supplies Part Id or Name */
-    @FXML
-    void OnActionSearchProducts(ActionEvent event) {
-        System.out.println("Search Products Clicked");
-    }
+
 
 
     /**Initializes the controller*/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
 
+
+        /**Populates Parts table*/
         partTable.setItems(Inventory.getAllParts());
         /** Calls getId() and assigns it to the column, which populates the table cells
          */
@@ -155,6 +188,7 @@ public class MainFormCont implements Initializable {
         productNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         productPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         ProductInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+
     }
 
 

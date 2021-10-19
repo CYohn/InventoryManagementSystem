@@ -57,7 +57,7 @@
             <Button layoutX="484.0" layoutY="372.0" mnemonicParsing="false" onAction="#OnActionDeleteProduct" prefWidth="53.34" text="Delete" />
             <Button layoutX="414.0" layoutY="372.0" mnemonicParsing="false" onAction="#OnActionDisplayModifyProductMenu" text="Modify" />
             <Button layoutX="347.0" layoutY="372.0" mnemonicParsing="false" onAction="#OnActionDisplayAddProductMenu" prefWidth="53.34" text="Add" />
-            <TextField layoutX="374.0" layoutY="29.0" onAction="#OnActionSearchProducts" prefHeight="25.0" prefWidth="184.0" promptText="Search by product ID or Name" />
+            <TextField fx:id="prodSearchBoxTxt" layoutX="374.0" layoutY="29.0" onAction="#OnActionSearchProducts" prefHeight="25.0" prefWidth="184.0" promptText="Search by product ID or Name" />
          </children>
       </Pane>
       <Button layoutX="1101.0" layoutY="543.0" mnemonicParsing="false" onAction="#OnActionCloseProgram" text="Exit" />
