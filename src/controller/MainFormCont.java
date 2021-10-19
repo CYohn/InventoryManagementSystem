@@ -31,6 +31,9 @@ public class MainFormCont implements Initializable {
     @FXML
     private TextField prodSearchBoxTxt;
 
+    @FXML
+    private TextField partSearchTextBox;
+
     /** The following are TableView columns, which will populate data from the "Parts" observable list*/
 
     @FXML
@@ -79,7 +82,7 @@ public class MainFormCont implements Initializable {
     }
 
 
-    /**Searches the observable list "Products" using the user supplied name or Id*/
+    /**Uses the search method above to populate the search results*/
     @FXML
     void OnActionSearchProducts(ActionEvent event) {
         String prodNameInput = prodSearchBoxTxt.getText();
@@ -89,6 +92,27 @@ public class MainFormCont implements Initializable {
 
 
 
+    /**Searches the observable Parts list using the user supplies Part Id or Name */
+    private ObservableList<Part>searchByPartName(String partialName){
+        ObservableList<Part>results = FXCollections.observableArrayList();
+
+        ObservableList<Part>loadAllParts = Inventory.getAllParts();
+        for(Part tempPart : loadAllParts){
+            if (tempPart.getName().contains(partialName)){
+                results.add(tempPart);
+            }
+        }
+        return results;
+    }
+
+
+    /**Uses the search method above to populate the search results*/
+    @FXML
+    void OnActionSearchParts(ActionEvent event) {
+        String partNameInput = partSearchTextBox.getText();
+        ObservableList<Part> parts = searchByPartName(partNameInput);
+        partTable.setItems(parts);
+    }
 
 
 
@@ -156,12 +180,6 @@ public class MainFormCont implements Initializable {
         scene = FXMLLoader.load((getClass().getResource("/view/ModifyProductForm.fxml")));
         stage.setScene(new Scene(scene));
         stage.show();
-    }
-
-    /**Searches the observable Parts list using the user supplies Part Id or Name */
-    @FXML
-    void OnActionSearchParts(ActionEvent event) {
-        System.out.println("Search Parts Clicked");
     }
 
 
