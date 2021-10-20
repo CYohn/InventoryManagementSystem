@@ -81,7 +81,17 @@ public class AddProductFormCont implements Initializable {
     void OnActionAddProduct(ActionEvent event) {
 
     }
+    /**Populates parts table*/
+    void populatePartTable() {
+        partTable.setItems(Inventory.getAllParts());
+        /** Calls getId() and assigns it to the column, which populates the table cells
+         */
+        partIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        partInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        partPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
 
+    }
     /**
      * Displays the main menu when the user presses the cancel button
      */
@@ -173,13 +183,7 @@ public class AddProductFormCont implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         /**Populates Parts table*/
-        partTable.setItems(Inventory.getAllParts());
-        /** Calls getId() and assigns it to the column, which populates the table cells
-         */
-        partIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        partInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        partPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        populatePartTable();
 
     }
 
