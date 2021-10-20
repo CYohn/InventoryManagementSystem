@@ -62,9 +62,10 @@ public class AddPartFormCont implements Initializable {
 
     @FXML
     private TextField partNameTxt;
+    private int id;
 
 
-    /**Checks the radio buttons, assigns a boolean value*/
+    /**Checks the radio buttons, and changes the label on Machine ID*/
     @FXML
     void isPartInHouse(ActionEvent event) {
         if (selectedInHouse.isSelected())
@@ -72,70 +73,78 @@ public class AddPartFormCont implements Initializable {
         else
         {labelPartCategory.setText("Company Name");}
         return;
-        }
-/**changes the label on Machine ID*/
-    /*public Label changeLabel()
     }
-        if (!inHouse){
-            {labelPartCategory.setText("Company Name");}
-        else {labelPartCategory.setText("Machine ID");}
-        return labelPartCategory;
-        }
+
+
+    /**
+     * Displays the main menu when the user presses the cancel button
+     */
+    @FXML
+    void OnActionDisplayMainMenu(ActionEvent event) throws IOException {
+        /** The following code casts the event to let the application know that the event was triggered by a button on a stage
+         */
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load((getClass().getResource("/view/MainForm.fxml")));
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+
+/**
+    public void AssignId(){
+        ObservableList<Part> allParts = Inventory.getAllParts();
+        FXCollections.sort(allParts,
+                new Comparator<Part>() {
+                    @Override
+                    public int compare(Part o1, Part o2) {
+                        return Integer.compare(o1.getId(),o2.getId());
+                    }
+
+                });
+        System.out.println(allParts);
+    }
 */
 
+    /**
+     * Saves the part to the Observable list "Parts"
+     */
+    @FXML
+    void OnActionSavePart(ActionEvent event) {
 
-        /**
-         * Displays the main menu when the user presses the cancel button
+        /** Retrieves user input and converts the data types*/
+        double price = Double.parseDouble(partCostTxt.getText());
+        int stock = Integer.parseInt(partInventoryTxt.getText());
+        int machineId = Integer.parseInt(partMachineIdTxt.getText());
+        int max = Integer.parseInt(partMaxTxt.getText());
+        int min = Integer.parseInt(partMinTxt.getText());
+        String name = partNameTxt.getText();
+        int id = 0;
+
+
+        /** Checks if the part is in house and adds the new part to either
+         * In-sourced to outsourced parts
          */
-        @FXML
-        void OnActionDisplayMainMenu(ActionEvent event) throws IOException {
-            /** The following code casts the event to let the application know that the event was triggered by a button on a stage
-             */
-            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            scene = FXMLLoader.load((getClass().getResource("/view/MainForm.fxml")));
-            stage.setScene(new Scene(scene));
-            stage.show();
-        }
+        if (inHouse == true) {
+            Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
 
-
-        /**
-         * Saves the part to the Observable list "Parts"
-         */
-        @FXML
-        void OnActionSavePart(ActionEvent event) {
-
-            /** Retrieves user input and converts the data types*/
-            double price = Double.parseDouble(partCostTxt.getText());
-            int stock = Integer.parseInt(partInventoryTxt.getText());
-            int machineId = Integer.parseInt(partMachineIdTxt.getText());
-            int max = Integer.parseInt(partMaxTxt.getText());
-            int min = Integer.parseInt(partMinTxt.getText());
-            String name = partNameTxt.getText();
-            int id = 0;
-
-
-            /** Checks if the part is in house and adds the new part to either
-             * In-sourced to outsourced parts
-             */
-            if (inHouse == true) {
-                Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
-
-                for (int j = 0; j < Inventory.getAllParts().size(); ++j) {
-                    Part tempPart = Inventory.getAllParts().get(id);
-                }
-            } else {
-                labelPartCategory = outsourced;
-                String companyName = "testing";
-                Inventory.addPart(new Outsourced(id, name, price, stock, min, max, companyName));
+            for (int j = 0; j < Inventory.getAllParts().size(); ++j) {
+                Part tempPart = Inventory.getAllParts().get(id);
             }
+        } else {
+            labelPartCategory = outsourced;
+            String companyName = "testing";
+            Inventory.addPart(new Outsourced(id, name, price, stock, min, max, companyName));
         }
+        /** Calls method to assign the id*/
+        //AssignId();
 
-        /**
-         * Initializes the controller
-         */
-        @Override
-        public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        }
     }
 
+    /**
+     * Initializes the controller
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+}

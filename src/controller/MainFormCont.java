@@ -68,7 +68,7 @@ public class MainFormCont implements Initializable {
     private TableColumn<Product, Integer> ProductInventoryCol;
 
 
-    /**Search  Feature: Searches the observable Products list using the user supplies Part Id or Name */
+    /**Name Search Feature: Searches the observable Products list using the user supplied Product Name or partial name*/
     private ObservableList<Product>searchByProductName(String partialName){
         ObservableList<Product>results = FXCollections.observableArrayList();
 
@@ -81,18 +81,47 @@ public class MainFormCont implements Initializable {
         return results;
     }
 
+    /**ID Search Feature: Searches the observable Products list using the user supplied Product ID*/
 
-    /**Uses the search method above to populate the search results*/
+    private Product getProductWithId(int userId){
+        ObservableList<Product>loadAllProducts = Inventory.getAllProducts();
+        for (int i = 0; i < loadAllProducts.size(); i++){
+            Product tempProduct = loadAllProducts.get(i);
+
+            if(tempProduct.getId() == userId){
+            return tempProduct;
+            }
+        }
+        return null;
+    }
+
+
+    /**Tries the name search method above to populate first, if no PRODUCTS are returned,
+     * the method uses the number search to populate instead. */
     @FXML
     void OnActionSearchProducts(ActionEvent event) {
         String prodNameInput = prodSearchBoxTxt.getText();
         ObservableList<Product> products = searchByProductName(prodNameInput);
+
+        if(products.size() == 0) {
+            try {
+                int userID = Integer.parseInt(prodNameInput);
+                Product tempProduct = getProductWithId(userID);
+                if (tempProduct != null) {
+                    products.add(tempProduct);
+                }
+            }
+            catch (NumberFormatException e)
+            {
+                //ignore
+            }
+        }
         productsTable.setItems(products);
     }
 
 
 
-    /**Searches the observable Parts list using the user supplies Part Id or Name */
+    /**Searches the observable PARTS list using the user supplied Part Name */
     private ObservableList<Part>searchByPartName(String partialName){
         ObservableList<Part>results = FXCollections.observableArrayList();
 
@@ -105,12 +134,39 @@ public class MainFormCont implements Initializable {
         return results;
     }
 
+    /**ID Search Feature: Searches the observable PARTS list using the user supplied Product ID*/
 
+    private Part getPartWithId(int userId){
+        ObservableList<Part>loadAllProducts = Inventory.getAllParts();
+        for (int i = 0; i < loadAllProducts.size(); i++){
+            Part tempPart = loadAllProducts.get(i);
+
+            if(tempPart.getId() == userId){
+                return tempPart;
+            }
+        }
+        return null;
+    }
     /**Uses the search method above to populate the search results*/
     @FXML
     void OnActionSearchParts(ActionEvent event) {
         String partNameInput = partSearchTextBox.getText();
         ObservableList<Part> parts = searchByPartName(partNameInput);
+
+        if(parts.size() == 0) {
+            try {
+                int userID = Integer.parseInt(partNameInput);
+                Part tempPart = getPartWithId(userID);
+                if (tempPart != null) {
+                    parts.add(tempPart);
+                }
+            }
+            catch (NumberFormatException e)
+            {
+                //ignore
+            }
+        }
+
         partTable.setItems(parts);
     }
 
@@ -152,7 +208,6 @@ public class MainFormCont implements Initializable {
     /**Displays the "Add Product" menu*/
     @FXML
     void OnActionDisplayAddProductMenu(ActionEvent event) throws IOException{
-
         /** The following code casts the event to let the application know that the event was triggered by a button on a stage
          */
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();

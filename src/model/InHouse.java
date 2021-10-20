@@ -13,7 +13,7 @@ public class InHouse extends Part{
  * @param stock The quantity currently in inventory for the part.
  * @param min The inventory minimum for the part.
  * @param max The inventory maximum for the part.
- * @param machineId The Part's machine Id.
+ * @param machineId The Part's machine ID.
  */
 
 

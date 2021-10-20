@@ -74,7 +74,7 @@
             <Button layoutX="722.0" layoutY="521.0" mnemonicParsing="false" onAction="#OnActionRemoveAssociatedPart" prefHeight="25.0" prefWidth="155.0" text="Remove Associated Part" />
             <Button layoutX="825.0" layoutY="569.0" mnemonicParsing="false" onAction="#OnActionDisplayMainMenu" text="Cancel" />
             <Button layoutX="722.0" layoutY="569.0" mnemonicParsing="false" onAction="#OnActionSaveProduct" prefWidth="51.05" text="Save" />
-            <TextField fx:id="searchBoxTxt" layoutX="716.0" layoutY="33.0" onAction="#OnActionSearchProducts" prefHeight="25.0" prefWidth="161.0" promptText="Search by Part ID or Name" />
+            <TextField fx:id="SearchTextBox" layoutX="716.0" layoutY="33.0" onAction="#OnActionSearchParts" prefHeight="25.0" prefWidth="161.0" promptText="Search by Part ID or Name" />
          </children>
       </Pane>
    </children>
