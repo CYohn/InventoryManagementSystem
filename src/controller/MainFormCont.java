@@ -222,7 +222,7 @@ public class MainFormCont implements Initializable {
         /** The following code casts the event to let the application know that the event was triggered by a button on a stage
          */
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load((getClass().getResource("/view/AddPartForm.fxml")));
+        scene = FXMLLoader.load((getClass().getResource("/view/ModifyPartForm.fxml")));
         stage.setScene(new Scene(scene));
         stage.show();
     }
@@ -237,15 +237,8 @@ public class MainFormCont implements Initializable {
         stage.show();
     }
 
-
-
-
-    /**Initializes the controller*/
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
-
-
-        /**Populates Parts table*/
+    /**Populates parts table*/
+    void populatePartTable() {
         partTable.setItems(Inventory.getAllParts());
         /** Calls getId() and assigns it to the column, which populates the table cells
          */
@@ -261,7 +254,17 @@ public class MainFormCont implements Initializable {
         productNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         productPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         ProductInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+    }
 
+
+
+    /**Initializes the controller*/
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle){
+
+
+        /**Populates Parts table*/
+        populatePartTable();
     }
 
 

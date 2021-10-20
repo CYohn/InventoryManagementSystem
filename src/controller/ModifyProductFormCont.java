@@ -7,7 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.Inventory;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,6 +19,17 @@ public class ModifyProductFormCont implements Initializable {
 
     Stage stage;
     Parent scene;
+
+    void populatePartTable() {
+        partTable.setItems(Inventory.getAllParts());
+        /** Calls getId() and assigns it to the column, which populates the table cells
+         */
+        partIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        partInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        partPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+    }
 
     /** Opens the "Add Product" Page when the user presses the add button */
     @FXML
@@ -49,5 +62,6 @@ public class ModifyProductFormCont implements Initializable {
     /**Initializes the page*/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
+        populatePartTable();
     }
 }
