@@ -208,7 +208,6 @@ public class MainFormCont implements Initializable {
     /**Displays the "Add Product" menu*/
     @FXML
     void OnActionDisplayAddProductMenu(ActionEvent event) throws IOException{
-
         /** The following code casts the event to let the application know that the event was triggered by a button on a stage
          */
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();

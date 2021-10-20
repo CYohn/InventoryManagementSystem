@@ -21,21 +21,21 @@ public class TestData {
 
     /**Adds test data for products*/
     public static void addTestProductsData(){
-        Product sprocketBox = new Product(4, "Sprocket Gift Pack", 21.20, 5, 1, 10);
+        Product sprocketBox = new Product(5, "Sprocket Gift Pack", 21.20, 5, 1, 10);
         Inventory.addProduct(sprocketBox);
-        Product widgetBasket = new Product(5, "Widget Basket", 10.95, 3, 0, 15);
+        Product widgetBasket = new Product(6, "Widget Basket", 10.95, 3, 0, 15);
         Inventory.addProduct(widgetBasket);
-        Product bobbleHeads = new Product(6, "Bobble Heads", 1.95, 6, 0, 100);
+        Product bobbleHeads = new Product(4, "Bobble Heads", 1.95, 6, 0, 100);
         Inventory.addProduct(bobbleHeads);
     }
 
     /**Adds test data for Outsourced parts*/
     public static void addTestOutsourcedParts(){
-        Outsourced strawberryFabric = new Outsourced(7, "Strawberry Print Fabric", 21.20, 5, 1, 10,"Fabric Warehouse" );
+        Outsourced strawberryFabric = new Outsourced(9, "Strawberry Print Fabric", 21.20, 5, 1, 10,"Fabric Warehouse" );
         Inventory.addPart(strawberryFabric);
         Outsourced flowers = new Outsourced(8, "Flowers", 10.95, 3, 0, 15, "Flowers Direct");
         Inventory.addPart(flowers);
-        Outsourced ribbons = new Outsourced(9, "Ribbons", 1.95, 6, 0, 100,"Fabric Warehouse");
+        Outsourced ribbons = new Outsourced(7, "Ribbons", 1.95, 6, 0, 100,"Fabric Warehouse");
         Inventory.addPart(ribbons);
     }
 
