@@ -1,6 +1,5 @@
 package controller;
 
-import com.sun.javafx.collections.ObservableListWrapper;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,8 +16,7 @@ import model.Part;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Comparator;
-import java.util.List;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 
@@ -124,11 +122,13 @@ public class AddPartFormCont implements Initializable {
 
 
 
-
     public int AssignId(){
-        ObservableList<Part> allParts = Inventory.getAllParts();
-        Comparator<Part> partSorting = Comparator.comparing(Part::getId);//Sorts the parts by ID
-        ObservableList<Part> sortedParts = new ObservableListWrapper<Part>((List<Part>) partSorting);
+        //ObservableList<Part> allParts = Inventory.getAllParts();
+        //Comparator<Part> partSorting = Comparator.comparing(Part::getId);//Sorts the parts by ID
+        //ObservableList<Part> sortedParts = new ObservableListWrapper<Part>((List<Part>) partSorting);
+
+        ObservableList<Part> sortedParts = Inventory.getAllParts();
+        Collections.sort(sortedParts, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);; // Sorts the parts
         int listLength = sortedParts.size();
         Part lastPart = sortedParts.get(listLength - 1); //minus 1 because indexes start at 0
         int highestId = lastPart.getId();
