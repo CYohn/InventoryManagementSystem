@@ -128,7 +128,7 @@ public class Product {
     public void addAssociatedPart(Part part){associatedParts.add(part);}
 
     /**TO DO*/
-    public boolean deleteAssociatedPart(Part selectedAssociatedPart){return false;}
+    public void deleteAssociatedPart(Part selectedAssociatedPart){}
 
     ObservableList<Part>getAllAssociatedParts(){return associatedParts;}
 
