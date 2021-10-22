@@ -92,63 +92,22 @@ public class AddPartFormCont implements Initializable {
         stage.show();
     }
 
-
-    /*
-    public int makeTempId() {
-        ObservableList<Part> allParts = Inventory.getAllParts();
-        int size = allParts.size(); // get the size of the list
-        int tempId = size + 1; // A first try ID that is one greater than the size of the list (for the new Obj)
-        return tempId;
-    }
-
-    int tempId = makeTempId();
-
-    public int searchForTempId(int tempId) {
-        ObservableList<Part> loadAllParts = Inventory.getAllParts();
-        for (int i = 0; i < loadAllParts.size(); i++) {
-            Part tempPart = loadAllParts.get(i);
-
-            if (tempPart.getId() != tempId) { //search for a match with tempId
-                int id = tempId; // If not found assign the id
-                return id;
-            } else {
-                SortById();
-            }
-            return 0;
-        }
-        return 0;
-    }
-*/
-
-
-
+    /**
+     * Assigns the unique id to the part. First the method sorts the parts by id
+     * then gets the highest id on the list and increments it
+     * @return is the id to be assigned to the part in OnActionSavePart(ActionEvent event)
+     */
     public int AssignId(){
-        //ObservableList<Part> allParts = Inventory.getAllParts();
-        //Comparator<Part> partSorting = Comparator.comparing(Part::getId);//Sorts the parts by ID
-        //ObservableList<Part> sortedParts = new ObservableListWrapper<Part>((List<Part>) partSorting);
 
         ObservableList<Part> sortedParts = Inventory.getAllParts();
-        Collections.sort(sortedParts, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);; // Sorts the parts
-        int listLength = sortedParts.size();
+        Collections.sort(sortedParts, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);; // Sorts the parts by id
+        int listLength = sortedParts.size(); // get the size of the list
         Part lastPart = sortedParts.get(listLength - 1); //minus 1 because indexes start at 0
-        int highestId = lastPart.getId();
-        int id = highestId + 1;
-        return id;
+        int highestId = lastPart.getId(); // get the highest id
+        int id = highestId + 1; // increment the highest id
+        return id; //return the id for in OnActionSavePart(ActionEvent event)
         }
 
-
-
-/*
-Calendar time = Calendar.getInstance();
-
-    int AssignId() throws DateTimeException {
-        LocalDateTime date = LocalDateTime.now();
-        String ts = date.format(DateTimeFormatter.ofPattern("MMddYY" + "SSS"));//S = fraction of second
-        int tempId = Integer.parseInt(ts);
-        System.out.println(tempId);
-                return tempId;
-    }
-*/
 
     /**
      * Saves the part to the Observable list "Parts"
@@ -163,7 +122,6 @@ Calendar time = Calendar.getInstance();
         int max = Integer.parseInt(partMaxTxt.getText());
         int min = Integer.parseInt(partMinTxt.getText());
         String name = partNameTxt.getText();
-        //int id = 0;
         int id = AssignId();
 
 
@@ -173,15 +131,11 @@ Calendar time = Calendar.getInstance();
         if (selectedInHouse.isSelected()) {
             Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
 
-            //for (int j = 0; j < Inventory.getAllParts().size(); ++j) {
-               // Part tempPart = Inventory.getAllParts().get(id);
-                /** Calls method to assign the id*/
         }
          else {
             String companyName = "testing";
             Inventory.addPart(new Outsourced(id, name, price, stock, min, max, companyName));
         }
-
 
     }
 
