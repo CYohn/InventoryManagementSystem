@@ -87,6 +87,16 @@ public class AddPartFormCont implements Initializable {
         stage.show();
     }
 
+    public void RedirectToMainScreen () throws IOException{
+        Stage stage = new Stage();
+        stage.setTitle("Main Menu");
+        scene = FXMLLoader.load((getClass().getResource("/view/MainForm.fxml")));
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+
+
+
     /**
      * Assigns the unique id to the part. First the method sorts the parts by id
      * then gets the highest id on the list and increments it
@@ -108,7 +118,7 @@ public class AddPartFormCont implements Initializable {
      * Saves the part to the Observable list "Parts"
      */
     @FXML
-    void OnActionSavePart(ActionEvent event) {
+    void OnActionSavePart(ActionEvent event) throws IOException {
 
         /** Retrieves user input and converts the data types*/
         double price = Double.parseDouble(partCostTxt.getText());
@@ -125,13 +135,15 @@ public class AddPartFormCont implements Initializable {
         if (selectedInHouse.isSelected()) {
             int machineId = Integer.parseInt(partMachineIdTxt.getText());
             Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
+            //DisplayMainMenu();
 
         }
          else if (selectedOutsourced.isSelected()){
             String companyName = partMachineIdTxt.getText();
             Inventory.addPart(new Outsourced(id, name, price, stock, min, max, companyName));
+            //DisplayMainMenu();
         }
-
+        RedirectToMainScreen ();
     }
 
     /**

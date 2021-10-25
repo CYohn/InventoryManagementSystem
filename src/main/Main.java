@@ -36,7 +36,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/MainForm.fxml"));
-        primaryStage.setTitle("First View");
+        primaryStage.setTitle("Main Menu");
         primaryStage.setScene(new Scene(root, 1208, 600));
         primaryStage.show();
     }
