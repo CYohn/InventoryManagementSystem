@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="855.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddPartFormCont">
+<AnchorPane prefHeight="400.0" prefWidth="855.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ModifyPartFormCont">
    <children>
       <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="855.0">
          <children>
@@ -21,12 +21,12 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <RadioButton layoutX="157.0" layoutY="44.0" mnemonicParsing="false" selected="true" text="In-House">
+            <RadioButton fx:id="selectedInHouse" layoutX="157.0" layoutY="44.0" mnemonicParsing="false" onAction="#isPartInHouse" selected="true" text="In-House">
                <toggleGroup>
-                  <ToggleGroup fx:id="modifyPartToggle" />
+                  <ToggleGroup fx:id="labelPartToggle" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton layoutX="281.0" layoutY="44.0" mnemonicParsing="false" text="Outsourced" toggleGroup="$modifyPartToggle" />
+            <RadioButton fx:id="selectedOutsourced" layoutX="281.0" layoutY="44.0" mnemonicParsing="false" onAction="#isPartInHouse" text="Outsourced" toggleGroup="$labelPartToggle" />
             <GridPane hgap="10.0" layoutX="84.0" layoutY="110.0" prefHeight="225.0" prefWidth="420.0" vgap="10.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -49,7 +49,7 @@
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="97.0" text="Inv" GridPane.rowIndex="2" />
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="98.0" text="Price / Cost" GridPane.rowIndex="3" />
                   <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="97.0" text="Max" GridPane.rowIndex="4" />
-                  <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="97.0" text="Machine ID" GridPane.rowIndex="5" />
+                  <Label fx:id="labelPartCategory" alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="97.0" text="Machine ID" GridPane.rowIndex="5" />
                   <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -62,7 +62,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </GridPane>
-            <Button layoutX="435.0" layoutY="335.0" mnemonicParsing="false" onAction="#OnActionSavePart" prefWidth="52.0" text="Save" />
+            <Button layoutX="435.0" layoutY="335.0" mnemonicParsing="false" onAction="#OnActionModifyPart" prefWidth="52.0" text="Save" />
             <Button layoutX="504.0" layoutY="335.0" mnemonicParsing="false" onAction="#OnActionDisplayMainMenu" text="Cancel" />
          </children>
       </AnchorPane>

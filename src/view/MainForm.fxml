@@ -30,7 +30,7 @@
                 <TableColumn fx:id="partIdCol" prefWidth="75.0" text="Part ID" />
                   <TableColumn fx:id="partNameCol" prefWidth="174.0" text="Part Name" />
                   <TableColumn fx:id="partInventoryCol" prefWidth="158.0" text="Inventory Level" />
-                  <TableColumn fx:id="partPriceCol" prefWidth="146.0" text="Price / Coster Unit" />
+                  <TableColumn fx:id="partPriceCol" prefWidth="146.0" text="Price / Cost Per Unit" />
               </columns>
             </TableView>
             <Button layoutX="494.0" layoutY="377.0" mnemonicParsing="false" onAction="#OnActionDeletePart" prefWidth="53.34" text="Delete" />
