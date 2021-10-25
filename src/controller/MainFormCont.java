@@ -218,7 +218,7 @@ public class MainFormCont implements Initializable {
 
     /**Displays the "Modify Part" menu*/
     @FXML
-    void OnActionDisplayModifyPartMenu(ActionEvent event) throws IOException {
+    void OnActionDisplayModifyPartMenu(ActionEvent event) throws IOException{
         /** The following code casts the event to let the application know that the event was triggered by a button on a stage
          */
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
@@ -226,6 +226,7 @@ public class MainFormCont implements Initializable {
         stage.setScene(new Scene(scene));
         stage.show();
     }
+
     /**Displays the "Modify Product" menu*/
     @FXML
     void OnActionDisplayModifyProductMenu(ActionEvent event) throws IOException{

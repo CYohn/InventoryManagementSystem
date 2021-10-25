@@ -37,14 +37,10 @@ public class AddPartFormCont implements Initializable {
     @FXML
     private RadioButton selectedOutsourced;
 
-    boolean inHouse;
-
     /**Label variables for Machine Id or Company name*/
     @FXML
     private Label labelPartCategory;
 
-    @FXML
-    private Label outsourced;
 
     /**Text field variables*/
     @FXML
@@ -64,7 +60,6 @@ public class AddPartFormCont implements Initializable {
 
     @FXML
     private TextField partNameTxt;
-    private int id;
 
 
 
@@ -102,10 +97,10 @@ public class AddPartFormCont implements Initializable {
         ObservableList<Part> sortedParts = Inventory.getAllParts();
         Collections.sort(sortedParts, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);; // Sorts the parts by id
         int listLength = sortedParts.size(); // get the size of the list
-        Part lastPart = sortedParts.get(listLength - 1); //minus 1 because indexes start at 0
-        int highestId = lastPart.getId(); // get the highest id
+        Part lastPart = sortedParts.get(listLength - 1); //get the last part - minus 1 because indexes start at 0
+        int highestId = lastPart.getId(); // get the highest id (the id of the last part)
         int id = highestId + 1; // increment the highest id
-        return id; //return the id for in OnActionSavePart(ActionEvent event)
+        return id; //return the id assigned in OnActionSavePart(ActionEvent event)
         }
 
 
@@ -118,7 +113,6 @@ public class AddPartFormCont implements Initializable {
         /** Retrieves user input and converts the data types*/
         double price = Double.parseDouble(partCostTxt.getText());
         int stock = Integer.parseInt(partInventoryTxt.getText());
-        int machineId = Integer.parseInt(partMachineIdTxt.getText());
         int max = Integer.parseInt(partMaxTxt.getText());
         int min = Integer.parseInt(partMinTxt.getText());
         String name = partNameTxt.getText();
@@ -129,11 +123,12 @@ public class AddPartFormCont implements Initializable {
          * In-sourced to outsourced parts
          */
         if (selectedInHouse.isSelected()) {
+            int machineId = Integer.parseInt(partMachineIdTxt.getText());
             Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
 
         }
-         else {
-            String companyName = "testing";
+         else if (selectedOutsourced.isSelected()){
+            String companyName = partMachineIdTxt.getText();
             Inventory.addPart(new Outsourced(id, name, price, stock, min, max, companyName));
         }
 
@@ -146,4 +141,5 @@ public class AddPartFormCont implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
+
 }
