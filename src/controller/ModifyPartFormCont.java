@@ -9,10 +9,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static java.lang.String.valueOf;
@@ -137,6 +139,14 @@ public class ModifyPartFormCont implements Initializable {
         return false;
     }
 
+    /**Redirects user to the main screen*/
+    public void RedirectToMainScreen () throws IOException{
+        Stage stage = new Stage();
+        stage.setTitle("Main Menu");
+        scene = FXMLLoader.load((getClass().getResource("/view/MainForm.fxml")));
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
 
     /**Brings up a dialog box if the user does not enter an integer for a machine id*/
     public int assignMachineId(){
@@ -145,21 +155,55 @@ public class ModifyPartFormCont implements Initializable {
         machineID = Integer.parseInt(machineIdTxt.getText());
     } catch (NumberFormatException e) {
         //Input was not an integer
-        Alert machineIdAlert = new Alert(Alert.AlertType.INFORMATION);
-        machineIdAlert.setTitle("Reminder");
-        machineIdAlert.setHeaderText("Number Not Found");
-        machineIdAlert.setContentText("Please enter a whole number for the machine ID. Thank you!");
-
+        TextInputDialog machineIdAlert = new TextInputDialog("Machine ID Number");
+        machineIdAlert.setTitle("Machine ID Required");
+        machineIdAlert.setHeaderText("Please enter a whole number for the machine ID. If no number is input, the ID will save as 0. Thank you! ");
+        //machineIdAlert.setHeaderText("If no number is input, the ID will save as 0. Thank you!");
+        machineIdAlert.setContentText("Machine ID");
+       // String userInput = machineIdAlert.getEditor().getText();
+        System.out.println(machineID);
         machineIdAlert.showAndWait();
+/**
+ * Second "try-catch" for if the user still does not enter a machine ID. will save machine Id to 0 as a default
+ */
+        try {
+            machineID = Integer.parseInt(machineIdAlert.getEditor().getText());
+            System.out.println(machineID);
+            return machineID;}
+        catch(NumberFormatException exception){
+            machineID = 0;
+        }
+
+        //TextField newMachineTxt = new TextField();
+        //new Label("Machine ID");
+        //machineID = Integer.parseInt(newMachineTxt.getText());
+
     }
     return machineID;
+    }
+
+    public void handleAlert(WindowEvent event) throws IOException {
+        Alert machineIdAlert = new Alert(Alert.AlertType.INFORMATION);
+        machineIdAlert.setTitle("Reminder");
+        machineIdAlert.setHeaderText("Please enter a whole number for the machine ID. Thank you!");
+        machineIdAlert.setContentText(null);
+        ButtonType okButton = new ButtonType("OK");
+        TextField newMachineTxt = new TextField();
+        new Label("Machine ID");
+        machineIdAlert.getButtonTypes().setAll(ButtonType.OK);
+        Optional<ButtonType> result = machineIdAlert.showAndWait();
+        /*if(result.isPresent()){
+            scene = FXMLLoader.load((getClass().getResource("/view/ModifyPartForm.fxml")));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }*/
     }
 
     /**
      * Saves the part to the observable inventory list when the user saves modification
      */
     @FXML
-    public void OnActionModifyPart(ActionEvent actionEvent) {
+    public void OnActionModifyPart(ActionEvent actionEvent) throws IOException {
         Part selectedPart = MainFormCont.getSelectedPart();
 
         ObservableList<Part> loadAllParts = Inventory.getAllParts();
@@ -179,10 +223,13 @@ public class ModifyPartFormCont implements Initializable {
 
         if (selectedPart instanceof InHouse) {
             Inventory.updatePart(index, modifiedPart);
+
         } else if (selectedPart instanceof Outsourced) {
             Inventory.addPart(modifiedPart);
             Inventory.deletePart(selectedPart);
+
         }
+
         }
         else if (selectedOutsourced.isSelected()) {
             int id = selectedPart.getId();
@@ -198,6 +245,7 @@ public class ModifyPartFormCont implements Initializable {
                 /** Checks the class type of the previous entry, if the class type is the same then just update the part.*/
                 if (selectedPart instanceof Outsourced) {
                     Inventory.updatePart(index, modifiedPart);
+
                 }
 
                 /**If the class type is different from what is currently selected, add the part to the list and delete the previous entry*/
@@ -206,6 +254,7 @@ public class ModifyPartFormCont implements Initializable {
                     Inventory.deletePart(selectedPart);
                 }
         }
+        RedirectToMainScreen ();
     }
 
 
