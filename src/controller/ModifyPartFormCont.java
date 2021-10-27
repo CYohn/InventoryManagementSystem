@@ -13,7 +13,6 @@ import model.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collections;
 import java.util.ResourceBundle;
 
 import static java.lang.String.valueOf;
@@ -138,21 +137,23 @@ public class ModifyPartFormCont implements Initializable {
         return false;
     }
 
-    /**
-     * assigns a new id
-     */
-    public int AssignId() {
 
-        ObservableList<Part> sortedParts = Inventory.getAllParts();
-        Collections.sort(sortedParts, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
-        ; // Sorts the parts by id
-        int listLength = sortedParts.size(); // get the size of the list
-        Part lastPart = sortedParts.get(listLength - 1); //get the last part - minus 1 because indexes start at 0
-        int highestId = lastPart.getId(); // get the highest id (the id of the last part)
-        int id = highestId + 1; // increment the highest id
-        return id; //return the id assigned in OnActionSavePart(ActionEvent event)
+    /**Brings up a dialog box if the user does not enter an integer for a machine id*/
+    public int assignMachineId(){
+        int machineID = 0;
+    try {
+        machineID = Integer.parseInt(machineIdTxt.getText());
+    } catch (NumberFormatException e) {
+        //Input was not an integer
+        Alert machineIdAlert = new Alert(Alert.AlertType.INFORMATION);
+        machineIdAlert.setTitle("Reminder");
+        machineIdAlert.setHeaderText("Number Not Found");
+        machineIdAlert.setContentText("Please enter a whole number for the machine ID. Thank you!");
+
+        machineIdAlert.showAndWait();
     }
-
+    return machineID;
+    }
 
     /**
      * Saves the part to the observable inventory list when the user saves modification
@@ -172,17 +173,16 @@ public class ModifyPartFormCont implements Initializable {
             int stock = Integer.parseInt(invTxt.getText());
             int min = Integer.parseInt(minTxt.getText());
             int max = Integer.parseInt(maxTxt.getText());
-            int machineID = Integer.parseInt(machineIdTxt.getText());
+            int machineID = assignMachineId(); //the method checks if the input is an integer and throws a dialog box if not
 
-            Part modifiedPart = new InHouse(id, name, price, stock, min, max, machineID);
+        Part modifiedPart = new InHouse(id, name, price, stock, min, max, machineID);
 
-                if (selectedPart instanceof InHouse) {
-                    Inventory.updatePart(index, modifiedPart);
-                    }
-                else if (selectedPart instanceof Outsourced) {
-                    Inventory.addPart(modifiedPart);
-                    Inventory.deletePart(selectedPart);
-                    }
+        if (selectedPart instanceof InHouse) {
+            Inventory.updatePart(index, modifiedPart);
+        } else if (selectedPart instanceof Outsourced) {
+            Inventory.addPart(modifiedPart);
+            Inventory.deletePart(selectedPart);
+        }
         }
         else if (selectedOutsourced.isSelected()) {
             int id = selectedPart.getId();
