@@ -25,7 +25,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <TableView fx:id="partTable" layoutX="10.0" layoutY="61.0" prefHeight="294.0" prefWidth="554.0">
+            <TableView fx:id="partTable" layoutX="10.0" layoutY="61.0" onMouseClicked="#OnClickGetSelection" prefHeight="294.0" prefWidth="554.0">
               <columns>
                 <TableColumn fx:id="partIdCol" prefWidth="75.0" text="Part ID" />
                   <TableColumn fx:id="partNameCol" prefWidth="174.0" text="Part Name" />

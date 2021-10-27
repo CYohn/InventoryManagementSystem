@@ -105,6 +105,19 @@ public class AddProductFormCont implements Initializable {
         stage.show();
     }
 
+/** Deletes an object from inventory*/
+    public boolean Delete(int id){
+        ObservableList<Part> loadAllProducts = Inventory.getAllParts();
+        for (int i = 0; i < loadAllProducts.size(); i++) {
+            Part tempPart = loadAllProducts.get(i);
+
+            if (tempPart.getId() == id) {
+                return Inventory.getAllProducts().remove(tempPart);
+            }
+        }
+    return false;
+    }
+
     /**
      * Removes the associated part from the Observable list "Parts"
      * This is an example of dependency
@@ -141,6 +154,10 @@ public class AddProductFormCont implements Initializable {
     /**
      * ID Search Feature: Searches the observable PARTS list using the user supplied Part ID
      */
+
+
+
+
 
     private Part getPartWithId(int userId) {
         ObservableList<Part> loadAllProducts = Inventory.getAllParts();

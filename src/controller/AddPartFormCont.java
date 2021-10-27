@@ -87,6 +87,7 @@ public class AddPartFormCont implements Initializable {
         stage.show();
     }
 
+    /** Method redirects users to the main screen after a Part is saved to inventory*/
     public void RedirectToMainScreen () throws IOException{
         Stage stage = new Stage();
         stage.setTitle("Main Menu");
