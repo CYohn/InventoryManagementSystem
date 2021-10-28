@@ -13,10 +13,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import model.Inventory;
-import model.Part;
-import model.Product;
+import model.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -66,6 +65,7 @@ public class MainFormCont implements Initializable {
 
     @FXML
     private TableColumn<Product, Integer> ProductInventoryCol;
+
 
 
     /**Name Search Feature: Searches the observable Products list using the user supplied Product Name or partial name*/
@@ -137,9 +137,9 @@ public class MainFormCont implements Initializable {
     /**ID Search Feature: Searches the observable PARTS list using the user supplied Product ID*/
 
     private Part getPartWithId(int userId){
-        ObservableList<Part>loadAllProducts = Inventory.getAllParts();
-        for (int i = 0; i < loadAllProducts.size(); i++){
-            Part tempPart = loadAllProducts.get(i);
+        ObservableList<Part>loadAllParts = Inventory.getAllParts();
+        for (int i = 0; i < loadAllParts.size(); i++){
+            Part tempPart = loadAllParts.get(i);
 
             if(tempPart.getId() == userId){
                 return tempPart;
@@ -166,7 +166,6 @@ public class MainFormCont implements Initializable {
                 //ignore
             }
         }
-
         partTable.setItems(parts);
     }
 
@@ -193,6 +192,26 @@ public class MainFormCont implements Initializable {
         System.out.println("Delete Product Button Clicked");
     }
 
+
+
+
+    private static Part selectedPart;
+    public static Part getSelectedPart() {
+        return selectedPart;
+    }
+
+    public void setSelectedPart(Part selectedPart) {
+        this.selectedPart = selectedPart;
+    }
+
+    @FXML
+    public void OnClickGetSelection(MouseEvent event) {
+        if (partTable.getSelectionModel().isEmpty() != true) {
+            Part selectedPart = partTable.getSelectionModel().getSelectedItem(); // get the object
+            setSelectedPart(selectedPart);
+        }
+        // Add a popup to instruct to select a part
+    }
 
     /**Changes the page to the "Add Part" page*/
     @FXML
@@ -269,7 +288,8 @@ public class MainFormCont implements Initializable {
     }
 
 
-    }
+
+}
 
 
 
