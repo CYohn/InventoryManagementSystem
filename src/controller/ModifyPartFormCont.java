@@ -9,12 +9,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import model.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static java.lang.String.valueOf;
@@ -164,7 +162,7 @@ public class ModifyPartFormCont implements Initializable {
         System.out.println(machineID);
         machineIdAlert.showAndWait();
 /**
- * Second "try-catch" for if the user still does not enter a machine ID. will save machine Id to 0 as a default
+ * Second "try-catch" for if the user still does not enter a machine ID. It will default to zero.
  */
         try {
             machineID = Integer.parseInt(machineIdAlert.getEditor().getText());
@@ -182,22 +180,6 @@ public class ModifyPartFormCont implements Initializable {
     return machineID;
     }
 
-    public void handleAlert(WindowEvent event) throws IOException {
-        Alert machineIdAlert = new Alert(Alert.AlertType.INFORMATION);
-        machineIdAlert.setTitle("Reminder");
-        machineIdAlert.setHeaderText("Please enter a whole number for the machine ID. Thank you!");
-        machineIdAlert.setContentText(null);
-        ButtonType okButton = new ButtonType("OK");
-        TextField newMachineTxt = new TextField();
-        new Label("Machine ID");
-        machineIdAlert.getButtonTypes().setAll(ButtonType.OK);
-        Optional<ButtonType> result = machineIdAlert.showAndWait();
-        /*if(result.isPresent()){
-            scene = FXMLLoader.load((getClass().getResource("/view/ModifyPartForm.fxml")));
-            stage.setScene(new Scene(scene));
-            stage.show();
-        }*/
-    }
 
     /**
      * Saves the part to the observable inventory list when the user saves modification

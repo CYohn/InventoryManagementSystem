@@ -146,7 +146,7 @@ public class Inventory {
                 Part tempPart = loadAllParts.get(i);
 
                 if (selectedPart.getId() == tempPart.getId()) {
-                    return Inventory.getAllProducts().remove(selectedPart);
+                    return Inventory.getAllParts().remove(selectedPart);
                 }
             }
             return false;
