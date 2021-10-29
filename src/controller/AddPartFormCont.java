@@ -96,7 +96,37 @@ public class AddPartFormCont implements Initializable {
         stage.show();
     }
 
+    public String AssignName(){
+        String name;
+        name = partNameTxt.getText();
+        if (!name.trim().isEmpty()){ //If not empty return the name
+            System.out.println(name);
+            return name;
+        }
+        //User did not enter text
+        else if (name.trim().isEmpty()){ //if empty show dialog box
 
+            TextInputDialog nameEmptyAlert = new TextInputDialog("");
+            nameEmptyAlert.setTitle("Name Entry Required");
+            nameEmptyAlert.setHeaderText("Please enter a part name. If a name is not entered, the name will default to 'name not entered'. Thank you! ");
+            nameEmptyAlert.setContentText("Part Name");
+            System.out.println((String) null);
+            nameEmptyAlert.showAndWait();
+            name = nameEmptyAlert.getEditor().getText(); //get input from the dialog box
+                if (name.trim().isEmpty() == false) { //If the user responds to the dialog box by entering a name
+                    System.out.println(name);
+                    return name;}
+                else if (name.trim().isEmpty() == true){ //Set a default name if the user did not enter a name in the dialog box
+                    name = "Name not entered";
+            }
+        }
+        return name;
+    }
+
+    public int assignInventory(){
+
+        return 0;
+    }
 
     /**
      * Assigns the unique id to the part. First the method sorts the parts by id
@@ -126,13 +156,14 @@ public class AddPartFormCont implements Initializable {
         int stock = Integer.parseInt(partInventoryTxt.getText());
         int max = Integer.parseInt(partMaxTxt.getText());
         int min = Integer.parseInt(partMinTxt.getText());
-        String name = partNameTxt.getText();
+        String name = AssignName();
         int id = AssignId();
 
 
         /** Checks if the part is in house and adds the new part to either
          * In-sourced to outsourced parts
          */
+
         if (selectedInHouse.isSelected()) {
             int machineId = Integer.parseInt(partMachineIdTxt.getText());
             Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));

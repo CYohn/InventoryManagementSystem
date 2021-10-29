@@ -171,11 +171,6 @@ public class ModifyPartFormCont implements Initializable {
         catch(NumberFormatException exception){
             machineID = 0;
         }
-
-        //TextField newMachineTxt = new TextField();
-        //new Label("Machine ID");
-        //machineID = Integer.parseInt(newMachineTxt.getText());
-
     }
     return machineID;
     }
