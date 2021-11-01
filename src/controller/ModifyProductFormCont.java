@@ -16,10 +16,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Inventory;
 import model.Part;
+import model.Product;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static java.lang.String.valueOf;
 
 public class ModifyProductFormCont implements Initializable {
 
@@ -47,6 +50,26 @@ public class ModifyProductFormCont implements Initializable {
 
     @FXML
     private TextField SearchTextBox;
+
+/** Text fields for the previously chosen product*/
+@FXML
+private TextField iDTxt;
+
+    @FXML
+    private TextField invTxt;
+
+    @FXML
+    private TextField maxTxt;
+
+    @FXML
+    private TextField minTxt;
+
+    @FXML
+    private TextField nameTxt;
+
+    @FXML
+    private TextField priceTxt;
+
 
     /** Populated the part table for all parts (on top)*/
     void populatePartTable() {
@@ -147,5 +170,18 @@ public class ModifyProductFormCont implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         populatePartTable();
+
+
+    /** Populates the fields with the previously selected product in the main form*/
+    Product selectedProduct = MainFormCont.getSelectedProduct();
+
+        {
+        iDTxt.setText(valueOf(selectedProduct.getId()));
+        invTxt.setText(valueOf(selectedProduct.getStock()));
+        nameTxt.setText(selectedProduct.getName());
+        maxTxt.setText(valueOf(selectedProduct.getMax()));
+        minTxt.setText(valueOf(selectedProduct.getMin()));
+        priceTxt.setText(valueOf(selectedProduct.getPrice()));
+        }
     }
 }

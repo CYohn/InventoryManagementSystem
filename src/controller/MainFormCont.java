@@ -12,7 +12,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import model.*;
+import model.Inventory;
+import model.Part;
+import model.Product;
 
 import java.io.IOException;
 import java.net.URL;
@@ -251,6 +253,11 @@ public class MainFormCont implements Initializable {
         this.selectedPart = selectedPart;
     }
 
+
+    /**
+     * Gets the selection for parts
+     * @param event is the mouse click when the user selects a part from the part table on the main screen
+     */
     @FXML
     public void OnClickGetSelection(MouseEvent event) {
         if (partTable.getSelectionModel().isEmpty() != true) {
@@ -260,6 +267,11 @@ public class MainFormCont implements Initializable {
         // Add a popup to instruct to select a part
     }
 
+
+    /**
+     *
+     * @param event
+     */
     @FXML
     public void OnClickGetSelectedProduct(MouseEvent event) {
         if (productsTable.getSelectionModel().isEmpty() != true) {
@@ -268,6 +280,8 @@ public class MainFormCont implements Initializable {
         }
         // Add a popup to instruct to select a part
     }
+
+
     /**Changes the page to the "Add Part" page*/
     @FXML
     void OnActionDisplayAddPartMenu(ActionEvent event) throws IOException {
