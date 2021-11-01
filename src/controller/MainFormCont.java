@@ -215,10 +215,10 @@ public class MainFormCont implements Initializable {
     @FXML
     void OnActionDeleteProduct(ActionEvent event) {
         if (productsTable.getSelectionModel().isEmpty() != true){
-            Inventory.deletePart(selectedPart);
+            Inventory.deleteProduct(selectedProduct);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information Dialog");
-            alert.setHeaderText("The selected part was deleted");
+            alert.setHeaderText("The selected product was deleted");
             alert.setContentText(null);
             alert.showAndWait();
         }
@@ -232,7 +232,14 @@ public class MainFormCont implements Initializable {
         }
     }
 
+    private static Product selectedProduct;
+    public static Product getSelectedProduct() {
+        return selectedProduct;
+    }
 
+    public void setSelectedProduct(Product selectedProduct) {
+        this.selectedProduct = selectedProduct;
+    }
 
 
     private static Part selectedPart;
@@ -253,6 +260,14 @@ public class MainFormCont implements Initializable {
         // Add a popup to instruct to select a part
     }
 
+    @FXML
+    public void OnClickGetSelectedProduct(MouseEvent event) {
+        if (productsTable.getSelectionModel().isEmpty() != true) {
+            Product selectedProduct = productsTable.getSelectionModel().getSelectedItem(); // get the object
+            setSelectedProduct(selectedProduct);
+        }
+        // Add a popup to instruct to select a part
+    }
     /**Changes the page to the "Add Part" page*/
     @FXML
     void OnActionDisplayAddPartMenu(ActionEvent event) throws IOException {
