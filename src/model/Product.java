@@ -125,11 +125,19 @@ public class Product {
      *
      * @param part the associated part
      */
-    public void addAssociatedPart(Part part){associatedParts.add(part);}
+    public void addAssociatedPart(Part part)
+    {associatedParts.add(part);}
 
-    /**TO DO*/
-    public void deleteAssociatedPart(Part selectedAssociatedPart){}
 
-    ObservableList<Part>getAllAssociatedParts(){return associatedParts;}
+    /**
+     * Removes an item from the associated parts list
+     * @param selectedAssociatedPart is the part to remove
+     */
+    public void deleteAssociatedPart(Part selectedAssociatedPart){
+        associatedParts.remove(selectedAssociatedPart);
+    }
+
+    public ObservableList<Part>getAllAssociatedParts()
+    {return associatedParts;}
 
 }

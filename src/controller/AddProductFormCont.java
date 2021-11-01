@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Inventory;
 import model.Part;
+import model.Product;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,8 +26,10 @@ public class AddProductFormCont implements Initializable {
     Stage stage;
     Parent scene;
 
+Product newProduct = new Product(1, "new test", 100, 25, 0, 100);
 
-    /**
+
+/**
      * TextField variables
      */
     @FXML
@@ -66,6 +69,22 @@ public class AddProductFormCont implements Initializable {
     @FXML
     private TableColumn<Part, String> partNameCol;
 
+    /** Variables for the associated parts table*/
+
+    @FXML
+    private TableColumn<Part, Double> associatedCost;
+
+    @FXML
+    private TableColumn<Part, Integer> associatedId;
+
+    @FXML
+    private TableColumn<Part, Integer> associatedInv;
+
+    @FXML
+    private TableColumn<Part, String> associatedName;
+
+    @FXML
+    private TableView<Part> associatedPartsTable;
 
 
     /**
@@ -79,8 +98,13 @@ public class AddProductFormCont implements Initializable {
      */
     @FXML
     void OnActionAddProduct(ActionEvent event) {
-
+        Part storedPart = partTable.getSelectionModel().getSelectedItem();
+        newProduct.addAssociatedPart(storedPart);
+        associatedPartsTable.setItems(newProduct.getAllAssociatedParts());
+        populateProductTable();
     }
+
+
     /**Populates parts table*/
     void populatePartTable() {
         partTable.setItems(Inventory.getAllParts());
@@ -92,6 +116,22 @@ public class AddProductFormCont implements Initializable {
         partPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
 
     }
+
+    /**
+     * Populates the associated products table
+     */
+    void populateProductTable(){
+            associatedPartsTable.setItems(newProduct.getAllAssociatedParts());
+            /** Calls getId() and assigns it to the column, which populates the table cells
+             */
+            associatedId.setCellValueFactory(new PropertyValueFactory<>("id"));
+            associatedInv.setCellValueFactory(new PropertyValueFactory<>("stock"));
+            associatedName.setCellValueFactory(new PropertyValueFactory<>("name"));
+            associatedCost.setCellValueFactory(new PropertyValueFactory<>("price"));
+    }
+
+
+
     /**
      * Displays the main menu when the user presses the cancel button
      */
@@ -124,7 +164,17 @@ public class AddProductFormCont implements Initializable {
      */
     @FXML
     void OnActionRemoveAssociatedPart(ActionEvent event) {
+        Part selectedAssociatedPart = associatedPartsTable.getSelectionModel().getSelectedItem();
+        ObservableList<Part> tempList = newProduct.getAllAssociatedParts();
+        if (selectedAssociatedPart != null){
+            for (int i = 0; i < tempList.size(); ++i){
+                Part tempPart = tempList.get(i);
 
+                if(tempPart.getId() == selectedAssociatedPart.getId()){
+                newProduct.getAllAssociatedParts().remove(selectedAssociatedPart);
+                }
+            }
+        }
     }
 
 

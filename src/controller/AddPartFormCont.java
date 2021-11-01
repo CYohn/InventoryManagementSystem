@@ -26,23 +26,31 @@ public class AddPartFormCont implements Initializable {
     Parent scene;
 
 
-    /**Assigns the toggle group, ensure only one can be selected at a time in the group*/
+    /**
+     * Assigns the toggle group, ensure only one can be selected at a time in the group
+     */
     @FXML
     private ToggleGroup addPartToggle;
 
-    /**Radio button variables*/
+    /**
+     * Radio button variables
+     */
     @FXML
     private RadioButton selectedInHouse;
 
     @FXML
     private RadioButton selectedOutsourced;
 
-    /**Label variables for Machine Id or Company name*/
+    /**
+     * Label variables for Machine Id or Company name
+     */
     @FXML
     private Label labelPartCategory;
 
 
-    /**Text field variables*/
+    /**
+     * Text field variables
+     */
     @FXML
     private TextField partCostTxt;
 
@@ -62,14 +70,16 @@ public class AddPartFormCont implements Initializable {
     private TextField partNameTxt;
 
 
-
-    /**Checks the radio buttons, and changes the label on Machine ID*/
+    /**
+     * Checks the radio buttons, and changes the label on Machine ID
+     */
     @FXML
     void isPartInHouse(ActionEvent event) {
-        if (selectedInHouse.isSelected())
-        {labelPartCategory.setText("Machine ID");}
-        else
-        {labelPartCategory.setText("Company Name");}
+        if (selectedInHouse.isSelected()) {
+            labelPartCategory.setText("Machine ID");
+        } else {
+            labelPartCategory.setText("Company Name");
+        }
         return;
     }
 
@@ -87,8 +97,10 @@ public class AddPartFormCont implements Initializable {
         stage.show();
     }
 
-    /** Method redirects users to the main screen after a Part is saved to inventory*/
-    public void RedirectToMainScreen () throws IOException{
+    /**
+     * Method redirects users to the main screen after a Part is saved to inventory
+     */
+    public void RedirectToMainScreen() throws IOException {
         Stage stage = new Stage();
         stage.setTitle("Main Menu");
         scene = FXMLLoader.load((getClass().getResource("/view/MainForm.fxml")));
@@ -96,15 +108,18 @@ public class AddPartFormCont implements Initializable {
         stage.show();
     }
 
-    public String AssignName(){
+    /**
+     * @return returns the name entered by the user or a default name if none is entered
+     */
+    public String AssignName() {
         String name;
         name = partNameTxt.getText();
-        if (!name.trim().isEmpty()){ //If not empty return the name
+        if (!name.trim().isEmpty()) { //If not empty return the name
             System.out.println(name);
             return name;
         }
         //User did not enter text
-        else if (name.trim().isEmpty()){ //if empty show dialog box
+        else if (name.trim().isEmpty()) { //if empty show dialog box
 
             TextInputDialog nameEmptyAlert = new TextInputDialog("");
             nameEmptyAlert.setTitle("Name Entry Required");
@@ -113,20 +128,148 @@ public class AddPartFormCont implements Initializable {
             System.out.println((String) null);
             nameEmptyAlert.showAndWait();
             name = nameEmptyAlert.getEditor().getText(); //get input from the dialog box
-                if (name.trim().isEmpty() == false) { //If the user responds to the dialog box by entering a name
-                    System.out.println(name);
-                    return name;}
-                else if (name.trim().isEmpty() == true){ //Set a default name if the user did not enter a name in the dialog box
-                    name = "Name not entered";
+            if (name.trim().isEmpty() == false) { //If the user responds to the dialog box by entering a name
+                System.out.println(name);
+                return name;
+            } else if (name.trim().isEmpty() == true) { //Set a default name if the user did not enter a name in the dialog box
+                name = "Name not entered";
             }
         }
         return name;
     }
 
-    public int assignInventory(){
 
-        return 0;
+    /**
+     * Reads the user input for the inventory amount (stock), the maximum inventory allowed (max) and the minimum inventory allowed (min)
+     * Checks that the inventory amount is in between the min and max stock amount
+     * Catches the number format exception if the input is something other than an int for inventory
+     * Provides dialog boxes for the user to correct errors
+     *
+     * @return inventory amount
+     */
+    public int assignInventory() {
+
+        int stock = Integer.parseInt(partInventoryTxt.getText());
+        int min = Integer.parseInt(partMinTxt.getText());
+        int max = Integer.parseInt(partMaxTxt.getText());
+
+
+        if (stock > min & stock < max){
+        return stock;
+        }
+        else {
+            Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
+            infoRequiredAlert.setTitle("Something went wrong.");
+            infoRequiredAlert.setHeaderText("Please check your entries.");
+            infoRequiredAlert.setContentText("Thank you");
+            infoRequiredAlert.showAndWait();
+        }
+        return stock;
+        }
+
+
+
+
+
+    /**
+     * Checks if the price is empty, throws dialog box if true. Checks if the input is a double, throws dialog box if false
+     * @return returns part price
+     */
+    public double assignPrice() {
+        double price = 0.0;
+        price = Double.parseDouble(partCostTxt.getText());
+        return price;
     }
+
+
+
+    /**
+     *
+     * @return the inventory minimum
+     */
+    public int assignMin() {
+
+        int min = 0;
+        if (Integer.parseInt(partMinTxt.getText()) < Integer.parseInt(partMaxTxt.getText())) {
+            min = Integer.parseInt(partMaxTxt.getText());
+            return min;
+        }
+
+        else{
+            Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
+            infoRequiredAlert.setTitle("Something went wrong.");
+            infoRequiredAlert.setHeaderText("Please check your entries.");
+            infoRequiredAlert.setContentText("Thank you");
+            infoRequiredAlert.showAndWait();}
+
+        return min;
+    }
+
+
+    /**
+     *
+     * @return the inventory maximum
+     */
+    public int assignMax() {
+
+        int max = 0;
+        if (Integer.parseInt(partMaxTxt.getText()) > Integer.parseInt(partMinTxt.getText())) {
+            max = Integer.parseInt(partMaxTxt.getText());
+            return max;
+        }
+
+        else{
+            Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
+            infoRequiredAlert.setTitle("Something went wrong.");
+            infoRequiredAlert.setHeaderText("Please check your entries.");
+            infoRequiredAlert.setContentText("Thank you");
+            infoRequiredAlert.showAndWait();}
+
+        return max;
+    }
+
+    /**
+     * Checks for empty fields, shows an alert if any are found
+     */
+
+    public void alert(){
+        Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
+        infoRequiredAlert.setTitle("Information Required");
+        infoRequiredAlert.setHeaderText("Please enter all information.  Thank you! ");
+        infoRequiredAlert.setContentText("Please enter missing information");
+        infoRequiredAlert.showAndWait();
+        }
+
+
+
+    public void emptyFieldAlert() {
+        try {
+            if ((partNameTxt.getText().isEmpty())) {
+                alert();
+            }
+            if (partInventoryTxt.getText().isEmpty()) {
+                alert();
+            }
+            if (partCostTxt.getText().isEmpty()) {
+                alert();
+            }
+            if (partMinTxt.getText().isEmpty()) {
+                alert();
+            }
+            if (partMaxTxt.getText().isEmpty()) {
+                alert();
+            }
+            if (partMachineIdTxt.getText().isEmpty()) {
+                alert();
+            }
+        }
+        catch (Exception exception){
+            //do nothing
+        }
+    }
+
+
+
 
     /**
      * Assigns the unique id to the part. First the method sorts the parts by id
@@ -150,15 +293,16 @@ public class AddPartFormCont implements Initializable {
      */
     @FXML
     void OnActionSavePart(ActionEvent event) throws IOException {
-
+try{
         /** Retrieves user input and converts the data types*/
-        double price = Double.parseDouble(partCostTxt.getText());
-        int stock = Integer.parseInt(partInventoryTxt.getText());
-        int max = Integer.parseInt(partMaxTxt.getText());
-        int min = Integer.parseInt(partMinTxt.getText());
+        double price = assignPrice();
+        int max = assignMax();
+        int min = assignMin();
+        int stock = assignInventory();
         String name = AssignName();
         int id = AssignId();
 
+        emptyFieldAlert();
 
         /** Checks if the part is in house and adds the new part to either
          * In-sourced to outsourced parts
@@ -177,6 +321,14 @@ public class AddPartFormCont implements Initializable {
         }
         RedirectToMainScreen ();
     }
+catch (Exception e){
+                Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
+                infoRequiredAlert.setTitle("Something went wrong.");
+                infoRequiredAlert.setHeaderText("Please check your entries.");
+                infoRequiredAlert.setContentText("Thank you");
+                infoRequiredAlert.showAndWait();
+            }
+        }
 
     /**
      * Initializes the controller
