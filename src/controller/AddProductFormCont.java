@@ -446,7 +446,7 @@ Product newProduct = new Product(1, "new test", 100, 25, 0, 100);
 
 
             Inventory.addProduct(new Product(id, name, price, stock, min, max));
-
+            ObservableList<Part> productAssocPartsList= newProduct.getAllAssociatedParts();
             RedirectToMainScreen ();
         }
         catch (Exception e){

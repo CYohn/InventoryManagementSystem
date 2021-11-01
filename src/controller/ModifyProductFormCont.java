@@ -8,10 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Inventory;
@@ -70,6 +67,23 @@ private TextField iDTxt;
     @FXML
     private TextField priceTxt;
 
+    /**Table and columns for the associated parts table*/
+
+    @FXML
+    private TableColumn<Part, Double> associatedCost;
+
+    @FXML
+    private TableColumn<Part, Integer> associatedId;
+
+    @FXML
+    private TableColumn<Part, Integer> associatedInv;
+
+    @FXML
+    private TableColumn<Part, String> associatedName;
+
+    @FXML
+    private TableView<Part> associatedPartsTable;
+
 
     /** Populated the part table for all parts (on top)*/
     void populatePartTable() {
@@ -81,8 +95,30 @@ private TextField iDTxt;
         partInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         partPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-
     }
+
+
+    void populateAssociatedPartsTable(){
+        /** Populates the associated parts table for the parts associated with the product (on bottom)*/
+
+            associatedPartsTable.setItems(MainFormCont.getSelectedProduct().getAllAssociatedParts());
+        if(MainFormCont.getSelectedProduct().getAllAssociatedParts().isEmpty() != true){
+            /** Calls getId() and assigns it to the column, which populates the table cells
+             */
+            associatedId.setCellValueFactory(new PropertyValueFactory<>("id"));
+            associatedInv.setCellValueFactory(new PropertyValueFactory<>("stock"));
+            associatedName.setCellValueFactory(new PropertyValueFactory<>("name"));
+            associatedCost.setCellValueFactory(new PropertyValueFactory<>("price"));
+        }
+        else if (MainFormCont.getSelectedProduct().getAllAssociatedParts().isEmpty() == true){
+            Alert noPartsAssocAlert = new Alert(Alert.AlertType.INFORMATION);
+            noPartsAssocAlert.setTitle("No Parts Are Associated With This Product Yet");
+            noPartsAssocAlert.setHeaderText("This product has no parts associated with it yet.");
+            noPartsAssocAlert.setContentText("Thank you");
+            noPartsAssocAlert.showAndWait();
+        }
+    }
+
 
     /**
      * Searches the observable PARTS list using the user supplied Part Name
@@ -172,9 +208,10 @@ private TextField iDTxt;
         populatePartTable();
 
 
-    /** Populates the fields with the previously selected product in the main form*/
+    /** Populates the text fields with the previously selected product in the main form*/
     Product selectedProduct = MainFormCont.getSelectedProduct();
 
+    if (selectedProduct != null)
         {
         iDTxt.setText(valueOf(selectedProduct.getId()));
         invTxt.setText(valueOf(selectedProduct.getStock()));
@@ -183,5 +220,9 @@ private TextField iDTxt;
         minTxt.setText(valueOf(selectedProduct.getMin()));
         priceTxt.setText(valueOf(selectedProduct.getPrice()));
         }
+    else{
+        //
+    }
+       // populateAssociatedPartsTable();
     }
 }

@@ -234,21 +234,26 @@ public class MainFormCont implements Initializable {
         }
     }
 
+
+    /**
+     * The product selected from the product table
+     */
     private static Product selectedProduct;
     public static Product getSelectedProduct() {
         return selectedProduct;
     }
-
     public void setSelectedProduct(Product selectedProduct) {
         this.selectedProduct = selectedProduct;
     }
 
 
+    /**
+     * The part selected from the parts table
+     */
     private static Part selectedPart;
     public static Part getSelectedPart() {
         return selectedPart;
     }
-
     public void setSelectedPart(Part selectedPart) {
         this.selectedPart = selectedPart;
     }
@@ -278,7 +283,7 @@ public class MainFormCont implements Initializable {
             Product selectedProduct = productsTable.getSelectionModel().getSelectedItem(); // get the object
             setSelectedProduct(selectedProduct);
         }
-        // Add a popup to instruct to select a part
+        // Add a popup to instruct to select a product
     }
 
 

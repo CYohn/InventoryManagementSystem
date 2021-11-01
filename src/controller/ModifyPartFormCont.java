@@ -23,7 +23,7 @@ public class ModifyPartFormCont implements Initializable {
     Parent scene;
 
     /**
-     * Variable to hold the part selected in the Main Menu
+     * Variable to hold the part selected in the Main Menu, these are the text fields
      */
     @FXML
     private TextField iDTxt;
