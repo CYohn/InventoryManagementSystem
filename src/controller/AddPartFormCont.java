@@ -160,11 +160,12 @@ public class AddPartFormCont implements Initializable {
         else {
             Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
             infoRequiredAlert.setTitle("Something went wrong.");
-            infoRequiredAlert.setHeaderText("Please check your entries.");
+            infoRequiredAlert.setHeaderText("Please check your entries. Inventory must be in between max and min. Inventory will save as zero.");
             infoRequiredAlert.setContentText("Thank you");
             infoRequiredAlert.showAndWait();
+            return 0;
         }
-        return stock;
+       //return stock;
         }
 
 
@@ -191,14 +192,14 @@ public class AddPartFormCont implements Initializable {
 
         int min = 0;
         if (Integer.parseInt(partMinTxt.getText()) < Integer.parseInt(partMaxTxt.getText())) {
-            min = Integer.parseInt(partMaxTxt.getText());
+            min = Integer.parseInt(partMinTxt.getText());
             return min;
         }
 
         else{
             Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
             infoRequiredAlert.setTitle("Something went wrong.");
-            infoRequiredAlert.setHeaderText("Please check your entries.");
+            infoRequiredAlert.setHeaderText("Please check your entries. Minimum inventory must be below the maximum. The minimum will save as zero.");
             infoRequiredAlert.setContentText("Thank you");
             infoRequiredAlert.showAndWait();}
 
@@ -221,7 +222,7 @@ public class AddPartFormCont implements Initializable {
         else{
             Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
             infoRequiredAlert.setTitle("Something went wrong.");
-            infoRequiredAlert.setHeaderText("Please check your entries.");
+            infoRequiredAlert.setHeaderText("Please check your entries. Maximum inventory must be larger than minimum");
             infoRequiredAlert.setContentText("Thank you");
             infoRequiredAlert.showAndWait();}
 
