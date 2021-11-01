@@ -8,10 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -116,6 +113,13 @@ public class MainFormCont implements Initializable {
                 //ignore
             }
         }
+        if(products.size() == 0){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("No products were found");
+            alert.setContentText(null);
+            alert.showAndWait();
+        }
         productsTable.setItems(products);
     }
 
@@ -166,6 +170,13 @@ public class MainFormCont implements Initializable {
                 //ignore
             }
         }
+        if(parts.size() == 0){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("No Parts were found");
+            alert.setContentText(null);
+            alert.showAndWait();
+        }
         partTable.setItems(parts);
     }
 
@@ -183,16 +194,52 @@ public class MainFormCont implements Initializable {
     /** Deletes the part from the observable list*/
     @FXML
     void OnActionDeletePart(ActionEvent event) {
-        System.out.println("Delete Part Button Clicked");
+        if(partTable.getSelectionModel().isEmpty() != true){
+            Inventory.deletePart(selectedPart);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("The selected part was deleted");
+            alert.setContentText(null);
+            alert.showAndWait();
+        }
+        else if(partTable.getSelectionModel().isEmpty() == true) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("Please select a part to delete from inventory.");
+            alert.setContentText("Thank you!");
+            alert.showAndWait();
+        }
     }
 
     /**Deletes the product from the observable list*/
     @FXML
     void OnActionDeleteProduct(ActionEvent event) {
-        System.out.println("Delete Product Button Clicked");
+        if (productsTable.getSelectionModel().isEmpty() != true){
+            Inventory.deleteProduct(selectedProduct);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("The selected product was deleted");
+            alert.setContentText(null);
+            alert.showAndWait();
+        }
+        else if(productsTable.getSelectionModel().isEmpty() == true){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("Please select a product to delete.");
+            alert.setContentText("Thank you!");
+
+            alert.showAndWait();
+        }
     }
 
+    private static Product selectedProduct;
+    public static Product getSelectedProduct() {
+        return selectedProduct;
+    }
 
+    public void setSelectedProduct(Product selectedProduct) {
+        this.selectedProduct = selectedProduct;
+    }
 
 
     private static Part selectedPart;
@@ -213,6 +260,14 @@ public class MainFormCont implements Initializable {
         // Add a popup to instruct to select a part
     }
 
+    @FXML
+    public void OnClickGetSelectedProduct(MouseEvent event) {
+        if (productsTable.getSelectionModel().isEmpty() != true) {
+            Product selectedProduct = productsTable.getSelectionModel().getSelectedItem(); // get the object
+            setSelectedProduct(selectedProduct);
+        }
+        // Add a popup to instruct to select a part
+    }
     /**Changes the page to the "Add Part" page*/
     @FXML
     void OnActionDisplayAddPartMenu(ActionEvent event) throws IOException {
