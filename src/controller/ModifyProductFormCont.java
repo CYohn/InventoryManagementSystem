@@ -182,9 +182,10 @@ private TextField iDTxt;
     /** Adds the selected part to the associated parts list.  */
     @FXML
     void OnActionAddAssociatedPart(ActionEvent event) {
+        Product selectedProduct = MainFormCont.getSelectedProduct();
         Part storedPart = partTable.getSelectionModel().getSelectedItem();
         selectedProduct.addAssociatedPart(storedPart);
-       // System.out.println(selectedProduct.getAllAssociatedParts()); // Testing if the parts are saving to the list
+        System.out.println("Associated Parts from add function: " + (selectedProduct.getAllAssociatedParts())); // Testing if the parts are saving to the list
         associatedPartsTable.setItems(selectedProduct.getAllAssociatedParts());
         populateProductTable();
     }
@@ -382,7 +383,7 @@ private TextField iDTxt;
 
 
 
-    /**Saves the product to the observable list*/
+    /**Saves the product to the observable list products*/
     @FXML
     void OnActionModifyProduct(ActionEvent event) throws IOException {
 
@@ -403,11 +404,17 @@ private TextField iDTxt;
 
                 emptyFieldAlert();
 
-
-
                 Product modifiedProduct = new Product( id, name, price, stock, min, max);
                 Inventory.addProduct(modifiedProduct);
+                System.out.println("AssociatedParts from save function (1st time, modified product): " + (modifiedProduct.getAllAssociatedParts()));//Testing to see if the associateParts are saving
+                System.out.println("AssociatedParts from save function (1st time, selected product): " + (selectedProduct.getAllAssociatedParts()));//Testing to see if the associateParts are saving
+                for (Object Part : selectedProduct.getAllAssociatedParts()){
+                    modifiedProduct.addAssociatedPart((model.Part) Part);
+                }
+
                 Inventory.deleteProduct(selectedProduct);
+                associatedParts.setAll(modifiedProduct.getAllAssociatedParts());
+                System.out.println("AssociatedParts from save function (2nd time, modified product): " + (modifiedProduct.getAllAssociatedParts()));//Testing to see if the associateParts are saving
 
 
                 RedirectToMainScreen();
@@ -422,7 +429,6 @@ private TextField iDTxt;
                 infoRequiredAlert.setContentText("Thank you");
                 infoRequiredAlert.showAndWait();
             }
-
     }
 
 
@@ -435,7 +441,7 @@ private TextField iDTxt;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         populatePartTable();
-
+        populateAssociatedPartsTable();
 
     /** Populates the text fields with the previously selected product in the main form*/
     Product selectedProduct = MainFormCont.getSelectedProduct();
@@ -452,6 +458,6 @@ private TextField iDTxt;
     else{
         //
     }
-       populateAssociatedPartsTable();
+       //
     }
 }
