@@ -406,8 +406,8 @@ private TextField iDTxt;
 
                 Product modifiedProduct = new Product( id, name, price, stock, min, max);
                 Inventory.addProduct(modifiedProduct);
-                System.out.println("AssociatedParts from save function (1st time, modified product): " + (modifiedProduct.getAllAssociatedParts()));//Testing to see if the associateParts are saving
-                System.out.println("AssociatedParts from save function (1st time, selected product): " + (selectedProduct.getAllAssociatedParts()));//Testing to see if the associateParts are saving
+                //System.out.println("AssociatedParts from save function (1st time, modified product): " + (modifiedProduct.getAllAssociatedParts()));//Testing to see if the associateParts are saving
+                //System.out.println("AssociatedParts from save function (1st time, selected product): " + (selectedProduct.getAllAssociatedParts()));//Testing to see if the associateParts are saving
                 for (Object Part : selectedProduct.getAllAssociatedParts()){
                     modifiedProduct.addAssociatedPart((model.Part) Part);
                 }

@@ -97,6 +97,7 @@ public class AddProductFormCont implements Initializable {
         Part storedPart = partTable.getSelectionModel().getSelectedItem();
         newProduct.addAssociatedPart(storedPart);
         associatedPartsTable.setItems(newProduct.getAllAssociatedParts());
+        System.out.println("Testing associatedParts in the add function: " + newProduct.getAllAssociatedParts());
         populateProductTable();
     }
 
@@ -445,8 +446,11 @@ public class AddProductFormCont implements Initializable {
             emptyFieldAlert();
 
 
-            Inventory.addProduct(new Product(id, name, price, stock, min, max));
-            ObservableList<Part> productAssocPartsList= newProduct.getAllAssociatedParts();
+            Inventory.addProduct(newProduct);
+            newProduct.getAllAssociatedParts();
+            System.out.println("Testing save AllAssociatedParts in the save function: " + newProduct.getAllAssociatedParts());
+
+
             RedirectToMainScreen ();
         }
         catch (Exception e){
