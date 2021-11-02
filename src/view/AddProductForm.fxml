@@ -62,7 +62,7 @@
                   <TableColumn fx:id="partPriceCol" prefWidth="124.0" text="Price / Cost Per Unit" />
               </columns>
             </TableView>
-            <Button layoutX="825.0" layoutY="270.0" mnemonicParsing="false" onAction="#OnActionAddProduct" prefWidth="51.05" text="Add" />
+            <Button layoutX="825.0" layoutY="270.0" mnemonicParsing="false" onAction="#OnActionAddAssociatedPart" prefWidth="51.05" text="Add" />
             <TableView fx:id="associatedPartsTable" layoutX="430.0" layoutY="313.0" prefHeight="200.0" prefWidth="447.0">
                <columns>
                   <TableColumn fx:id="associatedId" prefWidth="111.75" text="Part ID" />

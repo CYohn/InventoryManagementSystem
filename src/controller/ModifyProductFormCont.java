@@ -100,9 +100,10 @@ private TextField iDTxt;
 
     void populateAssociatedPartsTable(){
         /** Populates the associated parts table for the parts associated with the product (on bottom)*/
+        associatedPartsTable.setItems(MainFormCont.getSelectedProduct().getAllAssociatedParts());
 
-            associatedPartsTable.setItems(MainFormCont.getSelectedProduct().getAllAssociatedParts());
         if(MainFormCont.getSelectedProduct().getAllAssociatedParts().isEmpty() != true){
+
             /** Calls getId() and assigns it to the column, which populates the table cells
              */
             associatedId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -110,6 +111,7 @@ private TextField iDTxt;
             associatedName.setCellValueFactory(new PropertyValueFactory<>("name"));
             associatedCost.setCellValueFactory(new PropertyValueFactory<>("price"));
         }
+
         else if (MainFormCont.getSelectedProduct().getAllAssociatedParts().isEmpty() == true){
             Alert noPartsAssocAlert = new Alert(Alert.AlertType.INFORMATION);
             noPartsAssocAlert.setTitle("No Parts Are Associated With This Product Yet");
@@ -118,6 +120,7 @@ private TextField iDTxt;
             noPartsAssocAlert.showAndWait();
         }
     }
+
 
 
     /**
@@ -174,10 +177,45 @@ private TextField iDTxt;
         partTable.setItems(parts);
     }
 
-    /** Opens the "Add Product" Page when the user presses the add button */
-    @FXML
-    void OnActionAddProduct(ActionEvent event) {
+    Product selectedProduct = MainFormCont.getSelectedProduct();
 
+    /** Adds the selected part to the associated parts list.  */
+    @FXML
+    void OnActionAddAssociatedPart(ActionEvent event) {
+        Part storedPart = partTable.getSelectionModel().getSelectedItem();
+        selectedProduct.addAssociatedPart(storedPart);
+       // System.out.println(selectedProduct.getAllAssociatedParts()); // Testing if the parts are saving to the list
+        associatedPartsTable.setItems(selectedProduct.getAllAssociatedParts());
+        populateProductTable();
+    }
+
+    void populateProductTable() {
+        associatedPartsTable.setItems(selectedProduct.getAllAssociatedParts());
+        /** Calls getId() and assigns it to the column, which populates the table cells
+         */
+        associatedId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        associatedInv.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        associatedName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        associatedCost.setCellValueFactory(new PropertyValueFactory<>("price"));
+    }
+
+    /**
+     * Removes the associated part from the associated parts list for the product
+     * This is an example of dependency
+     */
+    @FXML
+    void OnActionRemoveAssociatedPart(ActionEvent event) {
+        Part selectedAssociatedPart = associatedPartsTable.getSelectionModel().getSelectedItem();
+        ObservableList<Part> tempList = selectedProduct.getAllAssociatedParts();
+        if (selectedAssociatedPart != null) {
+            for (int i = 0; i < tempList.size(); ++i) {
+                Part tempPart = tempList.get(i);
+
+                if (tempPart.getId() == selectedAssociatedPart.getId()) {
+                    selectedProduct.getAllAssociatedParts().remove(selectedAssociatedPart);
+                }
+            }
+        }
     }
 
     /**Opens the main menu page*/
@@ -190,12 +228,203 @@ private TextField iDTxt;
         stage.setScene(new Scene(scene));
         stage.show();
     }
+    public void alert() {
+        Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
+        infoRequiredAlert.setTitle("Information Required");
+        infoRequiredAlert.setHeaderText("Please enter all information.  Thank you! ");
+        infoRequiredAlert.setContentText("Please enter missing information");
+        infoRequiredAlert.showAndWait();
+    }
+    public void emptyFieldAlert() {
+        try {
+            if ((nameTxt.getText().isEmpty())) {
+                alert();
+            }
+            if (invTxt.getText().isEmpty()) {
+                alert();
+            }
+            if (priceTxt.getText().isEmpty()) {
+                alert();
+            }
+            if (minTxt.getText().isEmpty()) {
+                alert();
+            }
+            if (maxTxt.getText().isEmpty()) {
+                alert();
+            }
+
+        } catch (Exception exception) {
+            //do nothing
+        }
+    }
+    /**
+     * @return returns the name entered by the user or a default name if none is entered
+     */
+    public String AssignName() {
+        String name;
+        name = nameTxt.getText();
+        if (!name.trim().isEmpty()) { //If not empty return the name
+            System.out.println(name);
+            return name;
+        }
+        //User did not enter text
+        else if (name.trim().isEmpty()) { //if empty show dialog box
+
+            TextInputDialog nameEmptyAlert = new TextInputDialog("");
+            nameEmptyAlert.setTitle("Name Entry Required");
+            nameEmptyAlert.setHeaderText("Please enter a part name. If a name is not entered, the name will default to 'name not entered'. Thank you! ");
+            nameEmptyAlert.setContentText("Part Name");
+            System.out.println((String) null);
+            nameEmptyAlert.showAndWait();
+            name = nameEmptyAlert.getEditor().getText(); //get input from the dialog box
+            if (name.trim().isEmpty() == false) { //If the user responds to the dialog box by entering a name
+                System.out.println(name);
+                return name;
+            } else if (name.trim().isEmpty() == true) { //Set a default name if the user did not enter a name in the dialog box
+                name = "Name not entered";
+            }
+        }
+        return name;
+    }
+
+
+    /**
+     * Reads the user input for the inventory amount (stock), the maximum inventory allowed (max) and the minimum inventory allowed (min)
+     * Checks that the inventory amount is in between the min and max stock amount
+     * Catches the number format exception if the input is something other than an int for inventory
+     * Provides dialog boxes for the user to correct errors
+     *
+     * @return inventory amount
+     */
+    public int assignInventory() {
+
+        int stock = Integer.parseInt(invTxt.getText());
+        int min = Integer.parseInt(minTxt.getText());
+        int max = Integer.parseInt(maxTxt.getText());
+
+
+        if (stock > min & stock < max) {
+            return stock;
+        } else {
+            Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
+            infoRequiredAlert.setTitle("Something went wrong.");
+            infoRequiredAlert.setHeaderText("Please check your entries. Inventory must be in between max and min. Inventory will save as zero.");
+            infoRequiredAlert.setContentText("Thank you");
+            infoRequiredAlert.showAndWait();
+            return 0;
+        }
+        //return stock;
+    }
+
+
+    /**
+     * Checks if the price is empty, throws dialog box if true. Checks if the input is a double, throws dialog box if false
+     *
+     * @return returns part price
+     */
+    public double assignPrice() {
+        double price = 0.0;
+        price = Double.parseDouble(priceTxt.getText());
+        return price;
+    }
+
+
+    /**
+     * @return the inventory minimum
+     */
+    public int assignMin() {
+
+        int min = 0;
+        if (Integer.parseInt(minTxt.getText()) < Integer.parseInt(maxTxt.getText())) {
+            min = Integer.parseInt(minTxt.getText());
+            return min;
+        } else {
+            Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
+            infoRequiredAlert.setTitle("Something went wrong.");
+            infoRequiredAlert.setHeaderText("Please check your entries. Minimum inventory must be below the maximum. The minimum will save as zero.");
+            infoRequiredAlert.setContentText("Thank you");
+            infoRequiredAlert.showAndWait();
+        }
+
+        return min;
+    }
+
+
+    /**
+     * @return the inventory maximum
+     */
+    public int assignMax() {
+
+        int max = 0;
+        if (Integer.parseInt(maxTxt.getText()) > Integer.parseInt(minTxt.getText())) {
+            max = Integer.parseInt(maxTxt.getText());
+            return max;
+        } else {
+            Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
+            infoRequiredAlert.setTitle("Something went wrong.");
+            infoRequiredAlert.setHeaderText("Please check your entries. Maximum inventory must be larger than minimum");
+            infoRequiredAlert.setContentText("Thank you");
+            infoRequiredAlert.showAndWait();
+        }
+
+        return max;
+    }
+
+
+    /**Redirects user to the main screen*/
+    public void RedirectToMainScreen () throws IOException{
+        Stage stage = new Stage();
+        stage.setTitle("Main Menu");
+        scene = FXMLLoader.load((getClass().getResource("/view/MainForm.fxml")));
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+
+
 
     /**Saves the product to the observable list*/
     @FXML
-    void OnActionSaveProduct(ActionEvent event) {
+    void OnActionModifyProduct(ActionEvent event) throws IOException {
+
+        Product selectedProduct = MainFormCont.getSelectedProduct();
+
+        ObservableList<Product> loadAllProducts = Inventory.getAllProducts();
+        int index = loadAllProducts.indexOf(selectedProduct);
+
+            try {
+                /** Retrieves user input and converts the data types*/
+                double price = assignPrice();
+                int max = assignMax();
+                int min = assignMin();
+                int stock = assignInventory();
+                String name = AssignName();
+                int id = selectedProduct.getId();
+                ObservableList<Part> associatedParts = selectedProduct.getAllAssociatedParts();
+
+                emptyFieldAlert();
+
+
+
+                Product modifiedProduct = new Product( id, name, price, stock, min, max);
+                Inventory.addProduct(modifiedProduct);
+                Inventory.deleteProduct(selectedProduct);
+
+
+                RedirectToMainScreen();
+            }
+            catch(
+                    Exception e)
+
+            {
+                Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
+                infoRequiredAlert.setTitle("Something went wrong.");
+                infoRequiredAlert.setHeaderText("Please check your entries.");
+                infoRequiredAlert.setContentText("Thank you");
+                infoRequiredAlert.showAndWait();
+            }
 
     }
+
 
     /**Searches for the product by the name or ID provided by the user input*/
     @FXML
@@ -223,6 +452,6 @@ private TextField iDTxt;
     else{
         //
     }
-       // populateAssociatedPartsTable();
+       populateAssociatedPartsTable();
     }
 }

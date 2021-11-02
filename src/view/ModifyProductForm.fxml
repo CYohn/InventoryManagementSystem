@@ -64,7 +64,7 @@
                         <TableColumn fx:id="partPriceCol" prefWidth="124.0" text="Price / Cost Per Unit" />
                      </columns>
                   </TableView>
-                  <Button layoutX="825.0" layoutY="270.0" mnemonicParsing="false" onAction="#OnActionAddProduct" prefWidth="51.05" text="Add" />
+                  <Button layoutX="825.0" layoutY="270.0" mnemonicParsing="false" onAction="#OnActionAddAssociatedPart" prefWidth="51.05" text="Add" />
                   <TableView fx:id="associatedPartsTable" layoutX="430.0" layoutY="313.0" prefHeight="200.0" prefWidth="447.0">
                      <columns>
                         <TableColumn fx:id="associatedId" prefWidth="111.75" text="Part ID" />
@@ -73,9 +73,9 @@
                         <TableColumn fx:id="associatedCost" prefWidth="124.0" text="Price / Cost Per Unit" />
                      </columns>
                   </TableView>
-                  <Button layoutX="722.0" layoutY="521.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="155.0" text="Remove Associated Part" />
+                  <Button layoutX="722.0" layoutY="521.0" mnemonicParsing="false" onAction="#OnActionRemoveAssociatedPart" prefHeight="25.0" prefWidth="155.0" text="Remove Associated Part" />
                   <Button layoutX="825.0" layoutY="569.0" mnemonicParsing="false" onAction="#OnActionDisplayMainMenu" text="Cancel" />
-                  <Button layoutX="722.0" layoutY="569.0" mnemonicParsing="false" onAction="#OnActionSaveProduct" prefWidth="51.05" text="Save" />
+                  <Button layoutX="722.0" layoutY="569.0" mnemonicParsing="false" onAction="#OnActionModifyProduct" prefWidth="51.05" text="Save" />
                   <TextField fx:id="SearchTextBox" layoutX="716.0" layoutY="33.0" onAction="#OnActionSearchParts" prefHeight="25.0" prefWidth="161.0" promptText="Search by Part ID or Name" />
                </children>
             </Pane>

@@ -7,7 +7,7 @@ import javafx.collections.ObservableList;
 public class Product {
     /**
      * This is the list of associated parts
-      */
+     */
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private int id;
     private String name;
@@ -26,7 +26,7 @@ public class Product {
         this.max = max;
     }
 
-        /**Setters and getters*/
+    /**Setters and getters*/
 
     /**Gets the Id
      *

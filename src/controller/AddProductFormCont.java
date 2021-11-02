@@ -22,10 +22,10 @@ public class AddProductFormCont implements Initializable {
     Stage stage;
     Parent scene;
 
-Product newProduct = new Product(1, "new test", 100, 25, 0, 100);
+    Product newProduct = new Product(1, "new test", 100, 25, 0, 100);
 
 
-/**
+    /**
      * TextField variables
      */
     @FXML
@@ -93,7 +93,7 @@ Product newProduct = new Product(1, "new test", 100, 25, 0, 100);
      * Adds the product to the add product observable list
      */
     @FXML
-    void OnActionAddProduct(ActionEvent event) {
+    void OnActionAddAssociatedPart(ActionEvent event) {
         Part storedPart = partTable.getSelectionModel().getSelectedItem();
         newProduct.addAssociatedPart(storedPart);
         associatedPartsTable.setItems(newProduct.getAllAssociatedParts());
@@ -117,13 +117,13 @@ Product newProduct = new Product(1, "new test", 100, 25, 0, 100);
      * Populates the associated products table
      */
     void populateProductTable(){
-            associatedPartsTable.setItems(newProduct.getAllAssociatedParts());
-            /** Calls getId() and assigns it to the column, which populates the table cells
-             */
-            associatedId.setCellValueFactory(new PropertyValueFactory<>("id"));
-            associatedInv.setCellValueFactory(new PropertyValueFactory<>("stock"));
-            associatedName.setCellValueFactory(new PropertyValueFactory<>("name"));
-            associatedCost.setCellValueFactory(new PropertyValueFactory<>("price"));
+        associatedPartsTable.setItems(newProduct.getAllAssociatedParts());
+        /** Calls getId() and assigns it to the column, which populates the table cells
+         */
+        associatedId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        associatedInv.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        associatedName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        associatedCost.setCellValueFactory(new PropertyValueFactory<>("price"));
     }
 
     /**
@@ -157,7 +157,7 @@ Product newProduct = new Product(1, "new test", 100, 25, 0, 100);
         stage.show();
     }
 
-/** Deletes an object from inventory*/
+    /** Deletes an object from inventory*/
     public boolean Delete(int id){
         ObservableList<Part> loadAllProducts = Inventory.getAllParts();
         for (int i = 0; i < loadAllProducts.size(); i++) {
@@ -167,7 +167,7 @@ Product newProduct = new Product(1, "new test", 100, 25, 0, 100);
                 return Inventory.getAllProducts().remove(tempPart);
             }
         }
-    return false;
+        return false;
     }
 
     /**
@@ -183,7 +183,7 @@ Product newProduct = new Product(1, "new test", 100, 25, 0, 100);
                 Part tempPart = tempList.get(i);
 
                 if(tempPart.getId() == selectedAssociatedPart.getId()){
-                newProduct.getAllAssociatedParts().remove(selectedAssociatedPart);
+                    newProduct.getAllAssociatedParts().remove(selectedAssociatedPart);
                 }
             }
         }
