@@ -12,7 +12,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import model.*;
+import model.Inventory;
+import model.Part;
+import model.Product;
 
 import java.io.IOException;
 import java.net.URL;
@@ -232,42 +234,72 @@ public class MainFormCont implements Initializable {
         }
     }
 
+
+    /**
+     * The product selected from the product table
+     */
     private static Product selectedProduct;
     public static Product getSelectedProduct() {
         return selectedProduct;
     }
-
     public void setSelectedProduct(Product selectedProduct) {
         this.selectedProduct = selectedProduct;
     }
 
 
+    /**
+     * The part selected from the parts table
+     */
     private static Part selectedPart;
     public static Part getSelectedPart() {
         return selectedPart;
     }
-
     public void setSelectedPart(Part selectedPart) {
         this.selectedPart = selectedPart;
     }
 
+
+    /**
+     * Gets the selection for parts
+     * @param event is the mouse click when the user selects a part from the part table on the main screen
+     */
     @FXML
     public void OnClickGetSelection(MouseEvent event) {
         if (partTable.getSelectionModel().isEmpty() != true) {
             Part selectedPart = partTable.getSelectionModel().getSelectedItem(); // get the object
             setSelectedPart(selectedPart);
         }
-        // Add a popup to instruct to select a part
+        if (partTable.getSelectionModel().isEmpty()){
+            if(productsTable.getSelectionModel().isEmpty()){
+                Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
+                infoRequiredAlert.setTitle("No Part Selected");
+                infoRequiredAlert.setHeaderText("Please select a part");
+                infoRequiredAlert.setContentText("Thank you");
+                infoRequiredAlert.showAndWait();
+            }
+        }
     }
 
+    /**
+     *
+     * @param event
+     */
     @FXML
     public void OnClickGetSelectedProduct(MouseEvent event) {
         if (productsTable.getSelectionModel().isEmpty() != true) {
             Product selectedProduct = productsTable.getSelectionModel().getSelectedItem(); // get the object
             setSelectedProduct(selectedProduct);
         }
-        // Add a popup to instruct to select a part
+        if(productsTable.getSelectionModel().isEmpty()){
+            Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
+            infoRequiredAlert.setTitle("No Product Selected");
+            infoRequiredAlert.setHeaderText("Please select a product");
+            infoRequiredAlert.setContentText("Thank you");
+            infoRequiredAlert.showAndWait();
+        }
     }
+
+
     /**Changes the page to the "Add Part" page*/
     @FXML
     void OnActionDisplayAddPartMenu(ActionEvent event) throws IOException {
@@ -295,10 +327,19 @@ public class MainFormCont implements Initializable {
     void OnActionDisplayModifyPartMenu(ActionEvent event) throws IOException{
         /** The following code casts the event to let the application know that the event was triggered by a button on a stage
          */
-        stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load((getClass().getResource("/view/ModifyPartForm.fxml")));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        if(partTable.getSelectionModel().isEmpty() != true) {
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load((getClass().getResource("/view/ModifyPartForm.fxml")));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
+        if(partTable.getSelectionModel().isEmpty()){
+            Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
+            infoRequiredAlert.setTitle("No Product Selected");
+            infoRequiredAlert.setHeaderText("Please select a product");
+            infoRequiredAlert.setContentText("Thank you");
+            infoRequiredAlert.showAndWait();
+        }
     }
 
     /**Displays the "Modify Product" menu*/
@@ -306,10 +347,19 @@ public class MainFormCont implements Initializable {
     void OnActionDisplayModifyProductMenu(ActionEvent event) throws IOException{
         /** The following code casts the event to let the application know that the event was triggered by a button on a stage
          */
-        stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load((getClass().getResource("/view/ModifyProductForm.fxml")));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        if(productsTable.getSelectionModel().isEmpty() != true) {
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load((getClass().getResource("/view/ModifyProductForm.fxml")));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
+        if(productsTable.getSelectionModel().isEmpty()){
+            Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
+            infoRequiredAlert.setTitle("No Product Selected");
+            infoRequiredAlert.setHeaderText("Please select a product");
+            infoRequiredAlert.setContentText("Thank you");
+            infoRequiredAlert.showAndWait();
+        }
     }
 
     /**Populates parts table*/

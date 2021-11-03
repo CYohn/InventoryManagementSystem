@@ -3,8 +3,11 @@ package model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**Product is dependent on the Observable list created in "Inventory" called "Part"*/
 public class Product {
-    /**Product is dependent on the Observable list created in "Inventory" called "Part"*/
+    /**
+     * This is the list of associated parts
+     */
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private int id;
     private String name;
@@ -23,7 +26,7 @@ public class Product {
         this.max = max;
     }
 
-        /**Setters and getters*/
+    /**Setters and getters*/
 
     /**Gets the Id
      *
@@ -123,10 +126,10 @@ public class Product {
     /**Adds the associated part to the Observable list Part
      * The associated part is dependent on the observable list "Parts"
      *
-     * @param part the associated part
+     * @param selectedAssociatedPart the associated part
      */
-    public void addAssociatedPart(Part part)
-    {associatedParts.add(part);}
+    public void addAssociatedPart(Part selectedAssociatedPart)
+    {associatedParts.add(selectedAssociatedPart);}
 
 
     /**

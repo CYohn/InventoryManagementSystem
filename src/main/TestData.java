@@ -1,9 +1,7 @@
 package main;
 
-import model.InHouse;
-import model.Inventory;
-import model.Outsourced;
-import model.Product;
+import javafx.collections.ObservableList;
+import model.*;
 
 public class TestData {
 
@@ -21,11 +19,14 @@ public class TestData {
 
     /**Adds test data for products*/
     public static void addTestProductsData(){
-        Product sprocketBox = new Product(5, "Sprocket Gift Pack", 21.20, 5, 1, 10);
+        ObservableList <Part> associatedParts = null;
+        Product sprocketBox = new Product( 5, "Sprocket Gift Pack", 21.20, 5, 1, 10);
+        //sprocketBox.addAssociatedPart(bobbles);
+        //sprocketBox.addAssociatedPart((Part) Inventory.lookupPart("Widget"));
         Inventory.addProduct(sprocketBox);
-        Product widgetBasket = new Product(6, "Widget Basket", 10.95, 3, 0, 15);
+        Product widgetBasket = new Product( 6, "Widget Basket", 10.95, 3, 0, 15);
         Inventory.addProduct(widgetBasket);
-        Product bobbleHeads = new Product(4, "Bobble Heads", 1.95, 6, 0, 100);
+        Product bobbleHeads = new Product( 4, "Bobble Heads", 1.95, 6, 0, 100);
         Inventory.addProduct(bobbleHeads);
     }
 
