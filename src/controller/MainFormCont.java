@@ -84,11 +84,9 @@ public class MainFormCont implements Initializable {
 
     private Product getProductWithId(int userId){
         ObservableList<Product>loadAllProducts = Inventory.getAllProducts();
-        for (int i = 0; i < loadAllProducts.size(); i++){
-            Product tempProduct = loadAllProducts.get(i);
-
-            if(tempProduct.getId() == userId){
-            return tempProduct;
+        for (Product tempProduct : loadAllProducts) {
+            if (tempProduct.getId() == userId) {
+                return tempProduct;
             }
         }
         return null;
@@ -144,10 +142,8 @@ public class MainFormCont implements Initializable {
 
     private Part getPartWithId(int userId){
         ObservableList<Part>loadAllParts = Inventory.getAllParts();
-        for (int i = 0; i < loadAllParts.size(); i++){
-            Part tempPart = loadAllParts.get(i);
-
-            if(tempPart.getId() == userId){
+        for (Part tempPart : loadAllParts) {
+            if (tempPart.getId() == userId) {
                 return tempPart;
             }
         }
@@ -185,18 +181,25 @@ public class MainFormCont implements Initializable {
 
 
 
-    /**Event handlers for the buttons*/
+    //Event handlers for buttons
 
-    /**Closes the program when the user presses the exit button*/
+    /**
+     * Closes the program when the user presses the exit button
+     * @param event the triggering event
+     */
     @FXML
     void OnActionCloseProgram(ActionEvent event) {
         System.exit(0);
     }
 
-    /** Deletes the part from the observable list*/
+
+    /**
+     * Deletes the part from the observable list
+     * @param event triggering event
+     */
     @FXML
     void OnActionDeletePart(ActionEvent event) {
-        if(partTable.getSelectionModel().isEmpty() != true){
+        if(!partTable.getSelectionModel().isEmpty()){ //if empty is not true
             Inventory.deletePart(selectedPart);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information Dialog");
@@ -204,7 +207,7 @@ public class MainFormCont implements Initializable {
             alert.setContentText(null);
             alert.showAndWait();
         }
-        else if(partTable.getSelectionModel().isEmpty() == true) {
+        else if(partTable.getSelectionModel().isEmpty()) { //if empty is true
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information Dialog");
             alert.setHeaderText("Please select a part to delete from inventory.");
@@ -216,7 +219,7 @@ public class MainFormCont implements Initializable {
     /**Deletes the product from the observable list*/
     @FXML
     void OnActionDeleteProduct(ActionEvent event) {
-        if (productsTable.getSelectionModel().isEmpty() != true){
+        if (!productsTable.getSelectionModel().isEmpty()){ //If not empty
             Inventory.deleteProduct(selectedProduct);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information Dialog");
@@ -224,7 +227,7 @@ public class MainFormCont implements Initializable {
             alert.setContentText(null);
             alert.showAndWait();
         }
-        else if(productsTable.getSelectionModel().isEmpty() == true){
+        else if(productsTable.getSelectionModel().isEmpty()){ //If empty throw alert
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information Dialog");
             alert.setHeaderText("Please select a product to delete.");
@@ -265,32 +268,32 @@ public class MainFormCont implements Initializable {
      */
     @FXML
     public void OnClickGetSelection(MouseEvent event) {
-        if (partTable.getSelectionModel().isEmpty() != true) {
+        if (!partTable.getSelectionModel().isEmpty()) { //if empty is not true (not empty)
             Part selectedPart = partTable.getSelectionModel().getSelectedItem(); // get the object
             setSelectedPart(selectedPart);
         }
-        if (partTable.getSelectionModel().isEmpty()){
-            if(productsTable.getSelectionModel().isEmpty()){
+        if (partTable.getSelectionModel().isEmpty()){// if empty
+
                 Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
                 infoRequiredAlert.setTitle("No Part Selected");
                 infoRequiredAlert.setHeaderText("Please select a part");
                 infoRequiredAlert.setContentText("Thank you");
                 infoRequiredAlert.showAndWait();
-            }
+
         }
     }
 
     /**
-     *
-     * @param event
+     * Checks if a product has been selected, throws an alert if not
+     * @param event triggering event
      */
     @FXML
     public void OnClickGetSelectedProduct(MouseEvent event) {
-        if (productsTable.getSelectionModel().isEmpty() != true) {
+        if (!productsTable.getSelectionModel().isEmpty()) { //If not empty
             Product selectedProduct = productsTable.getSelectionModel().getSelectedItem(); // get the object
             setSelectedProduct(selectedProduct);
         }
-        if(productsTable.getSelectionModel().isEmpty()){
+        if(productsTable.getSelectionModel().isEmpty()){ //If empty throw alert
             Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
             infoRequiredAlert.setTitle("No Product Selected");
             infoRequiredAlert.setHeaderText("Please select a product");
@@ -300,54 +303,71 @@ public class MainFormCont implements Initializable {
     }
 
 
-    /**Changes the page to the "Add Part" page*/
+    /**
+     * Changes the page to the "Add Part" page
+     * The following code casts the event to let the application know that the event was triggered by a button on a stage
+     * @param event triggering event
+     * @throws IOException catches exception
+     */
     @FXML
     void OnActionDisplayAddPartMenu(ActionEvent event) throws IOException {
-        /** The following code casts the event to let the application know that the event was triggered by a button on a stage
-        */
+
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load((getClass().getResource("/view/AddPartForm.fxml")));
         stage.setScene(new Scene(scene));
         stage.show();
     }
 
-    /**Displays the "Add Product" menu*/
+    /**
+     * Displays the "Add Product" menu
+     * The following code casts the event to let the application know that the event was triggered by a button on a stage
+     *
+     * @param event triggering event
+     * @throws IOException catches exception
+     */
     @FXML
     void OnActionDisplayAddProductMenu(ActionEvent event) throws IOException{
-        /** The following code casts the event to let the application know that the event was triggered by a button on a stage
-         */
+
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load((getClass().getResource("/view/AddProductForm.fxml")));
         stage.setScene(new Scene(scene));
         stage.show();
     }
 
-    /**Displays the "Modify Part" menu*/
+    /**
+     * Displays the "Modify Part" menu
+     * The following code casts the event to let the application know that the event was triggered by a button on a stage
+     * @param event triggering event
+     * @throws IOException catches exception
+     */
     @FXML
     void OnActionDisplayModifyPartMenu(ActionEvent event) throws IOException{
-        /** The following code casts the event to let the application know that the event was triggered by a button on a stage
-         */
-        if(partTable.getSelectionModel().isEmpty() != true) {
+
+        if(!partTable.getSelectionModel().isEmpty()) { //If not empty
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load((getClass().getResource("/view/ModifyPartForm.fxml")));
             stage.setScene(new Scene(scene));
             stage.show();
         }
-        if(partTable.getSelectionModel().isEmpty()){
+        if(partTable.getSelectionModel().isEmpty()){ //If empty throw alert
             Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
-            infoRequiredAlert.setTitle("No Product Selected");
-            infoRequiredAlert.setHeaderText("Please select a product");
+            infoRequiredAlert.setTitle("No Part Selected");
+            infoRequiredAlert.setHeaderText("Please select a part");
             infoRequiredAlert.setContentText("Thank you");
             infoRequiredAlert.showAndWait();
         }
     }
 
-    /**Displays the "Modify Product" menu*/
+    /**
+     * Displays the "Modify Product" menu
+     * The following code casts the event to let the application know that the event was triggered by a button on a stage
+     * @param event triggering event
+     * @throws IOException catches exception
+     */
     @FXML
     void OnActionDisplayModifyProductMenu(ActionEvent event) throws IOException{
-        /** The following code casts the event to let the application know that the event was triggered by a button on a stage
-         */
-        if(productsTable.getSelectionModel().isEmpty() != true) {
+
+        if(!productsTable.getSelectionModel().isEmpty()) { //If not empty
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load((getClass().getResource("/view/ModifyProductForm.fxml")));
             stage.setScene(new Scene(scene));
@@ -362,19 +382,20 @@ public class MainFormCont implements Initializable {
         }
     }
 
-    /**Populates parts table*/
+    /**
+     * Populates parts table
+     * Calls getId() and assigns it to the column, which populates the table cells
+     */
     void populatePartTable() {
         partTable.setItems(Inventory.getAllParts());
-        /** Calls getId() and assigns it to the column, which populates the table cells
-         */
+
         partIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         partInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         partPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         productsTable.setItems(Inventory.getAllProducts());
-        /** Calls getId() and assigns it to the column, which populates the table cells
-         */
+
         productIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         productNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         productPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -382,18 +403,17 @@ public class MainFormCont implements Initializable {
     }
 
 
-
-    /**Initializes the controller*/
+    /**
+     * Initializes the controller
+     * Populates Parts table
+     * @param url path of the file
+     * @param resourceBundle the file resource
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
 
-
-        /**Populates Parts table*/
         populatePartTable();
     }
-
-
-
 }
 
 

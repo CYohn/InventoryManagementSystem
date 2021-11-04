@@ -26,11 +26,11 @@ public class Product {
         this.max = max;
     }
 
-    /**Setters and getters*/
+    //**Setters and getters*/
 
-    /**Gets the Id
+    /**Gets the ID
      *
-     * @return returns the product Id
+     * @return returns the product ID
      */
     public int getId() {
         return id;
@@ -38,7 +38,7 @@ public class Product {
 
     /**Setter:
      *
-     * @param id is the Id to set
+     * @param id is the ID to set
      */
     public void setId(int id) {
         this.id = id;
@@ -52,7 +52,6 @@ public class Product {
     }
 
     /**Setter: Sets the product name
-     *
      * @param name is the name to set
      */
     public void setName(String name) {

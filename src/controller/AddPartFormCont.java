@@ -17,6 +17,7 @@ import model.Part;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 
@@ -26,11 +27,11 @@ public class AddPartFormCont implements Initializable {
     Parent scene;
 
 
-    /**
-     * Assigns the toggle group, ensure only one can be selected at a time in the group
-     */
-    @FXML
-    private ToggleGroup addPartToggle;
+//    /**
+//     * Assigns the toggle group, ensure only one can be selected at a time in the group
+//     */
+//    @FXML
+//    private ToggleGroup addPartToggle;
 
     /**
      * Radio button variables
@@ -42,7 +43,7 @@ public class AddPartFormCont implements Initializable {
     private RadioButton selectedOutsourced;
 
     /**
-     * Label variables for Machine Id or Company name
+     * Label variables for Machine ID or Company name
      */
     @FXML
     private Label labelPartCategory;
@@ -80,17 +81,19 @@ public class AddPartFormCont implements Initializable {
         } else {
             labelPartCategory.setText("Company Name");
         }
-        return;
+        //return;
     }
 
 
     /**
-     * Displays the main menu when the user presses the cancel button
+     * Displays the main menu when the user presses the cancel button.
+     * The following code casts the event to let the application know that the event was triggered by a button on a stage
+     * @param event the triggering event
+     * @throws IOException catches exception
      */
     @FXML
     void OnActionDisplayMainMenu(ActionEvent event) throws IOException {
-        /** The following code casts the event to let the application know that the event was triggered by a button on a stage
-         */
+
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load((getClass().getResource("/view/MainForm.fxml")));
         stage.setScene(new Scene(scene));
@@ -99,6 +102,7 @@ public class AddPartFormCont implements Initializable {
 
     /**
      * Method redirects users to the main screen after a Part is saved to inventory
+     * @throws IOException catches exception
      */
     public void RedirectToMainScreen() throws IOException {
         Stage stage = new Stage();
@@ -177,7 +181,7 @@ public class AddPartFormCont implements Initializable {
      * @return returns part price
      */
     public double assignPrice() {
-        double price = 0.0;
+        double price;
         price = Double.parseDouble(partCostTxt.getText());
         return price;
     }
@@ -280,7 +284,7 @@ public class AddPartFormCont implements Initializable {
     public int AssignId(){
 
         ObservableList<Part> sortedParts = Inventory.getAllParts();
-        Collections.sort(sortedParts, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);; // Sorts the parts by id
+        Collections.sort(sortedParts, Comparator.comparingInt(Part::getId)); // Sorts the parts by id
         int listLength = sortedParts.size(); // get the size of the list
         Part lastPart = sortedParts.get(listLength - 1); //get the last part - minus 1 because indexes start at 0
         int highestId = lastPart.getId(); // get the highest id (the id of the last part)
@@ -291,11 +295,16 @@ public class AddPartFormCont implements Initializable {
 
     /**
      * Saves the part to the Observable list "Parts"
+     * Retrieves user input and converts the data types
+     * @param event the triggering event
+     * @throws IOException catches exception
+     * Checks if the part is in house and adds the new part to either
+     * In-sourced to outsourced parts
      */
     @FXML
     void OnActionSavePart(ActionEvent event) throws IOException {
 try{
-        /** Retrieves user input and converts the data types*/
+
         double price = assignPrice();
         int max = assignMax();
         int min = assignMin();
@@ -304,10 +313,6 @@ try{
         int id = AssignId();
 
         emptyFieldAlert();
-
-        /** Checks if the part is in house and adds the new part to either
-         * In-sourced to outsourced parts
-         */
 
         if (selectedInHouse.isSelected()) {
             int machineId = Integer.parseInt(partMachineIdTxt.getText());

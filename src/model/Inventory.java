@@ -3,6 +3,8 @@ package model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.Objects;
+
 /**Public class "Inventory" and the private members*/
 public class Inventory {
     private static ObservableList<Part> allParts = FXCollections.observableArrayList();
@@ -28,7 +30,7 @@ public class Inventory {
     }
 
 
-    /** Other public methods*/
+    //** Other public methods*/
 
     /**
      * Adds a new part to the "allParts" list
@@ -53,15 +55,13 @@ public class Inventory {
 
     /**
      * Retrieves the part by part ID
-     *
      * @param partID is the part ID the user is searching, user input
-     * @return returns the part if the search matched an ID in allParts
-     * @return otherwise return nothing
+     * @return returns the part if the search matched an ID in allParts / otherwise return nothing
      */
     public static Part lookupPart(int partID) {
         for (Part part : allParts) {
             if (part.getId() == (partID)) {
-                return (Part) part;
+                return part;
             }
         }
         return null;
@@ -72,13 +72,12 @@ public class Inventory {
      * Search for product ID
      *
      * @param productID for which to search, user input
-     * @return retrieves the product
-     * @return otherwise returns nothing
+     * @return retrieves the product / otherwise returns nothing
      */
     public static Product lookupProduct(int productID) {
         for (Product product : allProducts) {
             if (product.getId() == (productID)) {
-                return (Product) product;
+                return product;
             }
         }
         return null;
@@ -92,7 +91,7 @@ public class Inventory {
      */
     public static ObservableList<Part> lookupPart(String partName) {
         for (Part part : allParts) {
-            if (part.getName() == (partName)) {
+            if (Objects.equals(part.getName(), partName)) {
                 return (ObservableList<Part>) part;
             }
         }
@@ -102,13 +101,12 @@ public class Inventory {
     /**
      * Search for product
      *
-     * @param productName is the name of the product for which to search
+     * @param productName is the name of the product for which to search / Otherwise, return nothing
      * @return returns the product
-     * @return null: Otherwise, return nothing
      */
     public static ObservableList<Product> lookupProduct(String productName) {
         for (Product product : allProducts) {
-            if (Product.class.getName() == (productName)) {
+            if (Product.class.getName().equals(productName)) {
                 return (ObservableList<Product>) product;
             }
         }
@@ -137,31 +135,34 @@ public class Inventory {
     }
 
     /**
-     * Deletes a selected part from inventory
+     *  * Deletes a selected part from inventory
+     * @param part the part selected
+     * @return if the part was removed
      */
-    public static boolean deletePart(Part selectedPart) {
+
+    public static boolean deletePart(Part part) {
         {
             ObservableList<Part> loadAllParts = Inventory.getAllParts();
-            for (int i = 0; i < loadAllParts.size(); i++) {
-                Part tempPart = loadAllParts.get(i);
-
-                if (selectedPart.getId() == tempPart.getId()) {
-                    return Inventory.getAllParts().remove(selectedPart);
+            for (Part tempPart : loadAllParts) {
+                if (part.getId() == tempPart.getId()) {
+                    return Inventory.getAllParts().remove(part);
                 }
             }
             return false;
         }
     }
 
-    /**Deletes a selected product from inventory*/
-        public static boolean deleteProduct (Product selectedProduct){
+    /**
+     * Deletes a selected product from inventory
+     * @param product the product selected
+     * @return if the product was removed
+     */
+        public static boolean deleteProduct (Product product){
             {
                 ObservableList<Product> loadAllProducts = Inventory.getAllProducts();
-                for (int i = 0; i < loadAllProducts.size(); i++) {
-                    Product tempProduct = loadAllProducts.get(i);
-
-                    if (selectedProduct.getId() == tempProduct.getId()) {
-                        return Inventory.getAllProducts().remove(selectedProduct);
+                for (Product tempProduct : loadAllProducts) {
+                    if (product.getId() == tempProduct.getId()) {
+                        return Inventory.getAllProducts().remove(product);
                     }
                 }
                 return false;
