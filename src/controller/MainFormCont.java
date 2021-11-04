@@ -66,8 +66,11 @@ public class MainFormCont implements Initializable {
     private TableColumn<Product, Integer> ProductInventoryCol;
 
 
-
-    /**Name Search Feature: Searches the observable Products list using the user supplied Product Name or partial name*/
+    /**
+     * Name Search Feature: Searches the observable Products list using the user supplied Product Name or partial name
+     * @param partialName user text input in search field
+     * @return returns any matches
+     */
     private ObservableList<Product>searchByProductName(String partialName){
         ObservableList<Product>results = FXCollections.observableArrayList();
 
@@ -80,7 +83,11 @@ public class MainFormCont implements Initializable {
         return results;
     }
 
-    /**ID Search Feature: Searches the observable Products list using the user supplied Product ID*/
+    /**
+     * ID Search Feature: Searches the observable Products list using the user supplied Product ID
+     * @param userId is user input in search field
+     * @return returns any matches
+     */
 
     private Product getProductWithId(int userId){
         ObservableList<Product>loadAllProducts = Inventory.getAllProducts();
@@ -93,8 +100,11 @@ public class MainFormCont implements Initializable {
     }
 
 
-    /**Tries the name search method above to populate first, if no PRODUCTS are returned,
-     * the method uses the number search to populate instead. */
+    /**
+     * Tries the name search method above to populate first, if no PRODUCTS are returned,
+     * the method uses the number search to populate instead.
+     * @param event Trigger event: user inputs text in the search field and presses enter
+     */
     @FXML
     void OnActionSearchProducts(ActionEvent event) {
         String prodNameInput = prodSearchBoxTxt.getText();
@@ -124,8 +134,11 @@ public class MainFormCont implements Initializable {
     }
 
 
-
-    /**Searches the observable PARTS list using the user supplied Part Name */
+    /**
+     * Searches the observable PARTS list using the user supplied Part Name
+     * @param partialName user input in search field
+     * @return returns any matches
+     */
     private ObservableList<Part>searchByPartName(String partialName){
         ObservableList<Part>results = FXCollections.observableArrayList();
 
@@ -138,7 +151,11 @@ public class MainFormCont implements Initializable {
         return results;
     }
 
-    /**ID Search Feature: Searches the observable PARTS list using the user supplied Product ID*/
+    /**
+     * ID Search Feature: Searches the observable PARTS list using the user supplied Product ID
+     * @param userId user input into the search field
+     * @return returns any matches
+     */
 
     private Part getPartWithId(int userId){
         ObservableList<Part>loadAllParts = Inventory.getAllParts();
@@ -149,7 +166,11 @@ public class MainFormCont implements Initializable {
         }
         return null;
     }
-    /**Uses the search method above to populate the search results*/
+
+    /**
+     * Uses the search method above to populate the search results
+     * @param event Trigger event: user inputs text into the search field and presses enter
+     */
     @FXML
     void OnActionSearchParts(ActionEvent event) {
         String partNameInput = partSearchTextBox.getText();
@@ -216,7 +237,10 @@ public class MainFormCont implements Initializable {
         }
     }
 
-    /**Deletes the product from the observable list*/
+    /**
+     * Deletes the product from the observable list
+     * @param event Trigger event: User presses the "delete" button
+     */
     @FXML
     void OnActionDeleteProduct(ActionEvent event) {
         if (!productsTable.getSelectionModel().isEmpty()){ //If not empty
@@ -242,9 +266,19 @@ public class MainFormCont implements Initializable {
      * The product selected from the product table
      */
     private static Product selectedProduct;
+
+    /**
+     * gets the selected product to modify - Is used in the ModifyProductFormCont
+     * @return selected product from the product table
+     */
     public static Product getSelectedProduct() {
         return selectedProduct;
     }
+
+    /**
+     * Sets the selected product
+     * @param selectedProduct product selected to modify
+     */
     public void setSelectedProduct(Product selectedProduct) {
         this.selectedProduct = selectedProduct;
     }
@@ -254,9 +288,19 @@ public class MainFormCont implements Initializable {
      * The part selected from the parts table
      */
     private static Part selectedPart;
+
+    /**
+     * gets the part selected from the part table to modify - is used in the ModifyPartFormCont
+     * @return selected part
+     */
     public static Part getSelectedPart() {
         return selectedPart;
     }
+
+    /**
+     * Sets the selected part from the part table
+     * @param selectedPart part selected on the part table to modify
+     */
     public void setSelectedPart(Part selectedPart) {
         this.selectedPart = selectedPart;
     }
@@ -285,7 +329,7 @@ public class MainFormCont implements Initializable {
 
     /**
      * Checks if a product has been selected, throws an alert if not
-     * @param event triggering event
+     * @param event triggering event: user selects a product from the product table
      */
     @FXML
     public void OnClickGetSelectedProduct(MouseEvent event) {
@@ -306,7 +350,7 @@ public class MainFormCont implements Initializable {
     /**
      * Changes the page to the "Add Part" page
      * The following code casts the event to let the application know that the event was triggered by a button on a stage
-     * @param event triggering event
+     * @param event triggering event: User presses the "Add" button under parts
      * @throws IOException catches exception
      */
     @FXML
@@ -322,7 +366,7 @@ public class MainFormCont implements Initializable {
      * Displays the "Add Product" menu
      * The following code casts the event to let the application know that the event was triggered by a button on a stage
      *
-     * @param event triggering event
+     * @param event triggering event User selects the "Add" button under products
      * @throws IOException catches exception
      */
     @FXML
@@ -337,7 +381,7 @@ public class MainFormCont implements Initializable {
     /**
      * Displays the "Modify Part" menu
      * The following code casts the event to let the application know that the event was triggered by a button on a stage
-     * @param event triggering event
+     * @param event triggering event: User selects the "modify" button under parts
      * @throws IOException catches exception
      */
     @FXML
@@ -361,7 +405,7 @@ public class MainFormCont implements Initializable {
     /**
      * Displays the "Modify Product" menu
      * The following code casts the event to let the application know that the event was triggered by a button on a stage
-     * @param event triggering event
+     * @param event triggering event: User selects the "modify" button under products
      * @throws IOException catches exception
      */
     @FXML
