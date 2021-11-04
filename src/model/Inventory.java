@@ -135,17 +135,17 @@ public class Inventory {
     }
 
     /**
-     *  * Deletes a selected part from inventory
-     * @param part the part selected
-     * @return if the part was removed
+     *  * Deletes a selected selectedPart from inventory
+     * @param selectedPart the selectedPart selected
+     * @return if the selectedPart was removed
      */
 
-    public static boolean deletePart(Part part) {
+    public static boolean deletePart(Part selectedPart) {
         {
             ObservableList<Part> loadAllParts = Inventory.getAllParts();
             for (Part tempPart : loadAllParts) {
-                if (part.getId() == tempPart.getId()) {
-                    return Inventory.getAllParts().remove(part);
+                if (selectedPart.getId() == tempPart.getId()) {
+                    return Inventory.getAllParts().remove(selectedPart);
                 }
             }
             return false;
@@ -153,16 +153,16 @@ public class Inventory {
     }
 
     /**
-     * Deletes a selected product from inventory
-     * @param product the product selected
-     * @return if the product was removed
+     * Deletes a selected selectedProduct from inventory
+     * @param selectedProduct the selectedProduct selected
+     * @return if the selectedProduct was removed
      */
-        public static boolean deleteProduct (Product product){
+        public static boolean deleteProduct (Product selectedProduct){
             {
                 ObservableList<Product> loadAllProducts = Inventory.getAllProducts();
                 for (Product tempProduct : loadAllProducts) {
-                    if (product.getId() == tempProduct.getId()) {
-                        return Inventory.getAllProducts().remove(product);
+                    if (selectedProduct.getId() == tempProduct.getId()) {
+                        return Inventory.getAllProducts().remove(selectedProduct);
                     }
                 }
                 return false;
