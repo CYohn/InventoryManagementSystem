@@ -272,14 +272,14 @@ public class MainFormCont implements Initializable {
             Part selectedPart = partTable.getSelectionModel().getSelectedItem(); // get the object
             setSelectedPart(selectedPart);
         }
-        if (partTable.getSelectionModel().isEmpty()){
-            if(productsTable.getSelectionModel().isEmpty()){ // if empty
+        if (partTable.getSelectionModel().isEmpty()){// if empty
+
                 Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
                 infoRequiredAlert.setTitle("No Part Selected");
                 infoRequiredAlert.setHeaderText("Please select a part");
                 infoRequiredAlert.setContentText("Thank you");
                 infoRequiredAlert.showAndWait();
-            }
+
         }
     }
 
@@ -351,8 +351,8 @@ public class MainFormCont implements Initializable {
         }
         if(partTable.getSelectionModel().isEmpty()){ //If empty throw alert
             Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
-            infoRequiredAlert.setTitle("No Product Selected");
-            infoRequiredAlert.setHeaderText("Please select a product");
+            infoRequiredAlert.setTitle("No Part Selected");
+            infoRequiredAlert.setHeaderText("Please select a part");
             infoRequiredAlert.setContentText("Thank you");
             infoRequiredAlert.showAndWait();
         }
