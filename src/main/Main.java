@@ -31,7 +31,7 @@ import javafx.stage.Stage;
  </b></p>*/
 
 public class Main extends Application {
-    /**Sets and shows the primary stage*/
+    //Sets and shows the primary stage
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -44,8 +44,8 @@ public class Main extends Application {
 
     public static void main(String[] args) {
 
-        /** This is test data to test the application on launch.
-         * The data is located in the "Test Data" class in the main package*/
+        // This is test data to test the application on launch.
+        // The data is located in the "Test Data" class in the main package
         TestData.addTestInHousePartsData();
         TestData.addTestProductsData();
         TestData.addTestOutsourcedParts();
