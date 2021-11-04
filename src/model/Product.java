@@ -125,18 +125,19 @@ public class Product {
     /**Adds the associated part to the Observable list Part
      * The associated part is dependent on the observable list "Parts"
      *
-     * @param selectedAssociatedPart the associated part
+     * @param part the associated part
      */
-    public void addAssociatedPart(Part selectedAssociatedPart)
-    {associatedParts.add(selectedAssociatedPart);}
+    public void addAssociatedPart(Part part)
+    {associatedParts.add(part);}
 
 
     /**
      * Removes an item from the associated parts list
      * @param selectedAssociatedPart is the part to remove
      */
-    public void deleteAssociatedPart(Part selectedAssociatedPart){
+    public boolean deleteAssociatedPart(Part selectedAssociatedPart){
         associatedParts.remove(selectedAssociatedPart);
+        return true;
     }
 
     public ObservableList<Part>getAllAssociatedParts()
