@@ -155,25 +155,34 @@ private TextField iDTxt;
      */
     @FXML
     void OnActionSearchParts(ActionEvent event) {
-        String partNameInput = SearchTextBox.getText();
-        ObservableList<Part> parts = searchByPartName(partNameInput);
+            String partNameInput = SearchTextBox.getText();
+            ObservableList<Part> parts = searchByPartName(partNameInput);
 
-        if (parts.size() == 0) {
-            try {
-                int userID = Integer.parseInt(partNameInput);
-                Part tempPart = getPartWithId(userID);
-                if (tempPart != null) {
-                    parts.add(tempPart);
+            if(parts.size() == 0) {
+                try {
+                    int userID = Integer.parseInt(partNameInput);
+                    Part tempPart = getPartWithId(userID);
+                    if (tempPart != null) {
+                        parts.add(tempPart);
+                    }
                 }
-            } catch (NumberFormatException e) {
-                //ignore
+                catch (NumberFormatException e)
+                {
+                    //ignore
+                }
             }
+            if(parts.size() == 0){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Dialog");
+                alert.setHeaderText("No Parts were found");
+                alert.setContentText(null);
+                alert.showAndWait();
+            }
+            partTable.setItems(parts);
         }
 
-        partTable.setItems(parts);
-    }
 
-    Product selectedProduct = MainFormCont.getSelectedProduct();
+        Product selectedProduct = MainFormCont.getSelectedProduct();
 
     /** Adds the selected part to the associated parts list.  */
     @FXML
