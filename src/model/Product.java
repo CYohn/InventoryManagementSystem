@@ -3,11 +3,9 @@ package model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-/**Product is dependent on the Observable list created in "Inventory" called "Part"*/
+/**Product is dependent on the Observable list created in "Inventory" called "Part". This is the list of associated parts*/
 public class Product {
-    /**
-     * This is the list of associated parts
-     */
+
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private int id;
     private String name;
@@ -140,6 +138,10 @@ public class Product {
         return true;
     }
 
+    /**
+     * getter
+     * @return returns AllAssociatedParts
+     */
     public ObservableList<Part>getAllAssociatedParts()
     {return associatedParts;}
 
