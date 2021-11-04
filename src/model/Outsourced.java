@@ -24,7 +24,7 @@ public class Outsourced extends Part{
     }
 /** Getter:
  * @return retrieves company name*/
-        public String getCompanyName() {
+    public String getCompanyName() {
         return companyName;
     }
 
