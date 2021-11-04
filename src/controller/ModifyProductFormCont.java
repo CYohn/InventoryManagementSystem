@@ -227,7 +227,7 @@ private TextField iDTxt;
     /**
      * Removes the associated part from the associated parts list for the product
      * This is an example of dependency
-     * @param event triggering event
+     * @param event Triggering event: User presses the "remove associated part" button
      */
     @FXML
     void OnActionRemoveAssociatedPart(ActionEvent event) {
@@ -244,7 +244,7 @@ private TextField iDTxt;
 
     /**Opens the main menu page
      * The following code casts the event to let the application know that the event was triggered by a button on a stage
-     * @param event triggering event
+     * @param event triggering event: User presses the "cancel" button
      * @throws IOException catches exception
      */
     @FXML
@@ -470,12 +470,6 @@ private TextField iDTxt;
     }
 
 
-//    /**Searches for the product by the name or ID provided by the user input*/
-//    @FXML
-//    void OnActionSearchProduct(ActionEvent event) {
-//
-//    }
-
     /**Initializes the page
      *
      * @param url file path
@@ -498,9 +492,6 @@ private TextField iDTxt;
         minTxt.setText(valueOf(selectedProduct.getMin()));
         priceTxt.setText(valueOf(selectedProduct.getPrice()));
         }
-//    else{
-//        //
-//    }
-       //
+
     }
 }
