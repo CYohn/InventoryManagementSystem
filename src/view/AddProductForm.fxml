@@ -46,7 +46,7 @@
                   <TextField disable="true" promptText="Auto Gen - Disabled" GridPane.columnIndex="1" />
                   <TextField fx:id="prodNameTxt" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="prodInvTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField fx:id="prodPricetxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="prodPriceTxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <TextField fx:id="prodMaxTxt" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <TextField fx:id="prodMinTxt" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                </children>

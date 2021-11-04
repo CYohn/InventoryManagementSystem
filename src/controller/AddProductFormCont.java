@@ -11,11 +11,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.*;
+import model.Inventory;
+import model.Part;
+import model.Product;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 public class AddProductFormCont implements Initializable {
@@ -41,7 +43,7 @@ public class AddProductFormCont implements Initializable {
     private TextField prodNameTxt;
 
     @FXML
-    private TextField prodPricetxt;
+    private TextField prodPriceTxt;
 
     @FXML
     private TextField SearchTextBox;
@@ -83,11 +85,11 @@ public class AddProductFormCont implements Initializable {
     private TableView<Part> associatedPartsTable;
 
 
-    /**
-     * Saves the product to the Product Observable list
-     */
-    @FXML
-    private Button SaveProduct;
+//    /**
+//     * Saves the product to the Product Observable list
+//     */
+//    @FXML
+//    private Button SaveProduct;
 
     /**
      * Adds the product to the add product observable list
@@ -102,11 +104,12 @@ public class AddProductFormCont implements Initializable {
     }
 
 
-    /**Populates parts table*/
+    /**Populates parts table.Calls getId() and assigns it to the column, which populates the table cells.
+     *
+     */
     void populatePartTable() {
         partTable.setItems(Inventory.getAllParts());
-        /** Calls getId() and assigns it to the column, which populates the table cells
-         */
+
         partIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         partInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -115,12 +118,10 @@ public class AddProductFormCont implements Initializable {
     }
 
     /**
-     * Populates the associated products table
+     * Populates the associated products table.Calls getId() and assigns it to the column, which populates the table cells.
      */
     void populateProductTable(){
         associatedPartsTable.setItems(newProduct.getAllAssociatedParts());
-        /** Calls getId() and assigns it to the column, which populates the table cells
-         */
         associatedId.setCellValueFactory(new PropertyValueFactory<>("id"));
         associatedInv.setCellValueFactory(new PropertyValueFactory<>("stock"));
         associatedName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -135,7 +136,7 @@ public class AddProductFormCont implements Initializable {
     public int AssignId(){
 
         ObservableList<Product> sortedProducts = Inventory.getAllProducts();
-        Collections.sort(sortedProducts, (a, b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);; // Sorts the parts by id
+        sortedProducts.sort(Comparator.comparingInt(Product::getId)); // Sorts the parts by id
         int listLength = sortedProducts.size(); // get the size of the list
         Product lastProduct = sortedProducts.get(listLength - 1); //get the last part - minus 1 because indexes start at 0
         int highestId = lastProduct.getId(); // get the highest id (the id of the last part)
@@ -144,32 +145,38 @@ public class AddProductFormCont implements Initializable {
     }
 
 
-
     /**
-     * Displays the main menu when the user presses the cancel button
+     *  Displays the main menu when the user presses the cancel button.
+     *  The following code casts the event to let the application know that the event was triggered by a button on a stage
+     * @param event Casts the event to the button
+     * @throws IOException catches exception
      */
+
     @FXML
     void OnActionDisplayMainMenu(ActionEvent event) throws IOException {
-        /** The following code casts the event to let the application know that the event was triggered by a button on a stage
-         */
+
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load((getClass().getResource("/view/MainForm.fxml")));
         stage.setScene(new Scene(scene));
         stage.show();
     }
 
-    /** Deletes an object from inventory*/
-    public boolean Delete(int id){
-        ObservableList<Part> loadAllProducts = Inventory.getAllParts();
-        for (int i = 0; i < loadAllProducts.size(); i++) {
-            Part tempPart = loadAllProducts.get(i);
-
-            if (tempPart.getId() == id) {
-                return Inventory.getAllProducts().remove(tempPart);
-            }
-        }
-        return false;
-    }
+//    /**
+//     * Deletes an object from inventory
+//      * @param id the product id
+//     * @return removes the product at index i and returns the updated list
+//     */
+//    public boolean delete(int id){
+//        ObservableList<Part> loadAllProducts = Inventory.getAllParts();
+//        for (int i = 0; i < loadAllProducts.size(); i++) {
+//            Part tempPart = loadAllProducts.get(i);
+//
+//            if (tempPart.getId() == id) {
+//                return Inventory.getAllProducts().remove(tempPart);
+//            }
+//        }
+//        return false;
+//    }
 
     /**
      * Removes the associated part from the associated parts list for the product
@@ -180,10 +187,8 @@ public class AddProductFormCont implements Initializable {
         Part selectedAssociatedPart = associatedPartsTable.getSelectionModel().getSelectedItem();
         ObservableList<Part> tempList = newProduct.getAllAssociatedParts();
         if (selectedAssociatedPart != null){
-            for (int i = 0; i < tempList.size(); ++i){
-                Part tempPart = tempList.get(i);
-
-                if(tempPart.getId() == selectedAssociatedPart.getId()){
+            for (Part tempPart : tempList) {
+                if (tempPart.getId() == selectedAssociatedPart.getId()) {
                     newProduct.getAllAssociatedParts().remove(selectedAssociatedPart);
                 }
             }
@@ -209,19 +214,16 @@ public class AddProductFormCont implements Initializable {
         return results;
     }
 
+
     /**
      * ID Search Feature: Searches the observable PARTS list using the user supplied Part ID
+     * @param userId user supplied ID
+     * @return returns the matching associated parts
      */
-
-
-
-
 
     private Part getPartWithId(int userId) {
         ObservableList<Part> loadAllProducts = Inventory.getAllParts();
-        for (int i = 0; i < loadAllProducts.size(); i++) {
-            Part tempPart = loadAllProducts.get(i);
-
+        for (Part tempPart : loadAllProducts) {
             if (tempPart.getId() == userId) {
                 return tempPart;
             }
@@ -234,7 +236,7 @@ public class AddProductFormCont implements Initializable {
      */
     @FXML
     void OnActionSearchParts(ActionEvent event) {
-        String partNameInput = SearchTextBox.getText();
+        String partNameInput = ((SearchTextBox.getText()));
         ObservableList<Part> parts = searchByPartName(partNameInput);
 
         if (parts.size() == 0) {
@@ -271,6 +273,7 @@ public class AddProductFormCont implements Initializable {
     }
 
     /**
+     * Assigns the product name
      * @return returns the name entered by the user or a default name if none is entered
      */
     public String AssignName() {
@@ -339,8 +342,8 @@ public class AddProductFormCont implements Initializable {
      * @return returns part price
      */
     public double assignPrice() {
-        double price = 0.0;
-        price = Double.parseDouble(prodPricetxt.getText());
+        double price;
+        price = Double.parseDouble(prodPriceTxt.getText());
         return price;
     }
 
@@ -413,7 +416,7 @@ public class AddProductFormCont implements Initializable {
             if (prodInvTxt.getText().isEmpty()) {
                 alert();
             }
-            if (prodPricetxt.getText().isEmpty()) {
+            if (prodPriceTxt.getText().isEmpty()) {
                 alert();
             }
             if (prodMinTxt.getText().isEmpty()) {
@@ -431,11 +434,14 @@ public class AddProductFormCont implements Initializable {
 
     /**
      * Saves the product to the Observable list "Products"
+     * Retrieves user input and converts the data types
+     * @param actionEvent is the triggering event
+     * @throws IOException catches exception
      */
     @FXML
     void OnActionSaveProduct (ActionEvent actionEvent) throws IOException {
         try{
-            /** Retrieves user input and converts the data types*/
+
             double price = assignPrice();
             int max = assignMax();
             int min = assignMin();
@@ -445,11 +451,14 @@ public class AddProductFormCont implements Initializable {
 
             emptyFieldAlert();
 
+            Product productToSave = new Product(id, name, price, stock, min, max);
 
-            Inventory.addProduct(newProduct);
-            newProduct.getAllAssociatedParts();
+           // newProduct.getAllAssociatedParts();
             System.out.println("Testing save AllAssociatedParts in the save function: " + newProduct.getAllAssociatedParts());
-
+            for (model.Part Part : newProduct.getAllAssociatedParts()){
+                productToSave.addAssociatedPart(Part);
+            }
+            Inventory.addProduct(productToSave);
 
             RedirectToMainScreen ();
         }
@@ -463,13 +472,14 @@ public class AddProductFormCont implements Initializable {
     }
 
 
-
     /**
-     * Initializes the page
+     * Initializes the page, populates the parts table
+     * @param url the path to the file
+     * @param resourceBundle the file itself
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        /**Populates Parts table*/
+
         populatePartTable();
 
     }
