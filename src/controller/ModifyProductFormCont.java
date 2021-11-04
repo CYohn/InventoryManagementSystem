@@ -117,6 +117,7 @@ private TextField iDTxt;
             noPartsAssocAlert.setContentText("Thank you");
             noPartsAssocAlert.showAndWait();
         }
+
     }
 
 
@@ -189,11 +190,21 @@ private TextField iDTxt;
     void OnActionAddAssociatedPart(ActionEvent event) {
         Product selectedProduct = MainFormCont.getSelectedProduct();
         Part storedPart = partTable.getSelectionModel().getSelectedItem();
+
+        if (!partTable.getSelectionModel().isEmpty()){ //if a selection is made
         selectedProduct.addAssociatedPart(storedPart);
         System.out.println("Associated Parts from add function: " + (selectedProduct.getAllAssociatedParts())); // Testing if the parts are saving to the list
         associatedPartsTable.setItems(selectedProduct.getAllAssociatedParts());
-        populateProductTable();
+        populateProductTable();}
+    else if (partTable.getSelectionModel().isEmpty()){ //If empty throw alert
+        Alert noPartsAssocAlert = new Alert(Alert.AlertType.INFORMATION);
+        noPartsAssocAlert.setTitle("No Part Selected");
+        noPartsAssocAlert.setHeaderText("Please select a part.");
+        noPartsAssocAlert.setContentText("Thank you");
+        noPartsAssocAlert.showAndWait();
     }
+    }
+
 
     /** Calls getId() and assigns it to the column, which populates the table cells
      */

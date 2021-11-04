@@ -17,7 +17,6 @@ import model.Product;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Comparator;
 import java.util.ResourceBundle;
 
 public class AddProductFormCont implements Initializable {
@@ -96,11 +95,20 @@ public class AddProductFormCont implements Initializable {
      */
     @FXML
     void OnActionAddAssociatedPart(ActionEvent event) {
-        Part storedPart = partTable.getSelectionModel().getSelectedItem();
-        newProduct.addAssociatedPart(storedPart);
-        associatedPartsTable.setItems(newProduct.getAllAssociatedParts());
-        System.out.println("Testing associatedParts in the add function: " + newProduct.getAllAssociatedParts());
-        populateProductTable();
+        if(!partTable.getSelectionModel().isEmpty()){ //If a selection is made (not empty)
+            Part storedPart = partTable.getSelectionModel().getSelectedItem();
+            newProduct.addAssociatedPart(storedPart);
+            associatedPartsTable.setItems(newProduct.getAllAssociatedParts());
+            System.out.println("Testing associatedParts in the add function: " + newProduct.getAllAssociatedParts());
+            populateProductTable();
+        }
+        else if (partTable.getSelectionModel().isEmpty()){ //If empty throw alert
+            Alert noPartsAssocAlert = new Alert(Alert.AlertType.INFORMATION);
+            noPartsAssocAlert.setTitle("No Part Selected");
+            noPartsAssocAlert.setHeaderText("Please select a part.");
+            noPartsAssocAlert.setContentText("Thank you");
+            noPartsAssocAlert.showAndWait();
+        }
     }
 
 
@@ -136,7 +144,7 @@ public class AddProductFormCont implements Initializable {
     public int AssignId(){
 
         ObservableList<Product> sortedProducts = Inventory.getAllProducts();
-        sortedProducts.sort(Comparator.comparingInt(Product::getId)); // Sorts the parts by id
+        sortedProducts.sort((a, b) -> Integer.compare(a.getId(), b.getId())); // Sorts the parts by id
         int listLength = sortedProducts.size(); // get the size of the list
         Product lastProduct = sortedProducts.get(listLength - 1); //get the last part - minus 1 because indexes start at 0
         int highestId = lastProduct.getId(); // get the highest id (the id of the last part)
