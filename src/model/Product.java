@@ -52,7 +52,6 @@ public class Product {
     }
 
     /**Setter: Sets the product name
-     *
      * @param name is the name to set
      */
     public void setName(String name) {
