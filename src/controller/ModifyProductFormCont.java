@@ -85,7 +85,7 @@ private TextField iDTxt;
     private TableView<Part> associatedPartsTable;
 
 
-    /** Populated the part table for all parts (on top)
+    /** Populates the part table for all parts (on top)
      * Calls getId() and assigns it to the column, which populates the table cells*/
     void populatePartTable() {
         partTable.setItems(Inventory.getAllParts());
@@ -121,9 +121,10 @@ private TextField iDTxt;
     }
 
 
-
     /**
      * Searches the observable PARTS list using the user supplied Part Name
+     * @param partialName is user supplied test in the search field
+     * @return returns any matches
      */
     private ObservableList<Part> searchByPartName(String partialName) {
         ObservableList<Part> results = FXCollections.observableArrayList();
@@ -139,6 +140,8 @@ private TextField iDTxt;
 
     /**
      * ID Search Feature: Searches the observable PARTS list using the user supplied Part ID
+     * @param userId is text supplied in the search field
+     * @return returns any matches
      */
 
     private Part getPartWithId(int userId) {
@@ -153,6 +156,7 @@ private TextField iDTxt;
 
     /**
      * Uses the search methods above to populate the search results
+     * @param event trigger event: User presses save with the search field selected
      */
     @FXML
     void OnActionSearchParts(ActionEvent event) {
@@ -185,7 +189,10 @@ private TextField iDTxt;
 
         Product selectedProduct = MainFormCont.getSelectedProduct();
 
-    /** Adds the selected part to the associated parts list.  */
+    /**
+     * Adds the selected part to the associated parts list.
+     * @param event Trigger event: User selects a part and clicks the "add" button
+     */
     @FXML
     void OnActionAddAssociatedPart(ActionEvent event) {
         Product selectedProduct = MainFormCont.getSelectedProduct();
@@ -248,6 +255,10 @@ private TextField iDTxt;
         stage.setScene(new Scene(scene));
         stage.show();
     }
+
+    /**
+     * Alert used in the empty field check
+     */
     public void alert() {
         Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
         infoRequiredAlert.setTitle("Information Required");
@@ -255,6 +266,10 @@ private TextField iDTxt;
         infoRequiredAlert.setContentText("Please enter missing information");
         infoRequiredAlert.showAndWait();
     }
+
+    /**
+     * Checks for empty fields and calls the above alert
+     */
     public void emptyFieldAlert() {
         try {
             if ((nameTxt.getText().isEmpty())) {
@@ -333,7 +348,7 @@ private TextField iDTxt;
             infoRequiredAlert.showAndWait();
             return 0;
         }
-        //return stock;
+
     }
 
 
@@ -349,7 +364,7 @@ private TextField iDTxt;
     }
 
 
-    /**
+    /** Checks that the min lessthan max, assigns min based on user input
      * @return the inventory minimum
      */
     public int assignMin() {
@@ -370,7 +385,7 @@ private TextField iDTxt;
     }
 
 
-    /**
+    /** Checks that max is more than min, assigns max based on user input
      * @return the inventory maximum
      */
     public int assignMax() {
@@ -403,7 +418,7 @@ private TextField iDTxt;
 
     /**
      * Saves the product to the observable list products
-     * @param event triggering event
+     * @param event triggering event: user saves modified product
      * @throws IOException catches exception
      *  Retrieves user input and converts the data types
      */
