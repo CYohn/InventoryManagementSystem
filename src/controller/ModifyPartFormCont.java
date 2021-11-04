@@ -34,9 +34,6 @@ public class ModifyPartFormCont implements Initializable {
     @FXML
     private Label labelPartCategory;
 
-    //@FXML
-    //private ToggleGroup labelPartToggle;
-
     @FXML
     private TextField machineIdTxt;
 
@@ -60,29 +57,11 @@ public class ModifyPartFormCont implements Initializable {
     @FXML
     public RadioButton selectedOutsourced;
 
-//    /**
-//     * Label variables for Machine ID or Company name
-//     */
-
-    //@FXML
-    //private TextField categoryTxtField;
-
-//    /**
-//     * Assigns the toggle group, ensures that only one radio in this group can be selected at a time
-//     */
-//    @FXML
-//    public ToggleGroup modifyPartToggle;
-
-//    public ModifyPartFormCont() {
-//    }
-
-    //Text fields for the prior selected  part attribute
-
 
     /**
      * Opens the main menu page
      * The following code casts the event to let the application know that the event was triggered by a button on a stage
-     * @param event triggering event
+     * @param event triggering event: User presses cancel
      * @throws IOException catches exception
      */
     @FXML
@@ -96,7 +75,10 @@ public class ModifyPartFormCont implements Initializable {
 
     /**
      * Checks the radio buttons, and changes the label on Machine ID
+     *
+     * @param event Trigger event: User moves the radio button
      */
+
     @FXML
     void isPartInHouse(ActionEvent event) {
         if (selectedInHouse.isSelected()) {
@@ -104,40 +86,11 @@ public class ModifyPartFormCont implements Initializable {
         } else {
             labelPartCategory.setText("Company Name");
         }
-        //return;
+
     }
 
 
-//    /**
-//     * ID Search Feature: Searches the observable Products list using the user supplied Product ID
-//     */
-//    private Product getProductWithId(int id) {
-//        ObservableList<Product> loadAllProducts = Inventory.getAllProducts();
-//        for (int i = 0; i < loadAllProducts.size(); i++) {
-//            Product tempProduct = loadAllProducts.get(i);
-//
-//            if (tempProduct.getId() == id) {
-//                return tempProduct;
-//            }
-//        }
-//        return null;
-//    }
 
-//    /**
-//     * Performs update on a specified part
-//     */
-//    public boolean update(int id, Part tempPart) {
-//        int index = -1;
-//
-//        for (Part part : Inventory.getAllParts()) {
-//            index++;
-//            if (part.getId() == id) {
-//                Inventory.getAllParts().set(index, part);
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 
     /**Redirects user to the main screen*/
     public void RedirectToMainScreen () throws IOException{
@@ -147,6 +100,8 @@ public class ModifyPartFormCont implements Initializable {
         stage.setScene(new Scene(scene));
         stage.show();
     }
+
+
 
     /**
      * Brings up a dialog box if the user does not enter an integer for a machine id
@@ -183,7 +138,7 @@ public class ModifyPartFormCont implements Initializable {
 
     /**
      * Saves the part to the observable inventory list when the user saves modification
-     * @param actionEvent triggering event
+     * @param actionEvent triggering event: User presses save
      * @throws IOException catches exception
      * Checks the class type of the previous entry, if the class type is the same then just update the part.
      * If the class type is different from what is currently selected, add the part to the list and delete the previous entry

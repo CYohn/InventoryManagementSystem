@@ -84,14 +84,9 @@ public class AddProductFormCont implements Initializable {
     private TableView<Part> associatedPartsTable;
 
 
-//    /**
-//     * Saves the product to the Product Observable list
-//     */
-//    @FXML
-//    private Button SaveProduct;
-
     /**
      * Adds the product to the add product observable list
+     * @param event trigger event: User presses "add" button
      */
     @FXML
     void OnActionAddAssociatedPart(ActionEvent event) {
@@ -169,26 +164,11 @@ public class AddProductFormCont implements Initializable {
         stage.show();
     }
 
-//    /**
-//     * Deletes an object from inventory
-//      * @param id the product id
-//     * @return removes the product at index i and returns the updated list
-//     */
-//    public boolean delete(int id){
-//        ObservableList<Part> loadAllProducts = Inventory.getAllParts();
-//        for (int i = 0; i < loadAllProducts.size(); i++) {
-//            Part tempPart = loadAllProducts.get(i);
-//
-//            if (tempPart.getId() == id) {
-//                return Inventory.getAllProducts().remove(tempPart);
-//            }
-//        }
-//        return false;
-//    }
 
     /**
      * Removes the associated part from the associated parts list for the product
      * This is an example of dependency
+     * @param event Trigger event: User presses the "remove associated Parts" button
      */
     @FXML
     void OnActionRemoveAssociatedPart(ActionEvent event) {
@@ -204,11 +184,10 @@ public class AddProductFormCont implements Initializable {
     }
 
 
-
-
-
     /**
      * Searches the observable PARTS list using the user supplied Part Name
+     * @param partialName user supplied name String
+     * @return returns any parts found
      */
     private ObservableList<Part> searchByPartName(String partialName) {
         ObservableList<Part> results = FXCollections.observableArrayList();
@@ -241,6 +220,7 @@ public class AddProductFormCont implements Initializable {
 
     /**
      * Uses the search methods above to populate the search results
+     * @param event Trigger event: the use inputs text in the search box and presses enter
      */
     @FXML
     void OnActionSearchParts(ActionEvent event) {
@@ -271,6 +251,7 @@ public class AddProductFormCont implements Initializable {
 
     /**
      * Method redirects users to the main screen after a Part is saved to inventory
+     * @throws IOException catches exception
      */
     public void RedirectToMainScreen() throws IOException {
         Stage stage = new Stage();
@@ -358,7 +339,8 @@ public class AddProductFormCont implements Initializable {
 
 
     /**
-     *
+     *Assigns the minimum based on user input
+     * Checks that min is less than max
      * @return the inventory minimum
      */
     public int assignMin() {
@@ -381,7 +363,8 @@ public class AddProductFormCont implements Initializable {
 
 
     /**
-     *
+     *Assigns max based on user input
+     * Checks that max is less than min
      * @return the inventory maximum
      */
     public int assignMax() {
@@ -402,10 +385,10 @@ public class AddProductFormCont implements Initializable {
         return max;
     }
 
-    /**
-     * Checks for empty fields, shows an alert if any are found
-     */
 
+    /**
+     * Alert used in missing fields method
+     */
     public void alert(){
         Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
         infoRequiredAlert.setTitle("Information Required");
@@ -415,7 +398,9 @@ public class AddProductFormCont implements Initializable {
     }
 
 
-
+    /**
+     * Checks for empty fields, shows the above alert if any are found
+     */
     public void emptyFieldAlert() {
         try {
             if ((prodNameTxt.getText().isEmpty())) {
@@ -443,7 +428,7 @@ public class AddProductFormCont implements Initializable {
     /**
      * Saves the product to the Observable list "Products"
      * Retrieves user input and converts the data types
-     * @param actionEvent is the triggering event
+     * @param actionEvent is the triggering event: User presses "save"
      * @throws IOException catches exception
      */
     @FXML
@@ -483,7 +468,7 @@ public class AddProductFormCont implements Initializable {
     /**
      * Initializes the page, populates the parts table
      * @param url the path to the file
-     * @param resourceBundle the file itself
+     * @param resourceBundle resources
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

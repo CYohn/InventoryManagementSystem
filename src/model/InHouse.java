@@ -34,5 +34,4 @@ public class InHouse extends Part{
     public void setMachineId(int machineId) {
         this.machineId = machineId;
     }
-
 }

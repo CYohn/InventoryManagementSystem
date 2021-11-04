@@ -3,11 +3,9 @@ package model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-/**Product is dependent on the Observable list created in "Inventory" called "Part"*/
+/**Product is dependent on the Observable list created in "Inventory" called "Part". This is the list of associated parts*/
 public class Product {
-    /**
-     * This is the list of associated parts
-     */
+
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private int id;
     private String name;
@@ -125,21 +123,25 @@ public class Product {
     /**Adds the associated part to the Observable list Part
      * The associated part is dependent on the observable list "Parts"
      *
-     * @param selectedAssociatedPart the associated part
+     * @param part the associated part
      */
-    public void addAssociatedPart(Part selectedAssociatedPart)
-    {associatedParts.add(selectedAssociatedPart);}
+    public void addAssociatedPart(Part part)
+    {associatedParts.add(part);}
 
 
     /**
      * Removes an item from the associated parts list
      * @param selectedAssociatedPart is the part to remove
      */
-    public void deleteAssociatedPart(Part selectedAssociatedPart){
+    public boolean deleteAssociatedPart(Part selectedAssociatedPart){
         associatedParts.remove(selectedAssociatedPart);
+        return true;
     }
 
+    /**
+     * getter
+     * @return returns AllAssociatedParts
+     */
     public ObservableList<Part>getAllAssociatedParts()
     {return associatedParts;}
-
 }

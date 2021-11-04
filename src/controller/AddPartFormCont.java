@@ -27,12 +27,6 @@ public class AddPartFormCont implements Initializable {
     Parent scene;
 
 
-//    /**
-//     * Assigns the toggle group, ensure only one can be selected at a time in the group
-//     */
-//    @FXML
-//    private ToggleGroup addPartToggle;
-
     /**
      * Radio button variables
      */
@@ -73,6 +67,7 @@ public class AddPartFormCont implements Initializable {
 
     /**
      * Checks the radio buttons, and changes the label on Machine ID
+     * @param event trigger event: if user selects in house or outsourced
      */
     @FXML
     void isPartInHouse(ActionEvent event) {
@@ -81,14 +76,13 @@ public class AddPartFormCont implements Initializable {
         } else {
             labelPartCategory.setText("Company Name");
         }
-        //return;
     }
 
 
     /**
      * Displays the main menu when the user presses the cancel button.
      * The following code casts the event to let the application know that the event was triggered by a button on a stage
-     * @param event the triggering event
+     * @param event the triggering event: User presses cancel
      * @throws IOException catches exception
      */
     @FXML
@@ -169,7 +163,7 @@ public class AddPartFormCont implements Initializable {
             infoRequiredAlert.showAndWait();
             return 0;
         }
-       //return stock;
+
         }
 
 
@@ -189,7 +183,7 @@ public class AddPartFormCont implements Initializable {
 
 
     /**
-     *
+     * Checks if the min is less than max, throws alert if not
      * @return the inventory minimum
      */
     public int assignMin() {
@@ -212,7 +206,7 @@ public class AddPartFormCont implements Initializable {
 
 
     /**
-     *
+     * Checks if max is more than min, throws alert if not
      * @return the inventory maximum
      */
     public int assignMax() {
@@ -234,7 +228,7 @@ public class AddPartFormCont implements Initializable {
     }
 
     /**
-     * Checks for empty fields, shows an alert if any are found
+     * Alert which is called in the empty field check
      */
 
     public void alert(){
@@ -246,7 +240,9 @@ public class AddPartFormCont implements Initializable {
         }
 
 
-
+    /**
+     * Checks for empty fields, calls above alert if any are found
+     */
     public void emptyFieldAlert() {
         try {
             if ((partNameTxt.getText().isEmpty())) {
@@ -296,7 +292,7 @@ public class AddPartFormCont implements Initializable {
     /**
      * Saves the part to the Observable list "Parts"
      * Retrieves user input and converts the data types
-     * @param event the triggering event
+     * @param event the triggering event: User clicks "save"
      * @throws IOException catches exception
      * Checks if the part is in house and adds the new part to either
      * In-sourced to outsourced parts
