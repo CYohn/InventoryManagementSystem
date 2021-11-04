@@ -34,8 +34,8 @@ public class ModifyPartFormCont implements Initializable {
     @FXML
     private Label labelPartCategory;
 
-    @FXML
-    private ToggleGroup labelPartToggle;
+    //@FXML
+    //private ToggleGroup labelPartToggle;
 
     @FXML
     private TextField machineIdTxt;
@@ -60,32 +60,34 @@ public class ModifyPartFormCont implements Initializable {
     @FXML
     public RadioButton selectedOutsourced;
 
-    /**
-     * Label variables for Machine ID or Company name
-     */
+//    /**
+//     * Label variables for Machine ID or Company name
+//     */
 
-    @FXML
-    private TextField categoryTxtField;
+    //@FXML
+    //private TextField categoryTxtField;
 
-    /**
-     * Assigns the toggle group, ensures that only one radio in this group can be selected at a time
-     */
-    @FXML
-    public ToggleGroup modifyPartToggle;
+//    /**
+//     * Assigns the toggle group, ensures that only one radio in this group can be selected at a time
+//     */
+//    @FXML
+//    public ToggleGroup modifyPartToggle;
 
-    public ModifyPartFormCont() {
-    }
+//    public ModifyPartFormCont() {
+//    }
 
-    /** Text fields for the prior selected  part attribute*/
+    //Text fields for the prior selected  part attribute
 
 
     /**
      * Opens the main menu page
+     * The following code casts the event to let the application know that the event was triggered by a button on a stage
+     * @param event triggering event
+     * @throws IOException catches exception
      */
     @FXML
     void OnActionDisplayMainMenu(ActionEvent event) throws IOException {
-        /** The following code casts the event to let the application know that the event was triggered by a button on a stage
-         */
+
         stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load((getClass().getResource("/view/MainForm.fxml")));
         stage.setScene(new Scene(scene));
@@ -102,40 +104,40 @@ public class ModifyPartFormCont implements Initializable {
         } else {
             labelPartCategory.setText("Company Name");
         }
-        return;
+        //return;
     }
 
 
-    /**
-     * ID Search Feature: Searches the observable Products list using the user supplied Product ID
-     */
-    private Product getProductWithId(int id) {
-        ObservableList<Product> loadAllProducts = Inventory.getAllProducts();
-        for (int i = 0; i < loadAllProducts.size(); i++) {
-            Product tempProduct = loadAllProducts.get(i);
+//    /**
+//     * ID Search Feature: Searches the observable Products list using the user supplied Product ID
+//     */
+//    private Product getProductWithId(int id) {
+//        ObservableList<Product> loadAllProducts = Inventory.getAllProducts();
+//        for (int i = 0; i < loadAllProducts.size(); i++) {
+//            Product tempProduct = loadAllProducts.get(i);
+//
+//            if (tempProduct.getId() == id) {
+//                return tempProduct;
+//            }
+//        }
+//        return null;
+//    }
 
-            if (tempProduct.getId() == id) {
-                return tempProduct;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Performs update on a specified part
-     */
-    public boolean update(int id, Part tempPart) {
-        int index = -1;
-
-        for (Part part : Inventory.getAllParts()) {
-            index++;
-            if (part.getId() == id) {
-                Inventory.getAllParts().set(index, part);
-                return true;
-            }
-        }
-        return false;
-    }
+//    /**
+//     * Performs update on a specified part
+//     */
+//    public boolean update(int id, Part tempPart) {
+//        int index = -1;
+//
+//        for (Part part : Inventory.getAllParts()) {
+//            index++;
+//            if (part.getId() == id) {
+//                Inventory.getAllParts().set(index, part);
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     /**Redirects user to the main screen*/
     public void RedirectToMainScreen () throws IOException{
@@ -146,7 +148,12 @@ public class ModifyPartFormCont implements Initializable {
         stage.show();
     }
 
-    /**Brings up a dialog box if the user does not enter an integer for a machine id*/
+    /**
+     * Brings up a dialog box if the user does not enter an integer for a machine id
+     * Second "try-catch" for if the user still does not enter a machine ID. It will default to zero.
+     * @return returns the machine ID to the constructor (to save)
+     */
+
     public int assignMachineId(){
         int machineID = 0;
     try {
@@ -161,9 +168,7 @@ public class ModifyPartFormCont implements Initializable {
        // String userInput = machineIdAlert.getEditor().getText();
         System.out.println(machineID);
         machineIdAlert.showAndWait();
-/**
- * Second "try-catch" for if the user still does not enter a machine ID. It will default to zero.
- */
+
         try {
             machineID = Integer.parseInt(machineIdAlert.getEditor().getText());
             System.out.println(machineID);
@@ -178,6 +183,10 @@ public class ModifyPartFormCont implements Initializable {
 
     /**
      * Saves the part to the observable inventory list when the user saves modification
+     * @param actionEvent triggering event
+     * @throws IOException catches exception
+     * Checks the class type of the previous entry, if the class type is the same then just update the part.
+     * If the class type is different from what is currently selected, add the part to the list and delete the previous entry
      */
     @FXML
     public void OnActionModifyPart(ActionEvent actionEvent) throws IOException {
@@ -219,13 +228,13 @@ public class ModifyPartFormCont implements Initializable {
 
             Part modifiedPart = new Outsourced(id, name, price, stock, min, max, companyName);
 
-                /** Checks the class type of the previous entry, if the class type is the same then just update the part.*/
+                //** Checks the class type of the previous entry, if the class type is the same then just update the part.
                 if (selectedPart instanceof Outsourced) {
                     Inventory.updatePart(index, modifiedPart);
 
                 }
 
-                /**If the class type is different from what is currently selected, add the part to the list and delete the previous entry*/
+                //**If the class type is different from what is currently selected, add the part to the list and delete the previous entry*/
                 else if (selectedPart instanceof InHouse) {
                     Inventory.addPart(modifiedPart);
                     Inventory.deletePart(selectedPart);
@@ -237,11 +246,14 @@ public class ModifyPartFormCont implements Initializable {
 
     /**
      * Initializes the page
+     * @param url the path to the file
+     * @param resourceBundle the resources needed
+     * Classifies the part selected in the main controller and assigns attributed to the fields, auto-populates fields
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        /** Classifies the part selected in the main controller and assigns attributed to the fields, auto-populates fields*/
+        //** Classifies the part selected in the main controller and assigns attributed to the fields, auto-populates fields*/
         Part selectedPart = MainFormCont.getSelectedPart();
 
         if (selectedPart instanceof InHouse) {
