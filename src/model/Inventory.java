@@ -36,7 +36,7 @@ public class Inventory {
      * Adds a new part to the "allParts" list
      *
      * @param newPart represents the newly constructed part
-     *                The method passes a new part object to the end of observable list "allParts"
+     * The method passes a new part object to the end of observable list "allParts"
      */
     public static void addPart(Part newPart) {
         allParts.add(newPart);
@@ -116,7 +116,7 @@ public class Inventory {
     /**
      * Modifies the part
      *
-     * @param index        This is the index of the element to replace
+     * @param index This is the index of the element to replace
      * @param modifiedPart This is the element to be stored at the specified position
      */
     public static void updatePart(int index, Part modifiedPart) {
@@ -134,12 +134,13 @@ public class Inventory {
         allProducts.set(index, newProduct);
     }
 
+
+
     /**
      *  * Deletes a selected selectedPart from inventory
      * @param selectedPart the selectedPart selected
      * @return if the selectedPart was removed
      */
-
     public static boolean deletePart(Part selectedPart) {
         {
             ObservableList<Part> loadAllParts = Inventory.getAllParts();
@@ -151,6 +152,8 @@ public class Inventory {
             return false;
         }
     }
+
+
 
     /**
      * Deletes a selected selectedProduct from inventory
