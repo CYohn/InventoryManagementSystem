@@ -85,34 +85,32 @@ private TextField iDTxt;
     private TableView<Part> associatedPartsTable;
 
 
-    /** Populated the part table for all parts (on top)*/
+    /** Populated the part table for all parts (on top)
+     * Calls getId() and assigns it to the column, which populates the table cells*/
     void populatePartTable() {
         partTable.setItems(Inventory.getAllParts());
 
-        /** Calls getId() and assigns it to the column, which populates the table cells
-         */
         partIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         partInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         partPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
     }
 
-
+    /** Populates the associated parts table for the parts associated with the product (on bottom)
+     *Calls getId() and assigns it to the column, which populates the table cells */
     void populateAssociatedPartsTable(){
-        /** Populates the associated parts table for the parts associated with the product (on bottom)*/
+
         associatedPartsTable.setItems(MainFormCont.getSelectedProduct().getAllAssociatedParts());
 
-        if(MainFormCont.getSelectedProduct().getAllAssociatedParts().isEmpty() != true){
+        if(!MainFormCont.getSelectedProduct().getAllAssociatedParts().isEmpty()){ //If not empty
 
-            /** Calls getId() and assigns it to the column, which populates the table cells
-             */
             associatedId.setCellValueFactory(new PropertyValueFactory<>("id"));
             associatedInv.setCellValueFactory(new PropertyValueFactory<>("stock"));
             associatedName.setCellValueFactory(new PropertyValueFactory<>("name"));
             associatedCost.setCellValueFactory(new PropertyValueFactory<>("price"));
         }
 
-        else if (MainFormCont.getSelectedProduct().getAllAssociatedParts().isEmpty() == true){
+        else if (MainFormCont.getSelectedProduct().getAllAssociatedParts().isEmpty()){ //If empty throw alert
             Alert noPartsAssocAlert = new Alert(Alert.AlertType.INFORMATION);
             noPartsAssocAlert.setTitle("No Parts Are Associated With This Product Yet");
             noPartsAssocAlert.setHeaderText("This product has no parts associated with it yet.");
@@ -144,9 +142,7 @@ private TextField iDTxt;
 
     private Part getPartWithId(int userId) {
         ObservableList<Part> loadAllProducts = Inventory.getAllParts();
-        for (int i = 0; i < loadAllProducts.size(); i++) {
-            Part tempPart = loadAllProducts.get(i);
-
+        for (Part tempPart : loadAllProducts) {
             if (tempPart.getId() == userId) {
                 return tempPart;
             }
@@ -190,10 +186,11 @@ private TextField iDTxt;
         populateProductTable();
     }
 
+    /** Calls getId() and assigns it to the column, which populates the table cells
+     */
     void populateProductTable() {
         associatedPartsTable.setItems(selectedProduct.getAllAssociatedParts());
-        /** Calls getId() and assigns it to the column, which populates the table cells
-         */
+
         associatedId.setCellValueFactory(new PropertyValueFactory<>("id"));
         associatedInv.setCellValueFactory(new PropertyValueFactory<>("stock"));
         associatedName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -203,15 +200,14 @@ private TextField iDTxt;
     /**
      * Removes the associated part from the associated parts list for the product
      * This is an example of dependency
+     * @param event triggering event
      */
     @FXML
     void OnActionRemoveAssociatedPart(ActionEvent event) {
         Part selectedAssociatedPart = associatedPartsTable.getSelectionModel().getSelectedItem();
         ObservableList<Part> tempList = selectedProduct.getAllAssociatedParts();
         if (selectedAssociatedPart != null) {
-            for (int i = 0; i < tempList.size(); ++i) {
-                Part tempPart = tempList.get(i);
-
+            for (Part tempPart : tempList) {
                 if (tempPart.getId() == selectedAssociatedPart.getId()) {
                     selectedProduct.getAllAssociatedParts().remove(selectedAssociatedPart);
                 }
@@ -219,11 +215,14 @@ private TextField iDTxt;
         }
     }
 
-    /**Opens the main menu page*/
+    /**Opens the main menu page
+     * The following code casts the event to let the application know that the event was triggered by a button on a stage
+     * @param event triggering event
+     * @throws IOException catches exception
+     */
     @FXML
     void OnActionDisplayMainMenu(ActionEvent event) throws IOException {
-        /** The following code casts the event to let the application know that the event was triggered by a button on a stage
-         */
+
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load((getClass().getResource("/view/MainForm.fxml")));
         stage.setScene(new Scene(scene));
@@ -278,10 +277,10 @@ private TextField iDTxt;
             System.out.println((String) null);
             nameEmptyAlert.showAndWait();
             name = nameEmptyAlert.getEditor().getText(); //get input from the dialog box
-            if (name.trim().isEmpty() == false) { //If the user responds to the dialog box by entering a name
+            if (!name.trim().isEmpty()) { //If the user responds to the dialog box by entering a name
                 System.out.println(name);
                 return name;
-            } else if (name.trim().isEmpty() == true) { //Set a default name if the user did not enter a name in the dialog box
+            } else if (name.trim().isEmpty()) { //Set a default name if the user did not enter a name in the dialog box
                 name = "Name not entered";
             }
         }
@@ -324,7 +323,7 @@ private TextField iDTxt;
      * @return returns part price
      */
     public double assignPrice() {
-        double price = 0.0;
+        double price;
         price = Double.parseDouble(priceTxt.getText());
         return price;
     }
@@ -382,18 +381,22 @@ private TextField iDTxt;
     }
 
 
-
-    /**Saves the product to the observable list products*/
+    /**
+     * Saves the product to the observable list products
+     * @param event triggering event
+     * @throws IOException catches exception
+     *  Retrieves user input and converts the data types
+     */
     @FXML
     void OnActionModifyProduct(ActionEvent event) throws IOException {
 
         Product selectedProduct = MainFormCont.getSelectedProduct();
 
-        ObservableList<Product> loadAllProducts = Inventory.getAllProducts();
-        int index = loadAllProducts.indexOf(selectedProduct);
+        //ObservableList<Product> loadAllProducts = Inventory.getAllProducts();
+        //int index = loadAllProducts.indexOf(selectedProduct);
 
             try {
-                /** Retrieves user input and converts the data types*/
+                // Retrieves user input and converts the data types
                 double price = assignPrice();
                 int max = assignMax();
                 int min = assignMin();
@@ -408,8 +411,8 @@ private TextField iDTxt;
                 Inventory.addProduct(modifiedProduct);
                 //System.out.println("AssociatedParts from save function (1st time, modified product): " + (modifiedProduct.getAllAssociatedParts()));//Testing to see if the associateParts are saving
                 //System.out.println("AssociatedParts from save function (1st time, selected product): " + (selectedProduct.getAllAssociatedParts()));//Testing to see if the associateParts are saving
-                for (Object Part : selectedProduct.getAllAssociatedParts()){
-                    modifiedProduct.addAssociatedPart((model.Part) Part);
+                for (model.Part Part : selectedProduct.getAllAssociatedParts()){
+                    modifiedProduct.addAssociatedPart(Part);
                 }
 
                 Inventory.deleteProduct(selectedProduct);
@@ -432,18 +435,23 @@ private TextField iDTxt;
     }
 
 
-    /**Searches for the product by the name or ID provided by the user input*/
-    @FXML
-    void OnActionSearchProduct(ActionEvent event) {
+//    /**Searches for the product by the name or ID provided by the user input*/
+//    @FXML
+//    void OnActionSearchProduct(ActionEvent event) {
+//
+//    }
 
-    }
-    /**Initializes the page*/
+    /**Initializes the page
+     *
+     * @param url file path
+     * @param resourceBundle file resource
+     * Populates the text fields with the previously selected product in the main form
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         populatePartTable();
         populateAssociatedPartsTable();
 
-    /** Populates the text fields with the previously selected product in the main form*/
     Product selectedProduct = MainFormCont.getSelectedProduct();
 
     if (selectedProduct != null)
@@ -455,9 +463,9 @@ private TextField iDTxt;
         minTxt.setText(valueOf(selectedProduct.getMin()));
         priceTxt.setText(valueOf(selectedProduct.getPrice()));
         }
-    else{
-        //
-    }
+//    else{
+//        //
+//    }
        //
     }
 }
