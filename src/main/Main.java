@@ -32,6 +32,12 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     //Sets and shows the primary stage
+
+    /**
+     *
+     * @param primaryStage Sets the stage
+     * @throws Exception catches exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -41,7 +47,10 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
+    /**
+     * Initializes the program
+     * @param args
+     */
     public static void main(String[] args) {
 
         // This is test data to test the application on launch.
