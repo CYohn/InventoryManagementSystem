@@ -9,7 +9,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import model.*;
+import model.InHouse;
+import model.Inventory;
+import model.Outsourced;
+import model.Part;
 
 import java.io.IOException;
 import java.net.URL;
@@ -90,19 +93,6 @@ public class ModifyPartFormCont implements Initializable {
     }
 
 
-
-
-    /**Redirects user to the main screen*/
-    public void RedirectToMainScreen () throws IOException{
-        Stage stage = new Stage();
-        stage.setTitle("Main Menu");
-        scene = FXMLLoader.load((getClass().getResource("/view/MainForm.fxml")));
-        stage.setScene(new Scene(scene));
-        stage.show();
-    }
-
-
-
     /**
      * Brings up a dialog box if the user does not enter an integer for a machine id
      * Second "try-catch" for if the user still does not enter a machine ID. It will default to zero.
@@ -168,7 +158,6 @@ public class ModifyPartFormCont implements Initializable {
         } else if (selectedPart instanceof Outsourced) {
             Inventory.addPart(modifiedPart);
             Inventory.deletePart(selectedPart);
-
         }
 
         }
@@ -186,16 +175,22 @@ public class ModifyPartFormCont implements Initializable {
                 //** Checks the class type of the previous entry, if the class type is the same then just update the part.
                 if (selectedPart instanceof Outsourced) {
                     Inventory.updatePart(index, modifiedPart);
-
+                    //scene.getScene().getWindow();
+                    //stage.close();
                 }
 
                 //**If the class type is different from what is currently selected, add the part to the list and delete the previous entry*/
                 else if (selectedPart instanceof InHouse) {
                     Inventory.addPart(modifiedPart);
                     Inventory.deletePart(selectedPart);
+                    //scene.getScene().getWindow();
+                    //stage.close();
                 }
         }
-        RedirectToMainScreen ();
+
+        OnActionDisplayMainMenu(actionEvent);
+
+
     }
 
 
@@ -220,6 +215,7 @@ public class ModifyPartFormCont implements Initializable {
             minTxt.setText(valueOf(selectedPart.getMin()));
             priceTxt.setText(valueOf(selectedPart.getPrice()));
 
+
         } else if (selectedPart instanceof Outsourced) {
             iDTxt.setText(valueOf(selectedPart.getId()));
             invTxt.setText(valueOf(selectedPart.getStock()));
@@ -228,6 +224,8 @@ public class ModifyPartFormCont implements Initializable {
             maxTxt.setText(valueOf(selectedPart.getMax()));
             minTxt.setText(valueOf(selectedPart.getMin()));
             priceTxt.setText(valueOf(selectedPart.getPrice()));
+            selectedOutsourced.setSelected(true);
+            selectedOutsourced.requestFocus();
         }
     }
 }
