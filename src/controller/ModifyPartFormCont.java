@@ -104,13 +104,11 @@ public class ModifyPartFormCont implements Initializable {
     try {
         machineID = Integer.parseInt(machineIdTxt.getText());
     } catch (NumberFormatException e) {
-        //Input was not an integer
+
         TextInputDialog machineIdAlert = new TextInputDialog("Machine ID Number");
         machineIdAlert.setTitle("Machine ID Required");
         machineIdAlert.setHeaderText("Please enter a whole number for the machine ID. If no number is input, the ID will save as 0. Thank you! ");
-        //machineIdAlert.setHeaderText("If no number is input, the ID will save as 0. Thank you!");
         machineIdAlert.setContentText("Machine ID");
-       // String userInput = machineIdAlert.getEditor().getText();
         System.out.println(machineID);
         machineIdAlert.showAndWait();
 
@@ -175,16 +173,14 @@ public class ModifyPartFormCont implements Initializable {
                 //** Checks the class type of the previous entry, if the class type is the same then just update the part.
                 if (selectedPart instanceof Outsourced) {
                     Inventory.updatePart(index, modifiedPart);
-                    //scene.getScene().getWindow();
-                    //stage.close();
+
                 }
 
                 //**If the class type is different from what is currently selected, add the part to the list and delete the previous entry*/
                 else if (selectedPart instanceof InHouse) {
                     Inventory.addPart(modifiedPart);
                     Inventory.deletePart(selectedPart);
-                    //scene.getScene().getWindow();
-                    //stage.close();
+
                 }
         }
 
@@ -195,7 +191,7 @@ public class ModifyPartFormCont implements Initializable {
 
 
     /**
-     * Initializes the page
+     * Initializes the page.
      * @param url the path to the file
      * @param resourceBundle the resources needed
      * Classifies the part selected in the main controller and assigns attributed to the fields, auto-populates fields
@@ -226,6 +222,7 @@ public class ModifyPartFormCont implements Initializable {
             priceTxt.setText(valueOf(selectedPart.getPrice()));
             selectedOutsourced.setSelected(true);
             selectedOutsourced.requestFocus();
+            labelPartCategory.setText("Company Name");
         }
     }
 }
