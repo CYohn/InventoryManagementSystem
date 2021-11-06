@@ -242,8 +242,28 @@ public class MainFormCont implements Initializable {
      * @param event Trigger event: User presses the "delete" button
      */
     @FXML
-    void OnActionDeleteProduct(ActionEvent event) {
-        if (!productsTable.getSelectionModel().isEmpty()){ //If not empty
+    void OnActionDeleteProduct(ActionEvent event) throws IOException{
+        if(productsTable.getSelectionModel().isEmpty()){ //If empty throw alert
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("Please select a product to delete.");
+            alert.setContentText("Thank you!");
+
+            alert.showAndWait();
+
+        }
+
+        if (!productsTable.getSelectionModel().getSelectedItem().getAllAssociatedParts().isEmpty()){ //Check if the product has associated parts, throw dialog if true
+                Alert associatedPartsAlert = new Alert(Alert.AlertType.WARNING);
+                associatedPartsAlert.setTitle("Product Has Parts Associated");
+                associatedPartsAlert.setHeaderText("This product has associated parts. " +
+                    "Please modify the product to remove associated parts before deleting the product.");
+                associatedPartsAlert.setContentText("Thank you!");
+
+                associatedPartsAlert.showAndWait();
+        }
+
+        if (((!productsTable.getSelectionModel().isEmpty()) && (productsTable.getSelectionModel().getSelectedItem().getAllAssociatedParts().isEmpty())) == true) { //If not empty
             Inventory.deleteProduct(selectedProduct);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information Dialog");
@@ -251,14 +271,7 @@ public class MainFormCont implements Initializable {
             alert.setContentText(null);
             alert.showAndWait();
         }
-        else if(productsTable.getSelectionModel().isEmpty()){ //If empty throw alert
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information Dialog");
-            alert.setHeaderText("Please select a product to delete.");
-            alert.setContentText("Thank you!");
 
-            alert.showAndWait();
-        }
     }
 
 
