@@ -426,6 +426,18 @@ public class AddProductFormCont implements Initializable {
     }
 
     /**
+     * Alert for the levels of inventory, max, and min. Called in the save function.
+     */
+    public void alertInvMaxMin()  {
+        Alert invAlert = new Alert(Alert.AlertType.WARNING);
+        invAlert.setTitle("Please Check your Entries");
+        invAlert.setHeaderText("Max must be greater than min and inventory must be between max and min. ");
+        invAlert.setContentText("Please correct the inventory, max, and min levels. Thank you.");
+        invAlert.showAndWait();
+    }
+
+
+    /**
      * Saves the product to the Observable list "Products"
      * Retrieves user input and converts the data types
      * @param actionEvent is the triggering event: User presses "save"

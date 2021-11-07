@@ -292,6 +292,17 @@ private TextField iDTxt;
             //do nothing
         }
     }
+
+    /**
+     * Alert for the levels of inventory, max, and min. Called in the save function.
+     */
+    public void alertInvMaxMin()  {
+        Alert invAlert = new Alert(Alert.AlertType.WARNING);
+        invAlert.setTitle("Please Check your Entries");
+        invAlert.setHeaderText("Max must be greater than min and inventory must be between max and min. ");
+        invAlert.setContentText("Please correct the inventory, max, and min levels. Thank you.");
+        invAlert.showAndWait();
+    }
     /**
      * @return returns the name entered by the user or a default name if none is entered
      */

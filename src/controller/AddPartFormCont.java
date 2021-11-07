@@ -94,22 +94,12 @@ public class AddPartFormCont implements Initializable {
         stage.show();
     }
 
-//    /**
-//     * Method redirects users to the main screen after a Part is saved to inventory
-//     * @throws IOException catches exception
-//     */
-//    public void RedirectToMainScreen() throws IOException {
-//        Stage stage = new Stage();
-//        stage.setTitle("Main Menu");
-//        scene = FXMLLoader.load((getClass().getResource("/view/MainForm.fxml")));
-//        stage.setScene(new Scene(scene));
-//        stage.show();
-//    }
+
 
     /**
      * @return returns the name entered by the user or a default name if none is entered
      */
-    public String AssignName() {
+    public String assignName() {
         String name;
         name = partNameTxt.getText();
         if (!name.trim().isEmpty()) { //If not empty return the name
@@ -151,23 +141,11 @@ public class AddPartFormCont implements Initializable {
         int min = Integer.parseInt(partMinTxt.getText());
         int max = Integer.parseInt(partMaxTxt.getText());
 
-
-        if (stock > min & stock < max){
+        if (stock > min && stock < max){
         return stock;
         }
-        else {
-            Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
-            infoRequiredAlert.setTitle("Something went wrong.");
-            infoRequiredAlert.setHeaderText("Please check your entries. Inventory must be in between max and min. Inventory will save as zero.");
-            infoRequiredAlert.setContentText("Thank you");
-            infoRequiredAlert.showAndWait();
-            return 0;
+        return stock;
         }
-
-        }
-
-
-
 
 
     /**
@@ -188,20 +166,8 @@ public class AddPartFormCont implements Initializable {
      */
     public int assignMin() {
 
-        int min = 0;
-        if (Integer.parseInt(partMinTxt.getText()) < Integer.parseInt(partMaxTxt.getText())) {
-            min = Integer.parseInt(partMinTxt.getText());
+            int min = Integer.parseInt(partMinTxt.getText());
             return min;
-        }
-
-        else{
-            Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
-            infoRequiredAlert.setTitle("Something went wrong.");
-            infoRequiredAlert.setHeaderText("Please check your entries. Minimum inventory must be below the maximum. The minimum will save as zero.");
-            infoRequiredAlert.setContentText("Thank you");
-            infoRequiredAlert.showAndWait();}
-
-        return min;
     }
 
 
@@ -211,20 +177,9 @@ public class AddPartFormCont implements Initializable {
      */
     public int assignMax() {
 
-        int max = 0;
-        if (Integer.parseInt(partMaxTxt.getText()) > Integer.parseInt(partMinTxt.getText())) {
-            max = Integer.parseInt(partMaxTxt.getText());
+            int max = Integer.parseInt(partMaxTxt.getText());
             return max;
-        }
 
-        else{
-            Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
-            infoRequiredAlert.setTitle("Something went wrong.");
-            infoRequiredAlert.setHeaderText("Please check your entries. Maximum inventory must be larger than minimum");
-            infoRequiredAlert.setContentText("Thank you");
-            infoRequiredAlert.showAndWait();}
-
-        return max;
     }
 
     /**
@@ -238,6 +193,50 @@ public class AddPartFormCont implements Initializable {
         infoRequiredAlert.setContentText("Please enter missing information");
         infoRequiredAlert.showAndWait();
         }
+
+    void OnActionDisplayAddPartMenu(ActionEvent event) throws IOException {
+
+        stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load((getClass().getResource("/view/AddPartForm.fxml")));
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+
+    /**
+     * Alert for the levels of inventory, max, and min. Called in the save function.
+     */
+    public void alertInvMaxMin()  {
+        int stock = Integer.parseInt(partInventoryTxt.getText());
+        int min = Integer.parseInt(partMinTxt.getText());
+        int max = Integer.parseInt(partMaxTxt.getText());
+        switch (stock){
+            case 1: if (stock < min){
+                Alert invAlert = new Alert(Alert.AlertType.WARNING);
+                invAlert.setTitle("Please Check your Entries");
+                invAlert.setHeaderText("Inventory must be greater than the min.");
+                invAlert.setContentText("Please correct the inventory, max, and min levels. Thank you.");
+                invAlert.showAndWait();
+                break;
+            }
+            case 2: if(stock > max){
+                Alert invAlert = new Alert(Alert.AlertType.WARNING);
+                invAlert.setTitle("Please Check your Entries");
+                invAlert.setHeaderText("Inventory must be less than max. ");
+                invAlert.setContentText("Please correct the inventory, max, and min levels. Thank you.");
+                invAlert.showAndWait();
+                break;
+            }
+            case 3: if(min > max){
+                Alert invAlert = new Alert(Alert.AlertType.WARNING);
+                invAlert.setTitle("Please Check your Entries");
+                invAlert.setHeaderText("Max must be greater than min. ");
+                invAlert.setContentText("Please correct the inventory, max, and min levels. Thank you.");
+                invAlert.showAndWait();
+                break;
+            }
+        }
+    }
+
 
 
     /**
@@ -271,13 +270,12 @@ public class AddPartFormCont implements Initializable {
 
 
 
-
     /**
      * Assigns the unique id to the part. First the method sorts the parts by id
      * then gets the highest id on the list and increments it
      * @return is the id to be assigned to the part in OnActionSavePart(ActionEvent event)
      */
-    public int AssignId(){
+    public int assignId(){
 
         ObservableList<Part> sortedParts = Inventory.getAllParts();
         Collections.sort(sortedParts, Comparator.comparingInt(Part::getId)); // Sorts the parts by id
@@ -299,31 +297,41 @@ public class AddPartFormCont implements Initializable {
      */
     @FXML
     void OnActionSavePart(ActionEvent event) throws IOException {
-try{
 
         double price = assignPrice();
         int max = assignMax();
         int min = assignMin();
         int stock = assignInventory();
-        String name = AssignName();
-        int id = AssignId();
+        String name = assignName();
+        int id = assignId();
 
-        emptyFieldAlert();
+        emptyFieldAlert();//Check for empty fields
 
-        if (selectedInHouse.isSelected()) {
-            int machineId = Integer.parseInt(partMachineIdTxt.getText());
-            Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
-            //DisplayMainMenu();
-
+        if((assignMin() > assignMax()) ||(assignInventory()<assignMin())||(assignInventory()>assignMax())){
+            alertInvMaxMin();
+            OnActionDisplayAddPartMenu(event);
         }
-         else if (selectedOutsourced.isSelected()){
-            String companyName = partMachineIdTxt.getText();
-            Inventory.addPart(new Outsourced(id, name, price, stock, min, max, companyName));
 
-        }
-        OnActionDisplayMainMenu(event);
-    }
-catch (Exception e){
+        else if ((assignMin() < assignMax()) ||(assignInventory() > assignMin())||(assignInventory() < assignMax())){
+
+            try{
+
+                if (selectedInHouse.isSelected()) {
+                    int machineId = Integer.parseInt(partMachineIdTxt.getText());
+                    Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
+                }
+
+                else if (selectedOutsourced.isSelected()){
+
+                    String companyName = partMachineIdTxt.getText();
+                    Inventory.addPart(new Outsourced(id, name, price, stock, min, max, companyName));
+
+                }
+
+                OnActionDisplayMainMenu(event);
+            }
+
+            catch (Exception e){
                 Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
                 infoRequiredAlert.setTitle("Something went wrong.");
                 infoRequiredAlert.setHeaderText("Please check your entries.");
@@ -331,7 +339,7 @@ catch (Exception e){
                 infoRequiredAlert.showAndWait();
             }
         }
-
+    }
     /**
      * Initializes the controller
      */

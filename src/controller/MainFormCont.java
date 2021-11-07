@@ -259,7 +259,6 @@ public class MainFormCont implements Initializable {
                 associatedPartsAlert.setHeaderText("This product has associated parts. " +
                     "Please modify the product to remove associated parts before deleting the product.");
                 associatedPartsAlert.setContentText("Thank you!");
-
                 associatedPartsAlert.showAndWait();
         }
 
