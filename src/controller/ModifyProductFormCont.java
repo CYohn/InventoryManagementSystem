@@ -348,9 +348,6 @@ private TextField iDTxt;
         int min = Integer.parseInt(minTxt.getText());
         int max = Integer.parseInt(maxTxt.getText());
 
-        if (stock > min & stock < max) {
-            return stock;
-        }
         return stock;
     }
 
