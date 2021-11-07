@@ -248,17 +248,17 @@ public class AddProductFormCont implements Initializable {
     }
 
 
-    /**
-     * Method redirects users to the main screen after a Part is saved to inventory
-     * @throws IOException catches exception
-     */
-    public void RedirectToMainScreen() throws IOException {
-        Stage stage = new Stage();
-        stage.setTitle("Main Menu");
-        scene = FXMLLoader.load((getClass().getResource("/view/MainForm.fxml")));
-        stage.setScene(new Scene(scene));
-        stage.show();
-    }
+//    /**
+//     * Method redirects users to the main screen after a Part is saved to inventory
+//     * @throws IOException catches exception
+//     */
+//    public void RedirectToMainScreen() throws IOException {
+//        Stage stage = new Stage();
+//        stage.setTitle("Main Menu");
+//        scene = FXMLLoader.load((getClass().getResource("/view/MainForm.fxml")));
+//        stage.setScene(new Scene(scene));
+//        stage.show();
+//    }
 
     /**
      * Displays the "Add Product" menu.
@@ -465,7 +465,7 @@ public class AddProductFormCont implements Initializable {
                 }
                 Inventory.addProduct(productToSave);
 
-                RedirectToMainScreen();
+                OnActionDisplayMainMenu(actionEvent);
             }
         } catch (Exception e) {
             Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
