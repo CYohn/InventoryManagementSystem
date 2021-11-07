@@ -450,7 +450,7 @@ public class AddProductFormCont implements Initializable {
 
             if ((assignMin() > assignMax()) || (assignInventory() < assignMin()) || (assignInventory() > assignMax())) {
                 alertInvMaxMin();
-                OnActionDisplayAddProductMenu(actionEvent);
+                //OnActionDisplayAddProductMenu(actionEvent);
             }
 
             else if ((assignMin() < assignMax()) && (assignInventory() > assignMin()) && (assignInventory() < assignMax())) {

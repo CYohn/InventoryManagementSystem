@@ -285,7 +285,7 @@ public class AddPartFormCont implements Initializable {
 
         if((assignMin() > assignMax()) ||(assignInventory()<assignMin())||(assignInventory()>assignMax())){
             alertInvMaxMin();
-            OnActionDisplayAddPartMenu(event);
+            //OnActionDisplayAddPartMenu(event);
         }
 
         else if ((assignMin() < assignMax()) && (assignInventory() > assignMin()) && (assignInventory() < assignMax())){

@@ -373,12 +373,6 @@ private TextField iDTxt;
         if (Integer.parseInt(minTxt.getText()) < Integer.parseInt(maxTxt.getText())) {
             min = Integer.parseInt(minTxt.getText());
             return min;
-        } else {
-            Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
-            infoRequiredAlert.setTitle("Something went wrong.");
-            infoRequiredAlert.setHeaderText("Please check your entries. Minimum inventory must be below the maximum. The minimum will save as zero.");
-            infoRequiredAlert.setContentText("Thank you");
-            infoRequiredAlert.showAndWait();
         }
 
         return min;
@@ -394,26 +388,12 @@ private TextField iDTxt;
         if (Integer.parseInt(maxTxt.getText()) > Integer.parseInt(minTxt.getText())) {
             max = Integer.parseInt(maxTxt.getText());
             return max;
-        } else {
-            Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
-            infoRequiredAlert.setTitle("Something went wrong.");
-            infoRequiredAlert.setHeaderText("Please check your entries. Maximum inventory must be larger than minimum");
-            infoRequiredAlert.setContentText("Thank you");
-            infoRequiredAlert.showAndWait();
         }
 
         return max;
     }
 
 
-//    /**Redirects user to the main screen*/
-//    public void RedirectToMainScreen () throws IOException{
-//        Stage stage = new Stage();
-//        stage.setTitle("Main Menu");
-//        scene = FXMLLoader.load((getClass().getResource("/view/MainForm.fxml")));
-//        stage.setScene(new Scene(scene));
-//        stage.show();
-//    }
     /**
      * Displays the "Modify Product" menu
      * The following code casts the event to let the application know that the event was triggered by a button on a stage
