@@ -348,18 +348,10 @@ private TextField iDTxt;
         int min = Integer.parseInt(minTxt.getText());
         int max = Integer.parseInt(maxTxt.getText());
 
-
         if (stock > min & stock < max) {
             return stock;
-        } else {
-            Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
-            infoRequiredAlert.setTitle("Something went wrong.");
-            infoRequiredAlert.setHeaderText("Please check your entries. Inventory must be in between max and min. Inventory will save as zero.");
-            infoRequiredAlert.setContentText("Thank you");
-            infoRequiredAlert.showAndWait();
-            return 0;
         }
-
+        return stock;
     }
 
 
@@ -417,15 +409,29 @@ private TextField iDTxt;
     }
 
 
-    /**Redirects user to the main screen*/
-    public void RedirectToMainScreen () throws IOException{
-        Stage stage = new Stage();
-        stage.setTitle("Main Menu");
-        scene = FXMLLoader.load((getClass().getResource("/view/MainForm.fxml")));
-        stage.setScene(new Scene(scene));
-        stage.show();
-    }
+//    /**Redirects user to the main screen*/
+//    public void RedirectToMainScreen () throws IOException{
+//        Stage stage = new Stage();
+//        stage.setTitle("Main Menu");
+//        scene = FXMLLoader.load((getClass().getResource("/view/MainForm.fxml")));
+//        stage.setScene(new Scene(scene));
+//        stage.show();
+//    }
+    /**
+     * Displays the "Modify Product" menu
+     * The following code casts the event to let the application know that the event was triggered by a button on a stage
+     * @param event triggering event: User selects the "modify" button under products
+     * @throws IOException catches exception
+     */
+    @FXML
+    void OnActionDisplayModifyProductMenu(ActionEvent event) throws IOException{
 
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load((getClass().getResource("/view/ModifyProductForm.fxml")));
+            stage.setScene(new Scene(scene));
+            stage.show();
+
+    }
 
     /**
      * Saves the product to the observable list products
@@ -453,20 +459,24 @@ private TextField iDTxt;
 
                 emptyFieldAlert();
 
-                Product modifiedProduct = new Product( id, name, price, stock, min, max);
-                Inventory.addProduct(modifiedProduct);
-                //System.out.println("AssociatedParts from save function (1st time, modified product): " + (modifiedProduct.getAllAssociatedParts()));//Testing to see if the associateParts are saving
-                //System.out.println("AssociatedParts from save function (1st time, selected product): " + (selectedProduct.getAllAssociatedParts()));//Testing to see if the associateParts are saving
-                for (model.Part Part : selectedProduct.getAllAssociatedParts()){
-                    modifiedProduct.addAssociatedPart(Part);
+                if ((min > max) || (stock < min) || (stock > max)) { // Check if the fields meet the inventory requirements
+                    alertInvMaxMin();
+                    OnActionDisplayModifyProductMenu(event);
                 }
 
-                Inventory.deleteProduct(selectedProduct);
-                associatedParts.setAll(modifiedProduct.getAllAssociatedParts());
-                System.out.println("AssociatedParts from save function (2nd time, modified product): " + (modifiedProduct.getAllAssociatedParts()));//Testing to see if the associateParts are saving
+                else if ((min < max) && (stock > min) && (stock < max)) {
+                    Product modifiedProduct = new Product(id, name, price, stock, min, max);
+                    Inventory.addProduct(modifiedProduct);
+                    for (model.Part Part : selectedProduct.getAllAssociatedParts()) {
+                        modifiedProduct.addAssociatedPart(Part);
+                    }
 
+                    Inventory.deleteProduct(selectedProduct);
+                    associatedParts.setAll(modifiedProduct.getAllAssociatedParts());
+                    System.out.println("AssociatedParts from save function (2nd time, modified product): " + (modifiedProduct.getAllAssociatedParts()));//Testing to see if the associateParts are saving
+                }
 
-                RedirectToMainScreen();
+                OnActionDisplayMainMenu(event);
             }
             catch(
                     Exception e)

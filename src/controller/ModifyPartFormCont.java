@@ -228,7 +228,9 @@ public class ModifyPartFormCont implements Initializable {
             if ((min > max) || (stock < min) || (stock > max)) { // Check if the fields meet the inventory requirements
                 alertInvMaxMin();
                 OnActionDisplayModifyPartMenu(actionEvent);
-            } else if ((min < max) && (stock > min) && (stock < max)) {
+            }
+
+            else if ((min < max) && (stock > min) && (stock < max)) {
 
                 Part modifiedPart = new InHouse(id, name, price, stock, min, max, machineID);
 
