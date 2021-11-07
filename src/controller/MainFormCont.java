@@ -375,7 +375,7 @@ public class MainFormCont implements Initializable {
     }
 
     /**
-     * Displays the "Add Product" menu
+     * Displays the "Add Product" menu.
      * The following code casts the event to let the application know that the event was triggered by a button on a stage
      *
      * @param event triggering event User selects the "Add" button under products

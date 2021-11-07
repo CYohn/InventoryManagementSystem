@@ -206,35 +206,11 @@ public class AddPartFormCont implements Initializable {
      * Alert for the levels of inventory, max, and min. Called in the save function.
      */
     public void alertInvMaxMin()  {
-        int stock = Integer.parseInt(partInventoryTxt.getText());
-        int min = Integer.parseInt(partMinTxt.getText());
-        int max = Integer.parseInt(partMaxTxt.getText());
-        switch (stock){
-            case 1: if (stock < min){
-                Alert invAlert = new Alert(Alert.AlertType.WARNING);
-                invAlert.setTitle("Please Check your Entries");
-                invAlert.setHeaderText("Inventory must be greater than the min.");
-                invAlert.setContentText("Please correct the inventory, max, and min levels. Thank you.");
-                invAlert.showAndWait();
-                break;
-            }
-            case 2: if(stock > max){
-                Alert invAlert = new Alert(Alert.AlertType.WARNING);
-                invAlert.setTitle("Please Check your Entries");
-                invAlert.setHeaderText("Inventory must be less than max. ");
-                invAlert.setContentText("Please correct the inventory, max, and min levels. Thank you.");
-                invAlert.showAndWait();
-                break;
-            }
-            case 3: if(min > max){
-                Alert invAlert = new Alert(Alert.AlertType.WARNING);
-                invAlert.setTitle("Please Check your Entries");
-                invAlert.setHeaderText("Max must be greater than min. ");
-                invAlert.setContentText("Please correct the inventory, max, and min levels. Thank you.");
-                invAlert.showAndWait();
-                break;
-            }
-        }
+        Alert invAlert = new Alert(Alert.AlertType.WARNING);
+        invAlert.setTitle("Please Check your Entries");
+        invAlert.setHeaderText("Inventory must be between min and max. Min must be below max.");
+        invAlert.setContentText("Please correct the inventory, max, and min levels. Thank you.");
+        invAlert.showAndWait();
     }
 
 
@@ -312,7 +288,7 @@ public class AddPartFormCont implements Initializable {
             OnActionDisplayAddPartMenu(event);
         }
 
-        else if ((assignMin() < assignMax()) ||(assignInventory() > assignMin())||(assignInventory() < assignMax())){
+        else if ((assignMin() < assignMax()) && (assignInventory() > assignMin()) && (assignInventory() < assignMax())){
 
             try{
 

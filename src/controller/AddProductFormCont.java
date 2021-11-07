@@ -117,7 +117,6 @@ public class AddProductFormCont implements Initializable {
         partInventoryCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         partPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-
     }
 
     /**
@@ -262,6 +261,24 @@ public class AddProductFormCont implements Initializable {
     }
 
     /**
+     * Displays the "Add Product" menu.
+     * The following code casts the event to let the application know that the event was triggered by a button on a stage
+     *
+     * @param event triggering event User selects the "Add" button under products
+     * @throws IOException catches exception
+     */
+
+
+    @FXML
+    void OnActionDisplayAddProductMenu(ActionEvent event) throws IOException{
+
+        stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load((getClass().getResource("/view/AddProductForm.fxml")));
+        stage.setScene(new Scene(scene));
+        stage.show();
+    }
+
+    /**
      * Assigns the product name
      * @return returns the name entered by the user or a default name if none is entered
      */
@@ -308,18 +325,7 @@ public class AddProductFormCont implements Initializable {
         int max = Integer.parseInt(prodMaxTxt.getText());
 
 
-        if (stock > min & stock < max){
-            return stock;
-        }
-        else {
-            Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
-            infoRequiredAlert.setTitle("Something went wrong.");
-            infoRequiredAlert.setHeaderText("Please check your entries. Inventory must be in between max and min. Inventory will save as zero.");
-            infoRequiredAlert.setContentText("Thank you");
-            infoRequiredAlert.showAndWait();
-            return 0;
-        }
-        //return stock;
+        return stock;
     }
 
 
@@ -351,13 +357,6 @@ public class AddProductFormCont implements Initializable {
             return min;
         }
 
-        else{
-            Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
-            infoRequiredAlert.setTitle("Something went wrong.");
-            infoRequiredAlert.setHeaderText("Please check your entries. Minimum inventory must be below the maximum. The minimum will save as zero.");
-            infoRequiredAlert.setContentText("Thank you");
-            infoRequiredAlert.showAndWait();}
-
         return min;
     }
 
@@ -374,13 +373,6 @@ public class AddProductFormCont implements Initializable {
             max = Integer.parseInt(prodMaxTxt.getText());
             return max;
         }
-
-        else{
-            Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
-            infoRequiredAlert.setTitle("Something went wrong.");
-            infoRequiredAlert.setHeaderText("Please check your entries. Maximum inventory must be larger than minimum");
-            infoRequiredAlert.setContentText("Thank you");
-            infoRequiredAlert.showAndWait();}
 
         return max;
     }
@@ -431,7 +423,7 @@ public class AddProductFormCont implements Initializable {
     public void alertInvMaxMin()  {
         Alert invAlert = new Alert(Alert.AlertType.WARNING);
         invAlert.setTitle("Please Check your Entries");
-        invAlert.setHeaderText("Max must be greater than min and inventory must be between max and min. ");
+        invAlert.setHeaderText("Max must be greater than min. Inventory must be between max and min. ");
         invAlert.setContentText("Please correct the inventory, max, and min levels. Thank you.");
         invAlert.showAndWait();
     }
@@ -445,7 +437,7 @@ public class AddProductFormCont implements Initializable {
      */
     @FXML
     void OnActionSaveProduct (ActionEvent actionEvent) throws IOException {
-        try{
+        try {
 
             double price = assignPrice();
             int max = assignMax();
@@ -454,20 +446,28 @@ public class AddProductFormCont implements Initializable {
             String name = AssignName();
             int id = AssignId();
 
-            emptyFieldAlert();
+            emptyFieldAlert();//Check for empty fields
 
-            Product productToSave = new Product(id, name, price, stock, min, max);
-
-           // newProduct.getAllAssociatedParts();
-            System.out.println("Testing save AllAssociatedParts in the save function: " + newProduct.getAllAssociatedParts());
-            for (model.Part Part : newProduct.getAllAssociatedParts()){
-                productToSave.addAssociatedPart(Part);
+            if ((assignMin() > assignMax()) || (assignInventory() < assignMin()) || (assignInventory() > assignMax())) {
+                alertInvMaxMin();
+                OnActionDisplayAddProductMenu(actionEvent);
             }
-            Inventory.addProduct(productToSave);
 
-            RedirectToMainScreen ();
-        }
-        catch (Exception e){
+            else if ((assignMin() < assignMax()) && (assignInventory() > assignMin()) && (assignInventory() < assignMax())) {
+
+
+                Product productToSave = new Product(id, name, price, stock, min, max);
+
+                // newProduct.getAllAssociatedParts();
+                //System.out.println("Testing save AllAssociatedParts in the save function: " + newProduct.getAllAssociatedParts());
+                for (model.Part Part : newProduct.getAllAssociatedParts()) {
+                    productToSave.addAssociatedPart(Part);
+                }
+                Inventory.addProduct(productToSave);
+
+                RedirectToMainScreen();
+            }
+        } catch (Exception e) {
             Alert infoRequiredAlert = new Alert(Alert.AlertType.WARNING);
             infoRequiredAlert.setTitle("Something went wrong.");
             infoRequiredAlert.setHeaderText("Please check your entries.");
@@ -475,6 +475,9 @@ public class AddProductFormCont implements Initializable {
             infoRequiredAlert.showAndWait();
         }
     }
+
+
+
 
 
     /**
